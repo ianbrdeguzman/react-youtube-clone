@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
+import { AppContext } from './Context';
 import { makeStyles } from '@material-ui/core/styles';
-import SidebarRow from './SidebarRow';
 import HomeIcon from '@material-ui/icons/Home';
 import ExploreIcon from '@material-ui/icons/Explore';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
@@ -9,37 +9,57 @@ import HistoryIcon from '@material-ui/icons/History';
 import OndemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import { AppContext } from './Context';
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+
+const list = [
+    { title: 'Home', icon: <HomeIcon /> },
+    { title: 'Explore', icon: <ExploreIcon /> },
+    { title: 'Subscriptions', icon: <SubscriptionsIcon /> },
+    { title: 'Library', icon: <VideoLibraryIcon /> },
+    { title: 'History', icon: <HistoryIcon /> },
+    { title: 'Your videos', icon: <OndemandVideoIcon /> },
+    { title: 'Watch later', icon: <WatchLaterIcon /> },
+    { title: 'Liked videos', icon: <ThumbUpIcon /> },
+];
 
 const useStyles = makeStyles((theme) => ({
-    open: {
-        flex: '.15',
-        transform: 'translateX(0%)',
-        transition: 'all 0.3s ease',
+    root: {
+        backgroundColor: theme.palette.grey[50],
+        height: '90vh',
     },
-    close: {
-        flex: 'unset',
-        width: '0',
-        opacity: 0,
-        transform: 'translateX(-100%)',
-        transition: 'all 0.3s ease',
+    list: {
+        padding: theme.spacing(2),
+
+        display: 'flex',
+        alignItems: 'center',
+        '& p': {
+            marginLeft: theme.spacing(2),
+        },
+        [theme.breakpoints.only('xs')]: {
+            '& p': {
+                display: 'none',
+            },
+        },
     },
 }));
 
 const Sidebar = () => {
+    const classes = useStyles();
     const { isMenuOpen } = useContext(AppContext);
-    const classes = useStyles(isMenuOpen);
+
     return (
-        <div className={isMenuOpen ? classes.open : classes.close}>
-            <SidebarRow title='Home' Icon={HomeIcon} />
-            <SidebarRow title='Explore' Icon={ExploreIcon} />
-            <SidebarRow title='Subscription' Icon={SubscriptionsIcon} />
-            <SidebarRow title='Library' Icon={VideoLibraryIcon} />
-            <SidebarRow title='History' Icon={HistoryIcon} />
-            <SidebarRow title='Your videos' Icon={OndemandVideoIcon} />
-            <SidebarRow title='Watch later' Icon={WatchLaterIcon} />
-            <SidebarRow title='Liked videos' Icon={ThumbUpIcon} />
-        </div>
+        <nav className={classes.root}>
+            <List>
+                {list.map(({ title, icon }) => {
+                    return (
+                        <ListItem button>
+                            <ListItemIcon>{icon}</ListItemIcon>
+                            <ListItemText primary={title} />
+                        </ListItem>
+                    );
+                })}
+            </List>
+        </nav>
     );
 };
 
