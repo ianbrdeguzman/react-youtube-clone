@@ -1,47 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import styles from './Video.module.css';
 import numeral from 'numeral';
 import moment from 'moment';
 import request from './axios';
 
-const useStyles = makeStyles((theme) => ({
-    image: {
-        '& > img': {
-            width: '100%',
-            objectFit: 'contain',
-        },
-    },
-    content: {
-        padding: theme.spacing(1),
-        '& img': {
-            width: '32px',
-            height: '32px',
-            borderRadius: '50%',
-        },
-        '& > div': {
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: theme.spacing(1),
-        },
-        '& > div img': {
-            marginRight: theme.spacing(1),
-        },
-        '& > div h3': {
-            overflow: 'hidden',
-            display: '-webkit-box',
-            lineClamp: 2,
-            boxOrient: 'vertical',
-        },
-    },
-}));
-
 const Video = ({ video }) => {
-    const classes = useStyles();
-
     const [channelIcon, setChannelIcon] = useState('');
+    const [duration, setDuration] = useState('');
+    const [viewCount, setViewCount] = useState('');
 
     const {
+        id,
         snippet: {
             title,
             thumbnails: {
@@ -51,8 +20,32 @@ const Video = ({ video }) => {
             publishedAt,
             channelId,
         },
-        statistics: { viewCount },
+        contentDetails,
     } = video;
+
+    //const viewCount = video.statistics ? video.statistics.viewCount : '';
+    //const duration = video.contentDetails ? video.contentDetails.duration : '';
+
+    const videoId = id?.videoId || contentDetails?.videoId || id;
+
+    const seconds = moment.duration(duration).asSeconds();
+    const formatDuration = moment.utc(seconds * 1000).format('mm:ss');
+
+    useEffect(() => {
+        const fetchVideoDetails = async () => {
+            const {
+                data: { items },
+            } = await request('/videos', {
+                params: {
+                    part: 'contentDetails,statistics',
+                    id: videoId,
+                },
+            });
+            setDuration(items[0].contentDetails.duration);
+            setViewCount(items[0].statistics.viewCount);
+        };
+        fetchVideoDetails();
+    }, [videoId]);
 
     useEffect(() => {
         const fetchChannelIcon = async (id) => {
@@ -74,27 +67,27 @@ const Video = ({ video }) => {
     }, [channelId]);
 
     return (
-        <Card>
-            <div className={classes.image}>
-                <img src={url} alt={title} />
-            </div>
-            <div className={classes.content}>
-                <div>
-                    <img src={channelIcon} alt={channelTitle} />
-                    <Typography component='h3' variant='subtitle1'>
-                        {title}
-                    </Typography>
+        <>
+            <article className={styles.video}>
+                <div className={styles.video__header}>
+                    <img src={url} alt={title} />
+                    <span>{formatDuration}</span>
                 </div>
-                <Typography variant='body2' color={'textSecondary'}>
-                    {channelTitle}
-                </Typography>
-                <Typography variant='body2' color={'textSecondary'}>
-                    {numeral(viewCount).format('0.0a')}
-                    {' views • '}
-                    {moment(publishedAt).fromNow()}
-                </Typography>
-            </div>
-        </Card>
+                <div className={styles.video__content}>
+                    <div>
+                        <img src={channelIcon} alt={channelTitle} />
+                        <h4>{title}</h4>
+                    </div>
+                    <div>
+                        <p>{channelTitle}</p>
+                        <p>
+                            {numeral(viewCount).format('0.0a')} {'views • '}
+                            {moment(publishedAt).fromNow()}
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </>
     );
 };
 

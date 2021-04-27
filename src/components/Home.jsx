@@ -1,73 +1,66 @@
 import React, { useContext, useEffect } from 'react';
 import Video from './Video';
 import CategoriesBar from './CategoriesBar';
-import { AppContext } from './Context';
-import { makeStyles } from '@material-ui/core/styles';
-import { Container, Grid } from '@material-ui/core';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        transition: 'all 0.3s ease',
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        marginTop: theme.spacing(12),
-        [theme.breakpoints.only('sm')]: {
-            marginLeft: '56px',
-        },
-        [theme.breakpoints.up('md')]: {
-            marginLeft: '180px',
-        },
-    },
-}));
+import { AppContext } from './Context';
+import styles from './Home.module.css';
+import SkeletonVideo from './Skeleton';
 
 const Home = () => {
-    const classes = useStyles();
-    const { isMenuOpen, popularVideos, fetchPopularVideos } = useContext(
-        AppContext
-    );
+    const {
+        popularVideos,
+        isLoading,
+        activeCategory,
+        fetchPopularVideos,
+        fetchVideosByCategory,
+        setActiveCategory,
+    } = useContext(AppContext);
 
-    useEffect(() => {
-        fetchPopularVideos();
-    }, []);
-
-    const fetchVideos = () => {
-        fetchPopularVideos();
+    const fetchVideos = (keyword) => {
+        if (!activeCategory === keyword) {
+            fetchVideosByCategory(keyword);
+        } else {
+            fetchPopularVideos();
+        }
     };
 
+    const handleOnClick = (keyword) => {
+        console.log('clicked ', keyword);
+        setActiveCategory(keyword);
+    };
+
+    // useEffect(() => {
+    //     fetchPopularVideos();
+    // }, []);
+
+    // useEffect(() => {
+    //     let isMounted = true;
+    //     if (isMounted) fetchVideosByCategory(activeCategory);
+    //     return () => {
+    //         isMounted = false;
+    //     };
+    // }, [activeCategory]);
+
     return (
-        <div>
-            <CategoriesBar />
-            <div item className={classes.root}>
-                <Container maxWidth={false}>
-                    <InfiniteScroll
-                        dataLength={popularVideos.length}
-                        next={fetchVideos}
-                        hasMore={true}
-                        loader={<h1>Loading...</h1>}
-                    >
-                        <Grid container spacing={4}>
-                            {popularVideos.map((video) => {
-                                return (
-                                    <Grid
-                                        item
-                                        xs={12}
-                                        sm={6}
-                                        md={4}
-                                        lg={3}
-                                        key={video.id}
-                                    >
-                                        <Video video={video} key={video.id} />
-                                    </Grid>
-                                );
-                            })}
-                        </Grid>
-                    </InfiniteScroll>
-                </Container>
-            </div>
-        </div>
+        <section className={styles.home}>
+            <CategoriesBar handleOnClick={handleOnClick} />
+            <InfiniteScroll
+                dataLength={popularVideos.length}
+                next={fetchVideos}
+                hasMore={true}
+            >
+                <div className={styles.home__videos}>
+                    {isLoading
+                        ? [...new Array(20)].map((item, index) => {
+                              const id = new Date().getMilliseconds() + index;
+                              return <SkeletonVideo key={id} />;
+                          })
+                        : popularVideos.map((video) => {
+                              return <Video key={video.id} video={video} />;
+                          })}
+                </div>
+            </InfiniteScroll>
+        </section>
     );
 };
 

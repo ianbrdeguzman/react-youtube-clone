@@ -1,64 +1,56 @@
-import React from 'react';
-import { Button, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useContext } from 'react';
+import styles from './CategoriesBar.module.css';
+import { AppContext } from './Context';
 
 const categories = [
     'All',
     'React js',
-    'Material UI',
-    'React Native',
+    'CSS Module',
     'Youtube API',
     'useContext',
     'useReducer',
-    'Redux',
-    'Music',
-    'Guitar',
-    'Movies',
-    'Coding',
-    'Web dev',
-    'Axios js',
-    'Real Madrid',
-    'Gatsby',
     'Firebase',
     'Firebase Auth',
+    'Axios js',
+    'Coding',
+    'Web dev',
+    'SASS',
+    'Gatsby',
+    'Redux',
+    'Styled Components',
+    'Material UI',
+    'API',
+    'HTML5',
+    'CSS3',
 ];
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        borderTop: '1px solid lightgrey',
-        borderBottom: '1px solid lightgrey',
-        backgroundColor: '#ffffff',
-        marginBottom: theme.spacing(2),
-        display: 'flex',
-        overflowX: 'scroll',
-        position: 'fixed',
-        top: '10vh',
-        [theme.breakpoints.only('sm')]: {
-            marginLeft: '56px',
-            width: 'calc(100vw - 56px)',
-        },
-        [theme.breakpoints.up('md')]: {
-            marginLeft: '180px',
-            width: 'calc(100vw - 180px)',
-        },
-    },
-    button: {
-        margin: theme.spacing(1),
-        borderRadius: '3rem',
-        backgroundColor: theme.palette.grey[50],
-        '& span p': {
-            textTransform: 'capitalize',
-        },
-    },
-    active: {},
-}));
-
-const CategoriesBar = () => {
-    const classes = useStyles();
+const CategoriesBar = ({ handleOnClick }) => {
+    const { activeCategory, isMenuOpen } = useContext(AppContext);
     return (
-        <div className={classes.root}>
+        <div
+            className={
+                isMenuOpen
+                    ? styles.categories
+                    : `${styles.categories} ${styles.closed}`
+            }
+        >
             {categories.map((keyword, index) => {
-                return <span key={index}>{keyword}</span>;
+                return (
+                    <span
+                        onClick={() => handleOnClick(keyword)}
+                        key={index}
+                        style={
+                            activeCategory === keyword
+                                ? {
+                                      backgroundColor: '#ffffff',
+                                      color: '#000000',
+                                  }
+                                : null
+                        }
+                    >
+                        {keyword}
+                    </span>
+                );
             })}
         </div>
     );

@@ -1,23 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Home from './components/Home';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        alignItems: 'center',
-    },
-}));
+import styles from './App.module.css';
+import { AppContext } from './components/Context';
 
 function App() {
-    const classes = useStyles();
+    const { isMenuOpen } = useContext(AppContext);
+
     return (
         <>
             <Header />
-            <div className={classes.root}>
-                <Sidebar />
+            <div className={styles.container}>
+                {isMenuOpen && <Sidebar />}
                 <Home />
             </div>
         </>

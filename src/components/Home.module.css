@@ -1,0 +1,23 @@
+.home {
+    background-color: #181818;
+    flex: 1;
+}
+.home__videos {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+@media (min-width: 600px) {
+    .home__videos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (min-width: 960px) {
+    .home__videos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (min-width: 1440px) {
+    .home__videos {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
