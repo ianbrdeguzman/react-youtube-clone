@@ -10,8 +10,11 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
         height: '10vh',
-        backgroundColor: theme.palette.grey[50],
+        backgroundColor: '#ffffff',
         padding: theme.spacing(2),
+        position: 'sticky',
+        top: 0,
+        left: 0,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -23,11 +26,9 @@ const useStyles = makeStyles((theme) => ({
             height: '24px',
             marginLeft: theme.spacing(1),
         },
-    },
-
-    avatar: {
-        width: theme.spacing(3),
-        height: theme.spacing(3),
+        '& > *': {
+            cursor: 'pointer',
+        },
     },
     form: {
         width: '50vw',
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
             fontFamily: 'inherit',
         },
         '& button': {
+            cursor: 'pointer',
             width: '60px',
             border: 'none',
             outline: 'none',
@@ -56,6 +58,13 @@ const useStyles = makeStyles((theme) => ({
                 display: 'none',
             },
         },
+        '& :last-child': {
+            width: theme.spacing(3),
+            height: theme.spacing(3),
+        },
+        '& > *': {
+            cursor: 'pointer',
+        },
     },
 }));
 const Header = () => {
@@ -65,7 +74,7 @@ const Header = () => {
     return (
         <header className={classes.root}>
             <div className={classes.menu}>
-                <MenuIcon />
+                <MenuIcon onClick={onMenuClick} />
                 <img
                     src='https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg'
                     alt='logo'
@@ -80,7 +89,7 @@ const Header = () => {
             <div className={classes.icons}>
                 <NotificationsIcon />
                 <AppsIcon />
-                <Avatar className={classes.avatar} />
+                <Avatar />
             </div>
         </header>
     );

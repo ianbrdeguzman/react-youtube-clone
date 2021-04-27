@@ -24,19 +24,34 @@ const list = [
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.grey[50],
+        backgroundColor: '#ffffff',
         height: '90vh',
+        flexShrink: 0,
+        transition: 'transform 0.3s ease',
+        position: 'fixed',
+        top: '10vh',
+        left: 0,
+        [theme.breakpoints.only('sm')]: {
+            width: '56px',
+        },
+        [theme.breakpoints.only('md')]: {
+            width: '180px',
+        },
     },
     list: {
-        padding: theme.spacing(2),
-
-        display: 'flex',
-        alignItems: 'center',
-        '& p': {
-            marginLeft: theme.spacing(2),
-        },
         [theme.breakpoints.only('xs')]: {
-            '& p': {
+            display: 'none',
+        },
+        '& div:first-child': {
+            minWidth: '24px',
+            [theme.breakpoints.down('sm')]: {
+                paddingTop: '4px',
+                paddingBottom: '4px',
+            },
+        },
+        '& div:nth-child(2)': {
+            marginLeft: theme.spacing(2),
+            [theme.breakpoints.down('sm')]: {
                 display: 'none',
             },
         },
@@ -52,7 +67,7 @@ const Sidebar = () => {
             <List>
                 {list.map(({ title, icon }) => {
                     return (
-                        <ListItem button>
+                        <ListItem button key={title} className={classes.list}>
                             <ListItemIcon>{icon}</ListItemIcon>
                             <ListItemText primary={title} />
                         </ListItem>
