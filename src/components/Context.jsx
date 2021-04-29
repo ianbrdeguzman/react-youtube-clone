@@ -107,7 +107,6 @@ const AppProvider = ({ children }) => {
                     type: 'video,channel',
                 },
             });
-            console.log(data.items);
             dispatch({
                 type: 'SET_SEARCHED_VIDEOS',
                 payload: data.items,

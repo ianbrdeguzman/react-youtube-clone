@@ -25,8 +25,6 @@ const SearchVideo = ({ video }) => {
         },
     } = video;
 
-    console.log(channelId);
-
     const isVideo = !(id.kind === 'youtube#channel');
 
     const videoId = id?.videoId || id;
@@ -61,7 +59,6 @@ const SearchVideo = ({ video }) => {
                         id: id,
                     },
                 });
-                console.log(items);
                 setChannelIcon(items[0].snippet.thumbnails.default.url);
                 setSubscriberCount(items[0].statistics.subscriberCount);
                 setVideoCount(items[0].statistics.videoCount);
