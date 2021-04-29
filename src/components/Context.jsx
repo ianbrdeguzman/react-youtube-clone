@@ -9,6 +9,7 @@ const defaultState = {
     nextPageToken: '',
     activeCategory: 'All',
     isLoading: true,
+    searchedVideos: [],
 };
 
 const reducer = (state, action) => {
@@ -17,7 +18,7 @@ const reducer = (state, action) => {
             return { ...state, isMenuOpen: !action.payload };
         case 'SET_ISLOADING':
             return { ...state, isLoading: true };
-        case 'SET_POPULAR_VIDEOS':
+        case 'SET_HOME_VIDEOS':
             return {
                 ...state,
                 popularVideos:
@@ -25,16 +26,13 @@ const reducer = (state, action) => {
                         ? [...state.popularVideos, ...action.payload.videos]
                         : action.payload.videos,
                 nextPageToken: action.payload.token,
+                activeCategory: action.payload.category,
                 isLoading: false,
             };
-        case 'SET_ACTIVE_CATEGORY':
-            return { ...state, activeCategory: action.payload };
-        case 'SET_CATEGORY_VIDEOS':
+        case 'SET_SEARCHED_VIDEOS':
             return {
                 ...state,
-                popularVideos: action.payload.videos,
-                nextPageToken: action.payload.token,
-                activeCategory: action.payload.category,
+                searchedVideos: action.payload,
                 isLoading: false,
             };
         default:
@@ -46,7 +44,6 @@ const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, defaultState);
 
     const onMenuClick = () => {
-        console.log('clicked');
         dispatch({ type: 'SET_MENU_TOGGLE', payload: state.isMenuOpen });
     };
 
@@ -63,7 +60,7 @@ const AppProvider = ({ children }) => {
                 },
             });
             dispatch({
-                type: 'SET_POPULAR_VIDEOS',
+                type: 'SET_HOME_VIDEOS',
                 payload: {
                     videos: data.items,
                     token: data.nextPageToken,
@@ -82,12 +79,12 @@ const AppProvider = ({ children }) => {
                     part: 'snippet',
                     maxResults: 20,
                     pageToken: state.nextPageToken,
-                    q: keyword || 'All',
+                    q: keyword,
                     type: 'video',
                 },
             });
             dispatch({
-                type: 'SET_CATEGORY_VIDEOS',
+                type: 'SET_HOME_VIDEOS',
                 payload: {
                     videos: data.items,
                     token: data.nextPageToken,
@@ -99,8 +96,25 @@ const AppProvider = ({ children }) => {
         }
     };
 
-    const setActiveCategory = (keyword) => {
-        dispatch({ type: 'SET_ACTIVE_CATEGORY', payload: keyword });
+    const fetchVideosBySearch = async (keyword) => {
+        dispatch({ type: 'SET_ISLOADING' });
+        try {
+            const { data } = await request('/search', {
+                params: {
+                    part: 'snippet',
+                    maxResults: 20,
+                    q: keyword,
+                    type: 'video,channel',
+                },
+            });
+            console.log(data.items);
+            dispatch({
+                type: 'SET_SEARCHED_VIDEOS',
+                payload: data.items,
+            });
+        } catch (error) {
+            console.error(error.message);
+        }
     };
 
     return (
@@ -110,7 +124,7 @@ const AppProvider = ({ children }) => {
                 onMenuClick,
                 fetchPopularVideos,
                 fetchVideosByCategory,
-                setActiveCategory,
+                fetchVideosBySearch,
             }}
         >
             {children}

@@ -3,6 +3,7 @@
     background-color: #202020;
     position: sticky;
     top: 56px;
+    z-index: 1000;
 }
 .nav ul {
     list-style: none;
@@ -36,7 +37,6 @@
         position: fixed;
         top: 56px;
         left: 0;
-        z-index: 2;
     }
 }
 @media (max-width: 960px) {

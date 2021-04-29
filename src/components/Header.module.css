@@ -43,6 +43,8 @@ header svg {
     font-family: inherit;
     background-color: #121212;
     font-size: 1rem;
+    outline: none;
+    color: #ffffff;
 }
 .header__form button {
     width: 48px;

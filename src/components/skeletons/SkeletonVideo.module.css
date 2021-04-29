@@ -1,0 +1,7 @@
+.skeleton {
+    width: 90%;
+    margin: 1rem 0 0 1rem;
+}
+.skeleton__circle {
+    margin: 0.5rem;
+}

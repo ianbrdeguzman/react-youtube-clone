@@ -24,8 +24,15 @@ const categories = [
     'CSS3',
 ];
 
-const CategoriesBar = ({ handleOnClick }) => {
-    const { activeCategory, isMenuOpen } = useContext(AppContext);
+const CategoriesBar = () => {
+    const { activeCategory, isMenuOpen, fetchVideosByCategory } = useContext(
+        AppContext
+    );
+
+    const handleOnClick = (keyword) => {
+        // fetchVideosByCategory(keyword);
+    };
+
     return (
         <div
             className={

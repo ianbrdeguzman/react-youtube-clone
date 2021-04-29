@@ -13,18 +13,15 @@ const Video = ({ video }) => {
         id,
         snippet: {
             title,
+            publishedAt,
+            channelTitle,
             thumbnails: {
                 medium: { url },
             },
-            channelTitle,
-            publishedAt,
             channelId,
         },
         contentDetails,
     } = video;
-
-    //const viewCount = video.statistics ? video.statistics.viewCount : '';
-    //const duration = video.contentDetails ? video.contentDetails.duration : '';
 
     const videoId = id?.videoId || contentDetails?.videoId || id;
 
