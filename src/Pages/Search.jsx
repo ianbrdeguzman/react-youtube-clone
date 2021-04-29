@@ -5,6 +5,7 @@ import SearchVideo from '../components/SearchVideo';
 import styles from './Search.module.css';
 import SearchSkeletonVideo from '../components/skeletons/SearchSkeletonVideo';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { v4 as uuidv4 } from 'uuid';
 
 const Search = () => {
     const { keyword } = useParams();
@@ -33,7 +34,7 @@ const Search = () => {
                     <div>
                         {isLoading
                             ? [...new Array(20)].map(() => {
-                                  return <SearchSkeletonVideo />;
+                                  return <SearchSkeletonVideo key={uuidv4()} />;
                               })
                             : searchedVideos?.map((video) => {
                                   return (

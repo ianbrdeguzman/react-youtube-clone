@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { AppContext } from '../components/Context';
 import styles from './Home.module.css';
 import SkeletonVideo from '../components/skeletons/SkeletonVideo';
+import { v4 as uuidv4 } from 'uuid';
 
 const Home = () => {
     const {
@@ -38,7 +39,7 @@ const Home = () => {
                 <div className={styles.home__videos}>
                     {isLoading
                         ? [...new Array(20)].map(() => {
-                              return <SkeletonVideo />;
+                              return <SkeletonVideo key={uuidv4()} />;
                           })
                         : popularVideos?.map((video) => {
                               return <HomeVideo key={video.id} video={video} />;
