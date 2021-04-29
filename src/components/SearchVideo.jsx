@@ -6,6 +6,10 @@ import request from './axios';
 
 const SearchVideo = ({ video }) => {
     const [channelIcon, setChannelIcon] = useState('');
+    const [duration, setDuration] = useState('');
+    const [viewCount, setViewCount] = useState('');
+    const [subscriberCount, setSubscriberCount] = useState('');
+    const [videoCount, setVideoCount] = useState('');
 
     const {
         id,
@@ -18,11 +22,33 @@ const SearchVideo = ({ video }) => {
                 medium: { url },
             },
             title,
-            resourceId,
         },
     } = video;
 
+    console.log(channelId);
+
+    const isVideo = !(id.kind === 'youtube#channel');
+
     const videoId = id?.videoId || id;
+
+    const seconds = moment.duration(duration).asSeconds();
+    const formatDuration = moment.utc(seconds * 1000).format('mm:ss');
+
+    useEffect(() => {
+        const fetchVideoDetails = async () => {
+            const {
+                data: { items },
+            } = await request('/videos', {
+                params: {
+                    part: 'contentDetails,statistics',
+                    id: videoId,
+                },
+            });
+            setDuration(items[0].contentDetails.duration);
+            setViewCount(items[0].statistics.viewCount);
+        };
+        if (isVideo) fetchVideoDetails();
+    }, [videoId]);
 
     useEffect(() => {
         const fetchChannelIcon = async (id) => {
@@ -31,11 +57,14 @@ const SearchVideo = ({ video }) => {
                     data: { items },
                 } = await request('/channels', {
                     params: {
-                        part: 'snippet',
+                        part: 'snippet,statistics',
                         id: id,
                     },
                 });
+                console.log(items);
                 setChannelIcon(items[0].snippet.thumbnails.default.url);
+                setSubscriberCount(items[0].statistics.subscriberCount);
+                setVideoCount(items[0].statistics.videoCount);
             } catch (error) {
                 console.error(error.message);
             }
@@ -44,20 +73,51 @@ const SearchVideo = ({ video }) => {
     }, [channelId]);
 
     return (
-        <article className={styles.search__video}>
-            <div className={styles.search__video__header}>
+        <article
+            className={isVideo ? styles.search__video : styles.search__channel}
+        >
+            <div
+                className={
+                    isVideo
+                        ? styles.search__video__header
+                        : styles.search__channel__header
+                }
+            >
                 <img src={url} alt={title} />
-                <span>10:10</span>
+                {isVideo && <span>{formatDuration}</span>}
             </div>
-            <div className={styles.search__video__info}>
+            <div
+                className={
+                    isVideo
+                        ? styles.search__video__info
+                        : styles.search__channel__info
+                }
+            >
                 <h4>{title}</h4>
-                <p>618k views • {moment(publishedAt).fromNow()}</p>
-                <div>
-                    <img src={channelIcon} alt={channelTitle} />
-                    <p>{channelTitle}</p>
-                </div>
+                {isVideo ? (
+                    <p>
+                        {numeral(viewCount).format('0.0a')}
+                        {' views • '}
+                        {moment(publishedAt).fromNow()}
+                    </p>
+                ) : (
+                    <p>
+                        {numeral(subscriberCount).format('0.0a')}
+                        {' subscribers • '}
+                        {numeral(videoCount).format('0,0')}
+                        {' videos'}
+                    </p>
+                )}
+
+                {isVideo && (
+                    <div>
+                        <img src={channelIcon} alt={channelTitle} />
+                        <p>{channelTitle}</p>
+                    </div>
+                )}
                 <p>{description}</p>
             </div>
+            {!isVideo && <button>SUBSCRIBE</button>}
         </article>
     );
 };

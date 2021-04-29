@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Video.module.css';
+import styles from './HomeVideo.module.css';
 import numeral from 'numeral';
 import moment from 'moment';
 import request from './axios';
 
-const Video = ({ video }) => {
+const HomeVideo = ({ video }) => {
     const [channelIcon, setChannelIcon] = useState('');
     const [duration, setDuration] = useState('');
     const [viewCount, setViewCount] = useState('');
@@ -88,4 +88,4 @@ const Video = ({ video }) => {
     );
 };
 
-export default Video;
+export default HomeVideo;

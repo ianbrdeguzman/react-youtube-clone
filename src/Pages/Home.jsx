@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import Video from '../components/Video';
+import HomeVideo from '../components/HomeVideo';
 import CategoriesBar from '../components/CategoriesBar';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { AppContext } from '../components/Context';
@@ -41,7 +41,7 @@ const Home = () => {
                               return <SkeletonVideo />;
                           })
                         : popularVideos?.map((video) => {
-                              return <Video key={video.id} video={video} />;
+                              return <HomeVideo key={video.id} video={video} />;
                           })}
                 </div>
             </InfiniteScroll>

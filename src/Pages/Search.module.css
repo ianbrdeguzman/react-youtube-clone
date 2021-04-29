@@ -13,3 +13,9 @@
     padding: 1rem;
     border-bottom: 1px solid rgba(170, 170, 170, 0.1);
 }
+@media (max-width: 600px) {
+    /*below 600*/
+    .search__filter {
+        margin-left: 1rem;
+    }
+}
