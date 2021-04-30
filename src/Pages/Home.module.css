@@ -1,6 +1,6 @@
 .home {
-    background-color: #181818;
     flex: 1;
+    background-color: #181818;
 }
 .home__videos {
     display: grid;

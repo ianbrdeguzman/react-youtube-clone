@@ -8,23 +8,25 @@
 .nav ul {
     list-style: none;
 }
-.nav ul li {
+.nav ul li a {
+    cursor: pointer;
     height: 40px;
     color: #ffffff;
     display: flex;
     align-items: center;
     padding: 0 1rem;
+    text-decoration: none;
 }
 .nav ul li:hover {
     background-color: #383838;
 }
-.nav ul li svg {
+.nav ul li a svg {
     display: flex;
     align-items: center;
     color: #909090;
     font-size: 1.2rem;
 }
-.nav ul li p {
+.nav ul li a p {
     margin-left: 2rem;
     font-size: 0.9rem;
 }

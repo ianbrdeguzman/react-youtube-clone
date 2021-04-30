@@ -1,5 +1,6 @@
 .video {
     margin: 1rem;
+    cursor: pointer;
 }
 .video__header {
     position: relative;

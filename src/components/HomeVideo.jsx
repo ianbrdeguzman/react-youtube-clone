@@ -3,11 +3,14 @@ import styles from './HomeVideo.module.css';
 import numeral from 'numeral';
 import moment from 'moment';
 import request from './axios';
+import { useHistory } from 'react-router-dom';
 
 const HomeVideo = ({ video }) => {
     const [channelIcon, setChannelIcon] = useState('');
     const [duration, setDuration] = useState('');
     const [viewCount, setViewCount] = useState('');
+
+    const history = useHistory();
 
     const {
         id,
@@ -63,9 +66,14 @@ const HomeVideo = ({ video }) => {
         fetchChannelIcon(channelId);
     }, [channelId]);
 
+    const handleOnClick = () => {
+        console.log(videoId);
+        history.push(`/watch/${videoId}`);
+    };
+
     return (
         <>
-            <article className={styles.video}>
+            <article className={styles.video} onClick={handleOnClick}>
                 <div className={styles.video__header}>
                     <img src={url} alt={title} />
                     <span>{formatDuration}</span>

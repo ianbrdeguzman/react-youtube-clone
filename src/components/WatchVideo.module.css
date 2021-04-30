@@ -1,0 +1,94 @@
+.watch__video__player {
+    margin: 1rem;
+    min-height: 300px;
+    height: calc(100vw / 3);
+}
+.watch__video__info {
+    margin: 1rem;
+    color: #ffffff;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+}
+.watch__video__info h3 {
+    font-weight: 400;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.watch__video__info p {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+    margin: 0.5rem 0;
+}
+.watch__video__info div {
+    display: flex;
+    justify-content: flex-end;
+}
+.watch__video__info div h4 {
+    font-weight: 400;
+    color: #aaaaaa;
+    display: flex;
+    align-items: center;
+}
+.watch__video__info div h4:first-child {
+    margin-right: 1rem;
+}
+.watch__video__info div h4 svg {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
+.watch__video__info div h4 span {
+    font-size: 0.9rem;
+}
+.watch__video__moreinfo {
+    margin: 1rem;
+    padding: 1rem 0;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+    display: flex;
+    align-items: center;
+}
+.watch__video__moreinfo img {
+    align-self: flex-start;
+    border-radius: 50%;
+}
+.watch__video__moreinfo > div {
+    margin: 0 1rem;
+    flex: 1;
+}
+.watch__video__moreinfo div p {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+}
+.watch__video__moreinfo > div div {
+    font-size: 0.9rem;
+    margin: 2rem 0 1rem 0;
+}
+.watch__video__moreinfo > div div span {
+    color: #ffffff;
+}
+.watch__video__moreinfo > div div span p {
+    color: #ffffff;
+}
+.watch__video__moreinfo button {
+    align-self: flex-start;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    /* margin: 1rem; */
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    border: none;
+    outline: none;
+    background-color: #cc0000;
+    border-radius: 3px;
+}
+.anchor {
+    color: #aaaaaa;
+    text-decoration: none;
+    display: block;
+    margin: 2rem 0 0 0;
+}

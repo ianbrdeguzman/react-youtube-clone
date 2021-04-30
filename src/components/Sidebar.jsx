@@ -11,16 +11,17 @@ import {
     MdThumbUp,
 } from 'react-icons/md';
 import styles from './Sidebar.module.css';
+import { Link } from 'react-router-dom';
 
 const list = [
-    { title: 'Home', icon: <AiFillHome /> },
-    { title: 'Explore', icon: <MdExplore /> },
-    { title: 'Subscriptions', icon: <MdSubscriptions /> },
-    { title: 'Library', icon: <MdVideoLibrary /> },
-    { title: 'History', icon: <MdHistory /> },
-    { title: 'Your videos', icon: <MdOndemandVideo /> },
-    { title: 'Watch later', icon: <MdWatchLater /> },
-    { title: 'Liked videos', icon: <MdThumbUp /> },
+    { title: 'Home', icon: <AiFillHome />, path: '/' },
+    { title: 'Explore', icon: <MdExplore />, path: `'/'` },
+    { title: 'Subscriptions', icon: <MdSubscriptions />, path: '/' },
+    { title: 'Library', icon: <MdVideoLibrary />, path: '/' },
+    { title: 'History', icon: <MdHistory />, path: '/' },
+    { title: 'Your videos', icon: <MdOndemandVideo />, path: '/' },
+    { title: 'Watch later', icon: <MdWatchLater />, path: '/' },
+    { title: 'Liked videos', icon: <MdThumbUp />, path: '/' },
 ];
 
 const Sidebar = () => {
@@ -33,11 +34,13 @@ const Sidebar = () => {
             }
         >
             <ul>
-                {list.map(({ title, icon }) => {
+                {list.map(({ title, icon, path }) => {
                     return (
                         <li key={title}>
-                            {icon}
-                            <p>{title}</p>
+                            <Link to={path}>
+                                {icon}
+                                <p>{title}</p>
+                            </Link>
                         </li>
                     );
                 })}

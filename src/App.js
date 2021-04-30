@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Home from './Pages/Home';
 import Search from './Pages/Search';
+import Watch from './Pages/Watch';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { AppContext } from './components/Context';
@@ -19,6 +20,7 @@ function App() {
                     <Switch>
                         <Route exact path='/' component={Home} />
                         <Route path='/search/:keyword' component={Search} />
+                        <Route path='/watch/:id' component={Watch} />
                     </Switch>
                 </div>
             </Router>

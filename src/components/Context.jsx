@@ -10,6 +10,7 @@ const defaultState = {
     activeCategory: 'All',
     isLoading: true,
     searchedVideos: [],
+    watchVideo: {},
 };
 
 const reducer = (state, action) => {
@@ -33,6 +34,12 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 searchedVideos: action.payload,
+                isLoading: false,
+            };
+        case 'SET_WATCH_VIDEO':
+            return {
+                ...state,
+                watchVideo: action.payload,
                 isLoading: false,
             };
         default:
@@ -116,6 +123,23 @@ const AppProvider = ({ children }) => {
         }
     };
 
+    const fetchVideoById = async (id) => {
+        try {
+            const { data } = await request('/videos', {
+                params: {
+                    part: 'snippet,statistics',
+                    id: id,
+                },
+            });
+            dispatch({
+                type: 'SET_WATCH_VIDEO',
+                payload: data.items[0],
+            });
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
     return (
         <AppContext.Provider
             value={{
@@ -124,6 +148,7 @@ const AppProvider = ({ children }) => {
                 fetchPopularVideos,
                 fetchVideosByCategory,
                 fetchVideosBySearch,
+                fetchVideoById,
             }}
         >
             {children}

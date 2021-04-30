@@ -1,0 +1,14 @@
+.watch__container {
+    width: 100%;
+    background-color: #202020;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+}
+@media (max-width: 600px) {
+    .watch__container {
+        grid-template-columns: 1fr;
+    }
+    .watch__related__container {
+        display: none;
+    }
+}

@@ -16,24 +16,25 @@ const Home = () => {
         fetchVideosByCategory,
     } = useContext(AppContext);
 
-    const fetchVideos = () => {
-        if (activeCategory === 'All') {
-            fetchPopularVideos();
-        } else {
-            fetchVideosByCategory(activeCategory);
-        }
+    const fetchMore = () => {
+        console.log('uncomment to fetch more...');
+        // if (activeCategory === 'All') {
+        //     fetchPopularVideos();
+        // } else {
+        //     fetchVideosByCategory(activeCategory);
+        // }
     };
 
-    // useEffect(() => {
-    //     fetchPopularVideos();
-    // }, []);
+    useEffect(() => {
+        fetchPopularVideos();
+    }, []);
 
     return (
         <section className={styles.home}>
             <CategoriesBar />
             <InfiniteScroll
                 dataLength={popularVideos?.length}
-                // next={fetchVideos}
+                next={fetchMore}
                 hasMore={true}
             >
                 <div className={styles.home__videos}>
