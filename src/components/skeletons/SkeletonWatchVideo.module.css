@@ -1,0 +1,19 @@
+.skeleton {
+    padding: 1rem;
+}
+.skeleton__video {
+    height: calc(100vw / 3);
+    min-height: 300px;
+}
+.skeleton div:not(:first-child) {
+    margin-top: 1rem;
+}
+.skeleton div:nth-child(2) {
+    height: 10vh;
+}
+.skeleton div:nth-child(4) {
+    height: 20vh;
+}
+.skeleton div:nth-child(5) {
+    height: 20vh;
+}

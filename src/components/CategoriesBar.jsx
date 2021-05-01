@@ -30,7 +30,7 @@ const CategoriesBar = () => {
     );
 
     const handleOnClick = (keyword) => {
-        // fetchVideosByCategory(keyword);
+        fetchVideosByCategory(keyword);
     };
 
     return (

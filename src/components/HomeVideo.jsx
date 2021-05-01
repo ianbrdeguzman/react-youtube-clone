@@ -67,7 +67,6 @@ const HomeVideo = ({ video }) => {
     }, [channelId]);
 
     const handleOnClick = () => {
-        console.log(videoId);
         history.push(`/watch/${videoId}`);
     };
 

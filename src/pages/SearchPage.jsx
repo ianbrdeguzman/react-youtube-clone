@@ -1,19 +1,19 @@
 import React, { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { AppContext } from '../components/Context';
+import styles from './SearchPage.module.css';
 import SearchVideo from '../components/SearchVideo';
-import styles from './Search.module.css';
 import SearchSkeletonVideo from '../components/skeletons/SearchSkeletonVideo';
+import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
 
-const Search = () => {
+const SearchPage = () => {
     const { keyword } = useParams();
     const { fetchVideosBySearch, searchedVideos, isLoading } = useContext(
         AppContext
     );
 
-    const fetchMore = () => {
+    const fetchMoreSearchVideos = () => {
         console.log('uncomment to here to fetch more');
         // fetchVideosBySearch(keyword);
     };
@@ -28,7 +28,7 @@ const Search = () => {
                 <div className={styles.search__filter}>FILTER</div>
                 <InfiniteScroll
                     dataLength={searchedVideos?.length}
-                    next={fetchMore}
+                    next={fetchMoreSearchVideos}
                     hasMore={true}
                 >
                     <div>
@@ -51,4 +51,4 @@ const Search = () => {
     );
 };
 
-export default Search;
+export default SearchPage;

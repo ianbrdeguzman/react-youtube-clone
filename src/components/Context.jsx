@@ -10,7 +10,12 @@ const defaultState = {
     activeCategory: 'All',
     isLoading: true,
     searchedVideos: [],
-    watchVideo: {},
+    watchVideo: '',
+    watchVideoId: '',
+    commentList: [],
+    commentNextPageToken: '',
+    relatedVideos: [],
+    relatedVideosNextPageToken: '',
 };
 
 const reducer = (state, action) => {
@@ -40,6 +45,25 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 watchVideo: action.payload,
+                watchVideoId: action.payload.watchVideoId,
+                isLoading: false,
+            };
+        case 'SET_COMMENT_LIST':
+            return {
+                ...state,
+                commentList:
+                    state.watchVideoId === action.payload.watchVideoId
+                        ? [...state.commentList, ...action.payload.commentList]
+                        : action.payload.commentList,
+                commentNextPageToken: action.payload.commentNextPageToken,
+                // isLoading: false,
+            };
+        case 'SET_RELATED_VIDEOS':
+            return {
+                ...state,
+                relatedVideos: action.payload.relatedVideos,
+                relatedVideosNextPageToken:
+                    action.payload.relatedVideosNextPageToken,
                 isLoading: false,
             };
         default:
@@ -124,6 +148,7 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchVideoById = async (id) => {
+        dispatch({ type: 'SET_ISLOADING' });
         try {
             const { data } = await request('/videos', {
                 params: {
@@ -133,10 +158,59 @@ const AppProvider = ({ children }) => {
             });
             dispatch({
                 type: 'SET_WATCH_VIDEO',
-                payload: data.items[0],
+                payload: {
+                    watchVideo: data.items[0],
+                    watchVideoId: id,
+                },
             });
         } catch (error) {
             console.log(error.message);
+        }
+    };
+
+    const fetchCommentsOfVideoById = async (id) => {
+        // dispatch({ type: 'SET_ISLOADING' });
+        try {
+            const { data } = await request('/commentThreads', {
+                params: {
+                    part: 'snippet',
+                    videoId: id,
+                    pageToken: state.commentNextPageToken,
+                },
+            });
+            dispatch({
+                type: 'SET_COMMENT_LIST',
+                payload: {
+                    commentList: data.items,
+                    commentNextPageToken: data.nextPageToken,
+                },
+            });
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    };
+
+    const fetchRelatedVideos = async (id) => {
+        // dispatch({ type: 'SET_ISLOADING' });
+        try {
+            const { data } = await request('/search', {
+                params: {
+                    part: 'snippet',
+                    relatedToVideoId: id,
+                    maxResults: 20,
+                    type: 'video',
+                    pageToken: state.relatedVideosNextPageToken,
+                },
+            });
+            dispatch({
+                type: 'SET_RELATED_VIDEOS',
+                payload: {
+                    relatedVideos: data.items,
+                    relatedVideosNextPageToken: data.nextPageToken,
+                },
+            });
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -149,6 +223,8 @@ const AppProvider = ({ children }) => {
                 fetchVideosByCategory,
                 fetchVideosBySearch,
                 fetchVideoById,
+                fetchCommentsOfVideoById,
+                fetchRelatedVideos,
             }}
         >
             {children}

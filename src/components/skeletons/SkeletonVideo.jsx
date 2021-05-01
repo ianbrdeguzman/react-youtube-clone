@@ -1,6 +1,6 @@
 import React from 'react';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import styles from './SkeletonVideo.module.css';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 const SkeletonVideo = () => {
     return (

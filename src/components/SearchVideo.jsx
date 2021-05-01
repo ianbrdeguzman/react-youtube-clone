@@ -49,7 +49,7 @@ const SearchVideo = ({ video }) => {
     }, [videoId]);
 
     useEffect(() => {
-        const fetchChannelIcon = async (id) => {
+        const fetchChannelDetails = async (id) => {
             try {
                 const {
                     data: { items },
@@ -66,7 +66,7 @@ const SearchVideo = ({ video }) => {
                 console.error(error.message);
             }
         };
-        fetchChannelIcon(channelId);
+        fetchChannelDetails(channelId);
     }, [channelId]);
 
     return (

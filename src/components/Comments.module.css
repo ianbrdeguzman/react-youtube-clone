@@ -1,8 +1,44 @@
-.container {
-    border: 1px solid red;
+.comments__container {
     margin: 1rem;
     color: #ffffff;
 }
-.container h4 {
+.comments__container h4 {
     font-weight: 400;
+}
+.comments__form {
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.comments__form svg {
+    font-size: 40px;
+    margin-right: 1rem;
+}
+.comments__form form {
+    flex: 1;
+}
+.comments__form form input {
+    width: 100%;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+}
+.comments__form form button {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    color: #030303;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    border: none;
+    outline: none;
+    background-color: #606060;
+    border-radius: 3px;
+    position: absolute;
+    top: 100%;
+    right: 0;
 }

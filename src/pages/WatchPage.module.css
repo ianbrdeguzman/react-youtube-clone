@@ -4,7 +4,7 @@
     display: grid;
     grid-template-columns: 1fr 400px;
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
     .watch__container {
         grid-template-columns: 1fr;
     }

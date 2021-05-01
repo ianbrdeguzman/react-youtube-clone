@@ -1,0 +1,44 @@
+.comment__container {
+    font-size: 14px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+}
+.comment__container img {
+    margin-right: 1.2rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+.comment__info {
+}
+.comment__info p:first-child > span {
+    color: #aaaaaa;
+    font-weight: 400;
+}
+.comment__info div span span p {
+    margin-top: 0.5rem;
+    color: #ffffff;
+}
+.comment__info div span span span {
+    display: block;
+    margin: 0.5rem 0 1rem 0;
+}
+.comment__info div span span span span {
+    display: block;
+    margin-top: 0.5rem;
+}
+.comment__info div:last-child {
+    display: flex;
+}
+.comment__info div p {
+    margin-right: 0.5rem;
+    color: #aaaaaa;
+    cursor: pointer;
+}
+.anchor {
+    color: #aaaaaa;
+    text-decoration: none;
+    display: block;
+    margin: 0.5rem 0;
+}

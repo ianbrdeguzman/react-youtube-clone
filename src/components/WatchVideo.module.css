@@ -19,7 +19,7 @@
 .watch__video__info p {
     font-size: 0.9rem;
     color: #aaaaaa;
-    margin: 0.5rem 0;
+    margin: 0.5rem 0 0 0;
 }
 .watch__video__info div {
     display: flex;
@@ -44,39 +44,27 @@
 }
 .watch__video__moreinfo {
     margin: 1rem;
-    padding: 1rem 0;
     color: #ffffff;
-    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
     display: flex;
     align-items: center;
 }
 .watch__video__moreinfo img {
-    align-self: flex-start;
     border-radius: 50%;
+    width: 48px;
+    height: 48px;
 }
 .watch__video__moreinfo > div {
     margin: 0 1rem;
     flex: 1;
 }
-.watch__video__moreinfo div p {
-    font-size: 0.9rem;
+.watch__video__moreinfo > div p {
     color: #aaaaaa;
-}
-.watch__video__moreinfo > div div {
-    font-size: 0.9rem;
-    margin: 2rem 0 1rem 0;
-}
-.watch__video__moreinfo > div div span {
-    color: #ffffff;
-}
-.watch__video__moreinfo > div div span p {
-    color: #ffffff;
+    font-size: 14px;
 }
 .watch__video__moreinfo button {
-    align-self: flex-start;
+    align-self: center;
     cursor: pointer;
     padding: 0.5rem 1rem;
-    /* margin: 1rem; */
     color: #ffffff;
     font-size: 14px;
     font-weight: 500;
@@ -86,9 +74,19 @@
     background-color: #cc0000;
     border-radius: 3px;
 }
+.watch__video__container div:nth-child(4) {
+    margin: 1rem;
+    color: #ffffff;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+}
+.watch__video__container div:nth-child(4) span span span:last-child {
+    margin-bottom: 1rem;
+    display: block;
+}
 .anchor {
     color: #aaaaaa;
     text-decoration: none;
     display: block;
-    margin: 2rem 0 0 0;
+    margin: 1rem 0;
 }
