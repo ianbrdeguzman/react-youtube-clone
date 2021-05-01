@@ -1,3 +1,82 @@
 .container {
-    border: 1px solid red;
+    width: 100%;
+    color: #ffffff;
+    padding: 1rem;
+    background-color: #181818;
+}
+.channel__header {
+    background-color: #181818;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.channel__header img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.channel__header div {
+    flex: 1;
+    margin: 0 1rem;
+}
+.channel__header div h2 {
+    font-size: 24px;
+    font-weight: 500;
+}
+.channel__header div p {
+    font-size: 14px;
+    color: #aaaaaa;
+}
+.channel__header button {
+    align-self: center;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    border: none;
+    outline: none;
+    background-color: #cc0000;
+    border-radius: 3px;
+}
+.channel__nav {
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.channel__nav li {
+    padding: 1rem;
+    font-size: 14px;
+    font-weight: 500;
+    color: #aaaaaa;
+    cursor: pointer;
+}
+.channel__nav li.selected {
+    color: #ffffff;
+    border-bottom: 2px solid #aaaaaa;
+}
+@media (min-width: 600px) {
+    .channel__header,
+    .channel__nav {
+        width: 90%;
+        margin: 0 auto 1rem auto;
+    }
+}
+@media (min-width: 960px) {
+    .channel__videos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (min-width: 1440px) {
+    .channel__videos {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+@media (min-width: 1920px) {
+    .channel__videos {
+        grid-template-columns: repeat(6, 1fr);
+    }
 }

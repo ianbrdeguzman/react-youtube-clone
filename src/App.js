@@ -22,7 +22,10 @@ function App() {
                         <Route exact path='/' component={HomePage} />
                         <Route path='/search/:keyword' component={SearchPage} />
                         <Route path='/watch/:id' component={WatchPage} />
-                        <Route path='/channel/:id' component={ChannelPage} />
+                        <Route
+                            path='/channel/:channelId'
+                            component={ChannelPage}
+                        />
                     </Switch>
                 </div>
             </Router>
