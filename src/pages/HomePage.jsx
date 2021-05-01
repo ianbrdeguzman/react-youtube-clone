@@ -17,7 +17,7 @@ const HomePage = () => {
     } = useContext(AppContext);
 
     const fetchMore = () => {
-        console.log('uncomment to fetch more...');
+        console.log('uncomment to fetch more homepage videos...');
         // if (activeCategory === 'All') {
         //     fetchPopularVideos();
         // } else {

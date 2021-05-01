@@ -32,6 +32,7 @@ const HomeVideo = ({ video }) => {
     const formatDuration = moment.utc(seconds * 1000).format('mm:ss');
 
     useEffect(() => {
+        console.log('fetching video details...');
         const fetchVideoDetails = async () => {
             const {
                 data: { items },
@@ -48,6 +49,7 @@ const HomeVideo = ({ video }) => {
     }, [videoId]);
 
     useEffect(() => {
+        console.log('fetching channel icon...');
         const fetchChannelIcon = async (id) => {
             try {
                 const {
@@ -66,24 +68,31 @@ const HomeVideo = ({ video }) => {
         fetchChannelIcon(channelId);
     }, [channelId]);
 
-    const handleOnClick = () => {
+    const handleVideoOnClick = () => {
         history.push(`/watch/${videoId}`);
+    };
+
+    const handleChannelOnClick = () => {
+        history.push(`/channel/${channelId}`);
     };
 
     return (
         <>
-            <article className={styles.video} onClick={handleOnClick}>
-                <div className={styles.video__header}>
+            <article className={styles.video}>
+                <div
+                    className={styles.video__header}
+                    onClick={handleVideoOnClick}
+                >
                     <img src={url} alt={title} />
                     <span>{formatDuration}</span>
                 </div>
                 <div className={styles.video__content}>
-                    <div>
+                    <div onClick={handleVideoOnClick}>
                         <img src={channelIcon} alt={channelTitle} />
                         <h4>{title}</h4>
                     </div>
                     <div>
-                        <p>{channelTitle}</p>
+                        <p onClick={handleChannelOnClick}>{channelTitle}</p>
                         <p>
                             {numeral(viewCount).format('0.0a')} {'views • '}
                             {moment(publishedAt).fromNow()}

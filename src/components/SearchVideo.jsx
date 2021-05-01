@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SearchVideo.module.css';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import numeral from 'numeral';
 import request from './axios';
@@ -32,7 +33,10 @@ const SearchVideo = ({ video }) => {
     const seconds = moment.duration(duration).asSeconds();
     const formatDuration = moment.utc(seconds * 1000).format('mm:ss');
 
+    const history = useHistory();
+
     useEffect(() => {
+        console.log('fetching video details...');
         const fetchVideoDetails = async () => {
             const {
                 data: { items },
@@ -49,6 +53,7 @@ const SearchVideo = ({ video }) => {
     }, [videoId]);
 
     useEffect(() => {
+        console.log('fetching channel details...');
         const fetchChannelDetails = async (id) => {
             try {
                 const {
@@ -69,9 +74,18 @@ const SearchVideo = ({ video }) => {
         fetchChannelDetails(channelId);
     }, [channelId]);
 
+    const handleOnClick = (clickedItem) => {
+        !isVideo && clickedItem !== 'SUBSCRIBE'
+            ? history.push(`/channel/${channelId}`)
+            : clickedItem === 'SUBSCRIBE'
+            ? console.log('go to subscribe page...')
+            : history.push(`/watch/${videoId}`);
+    };
+
     return (
         <article
             className={isVideo ? styles.search__video : styles.search__channel}
+            onClick={(e) => handleOnClick(e.target.innerHTML)}
         >
             <div
                 className={

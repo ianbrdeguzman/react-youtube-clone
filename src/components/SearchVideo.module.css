@@ -1,6 +1,7 @@
 .search__video {
     margin: 1rem;
     display: flex;
+    cursor: pointer;
 }
 @media (max-width: 600px) {
     .search__video {
@@ -75,6 +76,7 @@
 .search__channel {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .search__channel button {
     cursor: pointer;
@@ -102,7 +104,6 @@
     transform: translateX(50%);
 }
 .search__channel__info {
-    margin-left: 1rem;
     padding: 0 1rem;
 }
 .search__channel__info p {

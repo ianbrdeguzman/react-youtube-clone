@@ -14,7 +14,7 @@ const SearchPage = () => {
     );
 
     const fetchMoreSearchVideos = () => {
-        console.log('uncomment to here to fetch more');
+        console.log('uncomment to fetch more searched videos...');
         // fetchVideosBySearch(keyword);
     };
 

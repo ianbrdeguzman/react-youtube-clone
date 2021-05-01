@@ -10,8 +10,8 @@
     width: 40px;
     height: 40px;
 }
-.comment__info {
-}
+/* .comment__info {
+} */
 .comment__info p:first-child > span {
     color: #aaaaaa;
     font-weight: 400;

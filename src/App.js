@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import WatchPage from './pages/WatchPage';
+import ChannelPage from './pages/ChannelPage';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { AppContext } from './components/Context';
@@ -21,6 +22,7 @@ function App() {
                         <Route exact path='/' component={HomePage} />
                         <Route path='/search/:keyword' component={SearchPage} />
                         <Route path='/watch/:id' component={WatchPage} />
+                        <Route path='/channel/:id' component={ChannelPage} />
                     </Switch>
                 </div>
             </Router>

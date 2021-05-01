@@ -43,6 +43,9 @@
 .video__content div:last-child {
     margin-top: 0.5rem;
 }
+.video__content div:last-child p:first-child:hover {
+    color: #ffffff;
+}
 .video__content div:last-child p {
     color: #aaaaaa;
     font-size: 0.9rem;
