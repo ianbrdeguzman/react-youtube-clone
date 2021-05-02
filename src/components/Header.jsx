@@ -13,13 +13,19 @@ import {
 
 const Header = () => {
     const [input, setInput] = useState('');
-    const { onMenuClick } = useContext(AppContext);
+    const { onMenuClick, signInWithGoogle, userProfile } = useContext(
+        AppContext
+    );
 
     const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         history.push(`/search/${input}`);
+    };
+
+    const handleOnClick = () => {
+        signInWithGoogle();
     };
 
     return (
@@ -48,7 +54,12 @@ const Header = () => {
                 <MdVideoCall />
                 <MdApps />
                 <MdNotifications />
-                <FaUserCircle />
+
+                {userProfile ? (
+                    <img src={userProfile?.photoURL} alt='avatar' />
+                ) : (
+                    <FaUserCircle onClick={handleOnClick} />
+                )}
             </div>
         </header>
     );

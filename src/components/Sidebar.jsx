@@ -10,6 +10,7 @@ import {
     MdWatchLater,
     MdThumbUp,
 } from 'react-icons/md';
+import { RiLogoutBoxRLine } from 'react-icons/ri';
 import styles from './Sidebar.module.css';
 import { Link } from 'react-router-dom';
 
@@ -22,10 +23,15 @@ const list = [
     { title: 'Your videos', icon: <MdOndemandVideo />, path: '/' },
     { title: 'Watch later', icon: <MdWatchLater />, path: '/' },
     { title: 'Liked videos', icon: <MdThumbUp />, path: '/' },
+    { title: 'Sign out', icon: <RiLogoutBoxRLine />, path: '/' },
 ];
 
 const Sidebar = () => {
-    const { isMenuOpen } = useContext(AppContext);
+    const { isMenuOpen, signOut } = useContext(AppContext);
+
+    const handleOnClick = (title) => {
+        if (title === 'Sign out') signOut();
+    };
 
     return (
         <nav
@@ -37,7 +43,10 @@ const Sidebar = () => {
                 {list.map(({ title, icon, path }) => {
                     return (
                         <li key={title}>
-                            <Link to={path}>
+                            <Link
+                                to={path}
+                                onClick={() => handleOnClick(title)}
+                            >
                                 {icon}
                                 <p>{title}</p>
                             </Link>

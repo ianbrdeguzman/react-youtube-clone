@@ -1,5 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import request from './axios';
+import firebase from 'firebase/app';
+import auth from '../firebase';
 
 const AppContext = createContext();
 
@@ -17,6 +19,10 @@ const defaultState = {
     commentNextPageToken: '',
     relatedVideos: [],
     relatedVideosNextPageToken: '',
+    accessToken: sessionStorage.getItem('accessToken') || '',
+    userProfile: sessionStorage.getItem('userProfile')
+        ? JSON.parse(sessionStorage.getItem('userProfile'))
+        : '',
 };
 
 const reducer = (state, action) => {
@@ -77,6 +83,18 @@ const reducer = (state, action) => {
                 relatedVideosNextPageToken:
                     action.payload.relatedVideosNextPageToken,
                 // isLoading: false,
+            };
+        case 'SIGNIN_WITH_GOOGLE':
+            return {
+                ...state,
+                accessToken: action.payload.accessToken,
+                userProfile: action.payload.userProfile,
+            };
+        case 'SIGNOUT_WITH_GOOGLE':
+            return {
+                ...state,
+                accessToken: null,
+                userProfile: null,
             };
         default:
             throw new Error('No action type found');
@@ -251,6 +269,41 @@ const AppProvider = ({ children }) => {
         // }
     };
 
+    const signInWithGoogle = async () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/youtube.force-ssl');
+
+        try {
+            const response = await auth.signInWithPopup(provider);
+            const accessToken = response.credential.accessToken;
+            const userProfile = {
+                name: response.additionalUserInfo.profile.name,
+                photoURL: response.additionalUserInfo.profile.picture,
+            };
+            sessionStorage.setItem('accessToken', accessToken);
+            sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
+            dispatch({
+                type: 'SIGNIN_WITH_GOOGLE',
+                payload: {
+                    accessToken,
+                    userProfile,
+                },
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const signOut = async () => {
+        try {
+            auth.signOut();
+            sessionStorage.clear();
+            dispatch({ type: 'SIGNOUT_WITH_GOOGLE' });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <AppContext.Provider
             value={{
@@ -263,6 +316,8 @@ const AppProvider = ({ children }) => {
                 fetchCommentsOfVideoById,
                 fetchRelatedVideos,
                 fetchChannelDetails,
+                signInWithGoogle,
+                signOut,
             }}
         >
             {children}
