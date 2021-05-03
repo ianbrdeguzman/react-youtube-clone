@@ -6,6 +6,7 @@ import ChannelVideos from '../components/ChannelVideos';
 import ChannelPlaylist from '../components/ChannelPlaylist';
 import ChannelAbout from '../components/ChannelAbout';
 import numeral from 'numeral';
+import SkeletonChannel from '../components/skeletons/SkeletonChannel';
 
 const ChannelPage = () => {
     const [selected, setSelected] = useState('VIDEOS');
@@ -86,7 +87,7 @@ const ChannelPage = () => {
                     )}
                 </>
             ) : (
-                <h1>Loading...</h1>
+                <SkeletonChannel />
             )}
         </div>
     );

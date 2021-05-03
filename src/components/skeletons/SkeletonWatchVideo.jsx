@@ -6,7 +6,7 @@ const SkeletonWatchVideo = () => {
     return (
         <div className={styles.skeleton}>
             <SkeletonTheme color='#343a40' highlightColor='#3c4147'>
-                <div className={styles.skeleton__video}>
+                <div>
                     <Skeleton height='100%' />
                 </div>
                 <div>
