@@ -17,6 +17,8 @@ const ChannelPage = () => {
         isLoading,
         channelVideos,
         fetchVideosByChannel,
+        fetchChannelSubscriptionStatus,
+        channelSubscriptionStatus,
     } = useContext(AppContext);
 
     const nav = ['VIDEOS', 'PLAYLIST', 'ABOUT'];
@@ -32,6 +34,7 @@ const ChannelPage = () => {
     useEffect(() => {
         fetchChannelDetails(channelId);
         fetchVideosByChannel(channelId);
+        fetchChannelSubscriptionStatus(channelId);
     }, []);
 
     return (
@@ -55,7 +58,13 @@ const ChannelPage = () => {
                                 subsribers
                             </p>
                         </div>
-                        <button onClick={handleSubscribe}>SUBSCRIBE</button>
+                        {channelSubscriptionStatus ? (
+                            <button disabled className={styles.disabled}>
+                                SUBSCRIBED
+                            </button>
+                        ) : (
+                            <button onClick={handleSubscribe}>SUBSCRIBE</button>
+                        )}
                     </div>
                     <ul className={styles.channel__nav}>
                         {nav.map((list, index) => {

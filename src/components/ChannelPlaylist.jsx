@@ -9,8 +9,6 @@ const ChannelPlaylist = () => {
     const { channelId } = useParams();
     const [playlistVideos, setPlaylistVideos] = useState([]);
 
-    console.log(channelId);
-
     useEffect(() => {
         const fetchPlaylistVideos = async (id) => {
             try {
@@ -31,6 +29,10 @@ const ChannelPlaylist = () => {
         if (channelId) fetchPlaylistVideos(channelId);
     }, [channelId]);
 
+    const handleOnClick = () => {
+        alert('Not yet implemented...');
+        console.log('go to watch page...');
+    };
     return (
         <div className={styles.channel__playlist}>
             {playlistVideos?.map((video) => {
@@ -47,6 +49,7 @@ const ChannelPlaylist = () => {
                     <div
                         className={styles.channel__playlist__item}
                         key={video.id}
+                        onClick={handleOnClick}
                     >
                         <div>
                             <img src={url} alt={title} />

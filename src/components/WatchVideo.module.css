@@ -77,6 +77,10 @@
     background-color: #cc0000;
     border-radius: 3px;
 }
+.watch__video__moreinfo button.disabled {
+    color: #aaaaaa;
+    background-color: #303030;
+}
 .watch__video__container div:nth-child(4) {
     margin: 1rem;
     color: #ffffff;

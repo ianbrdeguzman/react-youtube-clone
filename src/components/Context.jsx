@@ -28,6 +28,7 @@ const defaultState = {
         : null,
     channelDetails: '',
     channelVideos: [],
+    channelSubscriptionStatus: false,
 };
 
 const reducer = (state, action) => {
@@ -109,6 +110,12 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 channelVideos: action.payload,
+            };
+
+        case 'SET_CHANNEL_SUBSCRIPTION_STATUS':
+            return {
+                ...state,
+                channelSubscriptionStatus: action.payload,
             };
         default:
             throw new Error('No action type found');
@@ -311,6 +318,27 @@ const AppProvider = ({ children }) => {
         }
     };
 
+    const fetchChannelSubscriptionStatus = async (channelId) => {
+        try {
+            const { data } = await request('/subscriptions', {
+                params: {
+                    part: 'snippet',
+                    forChannelId: channelId,
+                    mine: true,
+                },
+                headers: {
+                    Authorization: `Bearer ${state.accessToken}`,
+                },
+            });
+            dispatch({
+                type: 'SET_CHANNEL_SUBSCRIPTION_STATUS',
+                payload: data.items.length !== 0,
+            });
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    };
+
     const fetchVideosByChannel = async (channelId) => {
         try {
             const {
@@ -393,6 +421,7 @@ const AppProvider = ({ children }) => {
                 signOut,
                 addCommentToVideo,
                 fetchVideosByChannel,
+                fetchChannelSubscriptionStatus,
             }}
         >
             {children}

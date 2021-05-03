@@ -41,6 +41,10 @@
     background-color: #cc0000;
     border-radius: 3px;
 }
+.channel__header button.disabled {
+    color: #aaaaaa;
+    background-color: #303030;
+}
 .channel__nav {
     list-style: none;
     display: flex;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './WatchVideo.module.css';
 import Comments from './Comments';
 import ShowMore from 'react-show-more';
@@ -7,8 +7,14 @@ import numeral from 'numeral';
 import moment from 'moment';
 import request from './axios';
 import { useHistory } from 'react-router-dom';
+import { AppContext } from './context';
 
 const WatchVideo = ({ video, id }) => {
+    const {
+        fetchChannelSubscriptionStatus,
+        channelSubscriptionStatus,
+    } = useContext(AppContext);
+
     const {
         snippet: { channelId, channelTitle, description, publishedAt, title },
         statistics: { commentCount, dislikeCount, likeCount, viewCount },
@@ -37,11 +43,19 @@ const WatchVideo = ({ video, id }) => {
                 console.error(error.message);
             }
         };
-        if (channelId) fetchChannelDetails(channelId);
+        if (channelId) {
+            fetchChannelDetails(channelId);
+            fetchChannelSubscriptionStatus(channelId);
+        }
     }, [channelId]);
 
-    const handleOnClick = () => {
+    const handleChannelOnClick = () => {
         history.push(`/channel/${channelId}`);
+    };
+
+    const handleSubcribeOnClick = () => {
+        alert('Not yet implemented...');
+        console.log('subscribe to channel...');
     };
 
     return (
@@ -78,13 +92,21 @@ const WatchVideo = ({ video, id }) => {
                 <div className={styles.watch__video__moreinfo}>
                     <img src={channelIcon} alt={channelTitle} />
                     <div>
-                        <h4 onClick={handleOnClick}>{channelTitle}</h4>
+                        <h4 onClick={handleChannelOnClick}>{channelTitle}</h4>
                         <p>
                             {numeral(subscriberCount).format('0.0a')}{' '}
                             subscribers
                         </p>
                     </div>
-                    <button>SUBSCRIBE</button>
+                    {channelSubscriptionStatus ? (
+                        <button disabled className={styles.disabled}>
+                            SUBSCRIBED
+                        </button>
+                    ) : (
+                        <button onClick={handleSubcribeOnClick}>
+                            SUBSCRIBE
+                        </button>
+                    )}
                 </div>
                 <ShowMore
                     lines={2}

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './SearchVideo.module.css';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import numeral from 'numeral';
 import request from './axios';
+import { AppContext } from './context';
 
 const SearchVideo = ({ video }) => {
     const [channelIcon, setChannelIcon] = useState('');
@@ -128,7 +129,6 @@ const SearchVideo = ({ video }) => {
                 )}
                 <p>{description}</p>
             </div>
-            {!isVideo && <button>SUBSCRIBE</button>}
         </article>
     );
 };
