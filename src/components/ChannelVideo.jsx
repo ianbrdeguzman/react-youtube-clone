@@ -3,6 +3,7 @@ import styles from './ChannelVideo.module.css';
 import moment from 'moment';
 import numeral from 'numeral';
 import request from './axios';
+import { useHistory } from 'react-router-dom';
 
 const ChannelVideo = ({ video }) => {
     const [duration, setDuration] = useState('');
@@ -18,6 +19,8 @@ const ChannelVideo = ({ video }) => {
             title,
         },
     } = video;
+
+    const history = useHistory();
 
     const seconds = moment.duration(duration).asSeconds();
     const formatDuration = moment.utc(seconds * 1000).format('mm:ss');
@@ -38,8 +41,17 @@ const ChannelVideo = ({ video }) => {
         };
         if (videoId) fetchVideoDetails(videoId);
     }, [videoId]);
+
+    const handleOnClick = () => {
+        history.push(`/watch/${videoId}`);
+    };
+
     return (
-        <div className={styles.channel__videos__item} key={videoId}>
+        <div
+            className={styles.channel__videos__item}
+            key={videoId}
+            onClick={handleOnClick}
+        >
             <div>
                 <img src={url} alt={title} />
                 <span>{formatDuration}</span>

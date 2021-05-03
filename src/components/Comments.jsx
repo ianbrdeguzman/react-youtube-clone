@@ -21,6 +21,7 @@ const Comments = ({ commentCount, id }) => {
         e.preventDefault();
         if (comment.length === 0) return;
         accessToken ? addCommentToVideo(id, comment) : signInWithGoogle();
+        setComment('');
     };
 
     const fetchMoreComments = () => {

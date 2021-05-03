@@ -1,9 +1,10 @@
 import axios from 'axios';
+require('dotenv').config();
 
 const request = axios.create({
     baseURL: 'https://youtube.googleapis.com/youtube/v3/',
     params: {
-        key: 'AIzaSyBb9eDxertD0lV-gxR0x7wbdK58bWcN28Y', // from consolecloud
+        key: process.env.REACT_APP_YT_API_KEY,
     },
 });
 

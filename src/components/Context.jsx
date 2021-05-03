@@ -261,7 +261,7 @@ const AppProvider = ({ children }) => {
                 },
             });
 
-            setTimeout(fetchCommentsOfVideoById(id), 3000);
+            setTimeout(() => fetchCommentsOfVideoById(id), 5000);
         } catch (error) {
             console.log(error.response.data);
         }
@@ -313,7 +313,6 @@ const AppProvider = ({ children }) => {
 
     const fetchVideosByChannel = async (channelId) => {
         try {
-            // 1. get upload playlist id
             const {
                 data: { items },
             } = await request('/channels', {
@@ -325,7 +324,6 @@ const AppProvider = ({ children }) => {
             const uploadPlaylistId =
                 items[0].contentDetails.relatedPlaylists.uploads;
 
-            // 2. get the videos using the id
             const { data } = await request('/playlistItems', {
                 params: {
                     part: 'snippet,contentDetails',

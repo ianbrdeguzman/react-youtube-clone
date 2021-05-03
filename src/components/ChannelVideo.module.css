@@ -1,4 +1,5 @@
 .channel__videos__item {
+    cursor: pointer;
     width: 100%;
     justify-self: center;
 }
