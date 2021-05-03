@@ -6,6 +6,7 @@ import { MdThumbUp, MdThumbDown } from 'react-icons/md';
 import numeral from 'numeral';
 import moment from 'moment';
 import request from './axios';
+import { useHistory } from 'react-router-dom';
 
 const WatchVideo = ({ video, id }) => {
     const {
@@ -15,6 +16,8 @@ const WatchVideo = ({ video, id }) => {
 
     const [channelIcon, setChannelIcon] = useState('');
     const [subscriberCount, setSubscriberCount] = useState('');
+
+    const history = useHistory();
 
     useEffect(() => {
         console.log('fetching channel details...');
@@ -36,6 +39,10 @@ const WatchVideo = ({ video, id }) => {
         };
         if (channelId) fetchChannelDetails(channelId);
     }, [channelId]);
+
+    const handleOnClick = () => {
+        history.push(`/channel/${channelId}`);
+    };
 
     return (
         <>
@@ -71,7 +78,7 @@ const WatchVideo = ({ video, id }) => {
                 <div className={styles.watch__video__moreinfo}>
                     <img src={channelIcon} alt={channelTitle} />
                     <div>
-                        <h4>{channelTitle}</h4>
+                        <h4 onClick={handleOnClick}>{channelTitle}</h4>
                         <p>
                             {numeral(subscriberCount).format('0.0a')}{' '}
                             subscribers

@@ -61,6 +61,9 @@
     color: #aaaaaa;
     font-size: 14px;
 }
+.watch__video__moreinfo > div h4 {
+    cursor: pointer;
+}
 .watch__video__moreinfo button {
     align-self: center;
     cursor: pointer;

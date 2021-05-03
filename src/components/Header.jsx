@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { AppContext } from './Context';
+import { AppContext } from './context';
 import styles from './Header.module.css';
 import { FaUserCircle } from 'react-icons/fa';
 import {

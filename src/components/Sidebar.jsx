@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from './Context';
+import { AppContext } from './context';
 import { AiFillHome } from 'react-icons/ai';
 import {
     MdExplore,

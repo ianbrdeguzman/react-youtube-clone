@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import request from './axios';
 import firebase from 'firebase/app';
 import auth from '../firebase';
+import axios from 'axios';
 
 const AppContext = createContext();
 
@@ -19,10 +20,14 @@ const defaultState = {
     commentNextPageToken: '',
     relatedVideos: [],
     relatedVideosNextPageToken: '',
-    accessToken: sessionStorage.getItem('accessToken') || '',
+    accessToken: sessionStorage.getItem('accessToken')
+        ? sessionStorage.getItem('accessToken')
+        : null,
     userProfile: sessionStorage.getItem('userProfile')
         ? JSON.parse(sessionStorage.getItem('userProfile'))
-        : '',
+        : null,
+    channelDetails: '',
+    channelVideos: [],
 };
 
 const reducer = (state, action) => {
@@ -68,7 +73,6 @@ const reducer = (state, action) => {
                         ? [...state.commentList, ...action.payload.commentList]
                         : action.payload.commentList,
                 commentNextPageToken: action.payload.commentNextPageToken,
-                // isLoading: false,
             };
         case 'SET_RELATED_VIDEOS':
             return {
@@ -82,7 +86,6 @@ const reducer = (state, action) => {
                         : action.payload.relatedVideos,
                 relatedVideosNextPageToken:
                     action.payload.relatedVideosNextPageToken,
-                // isLoading: false,
             };
         case 'SIGNIN_WITH_GOOGLE':
             return {
@@ -95,6 +98,17 @@ const reducer = (state, action) => {
                 ...state,
                 accessToken: null,
                 userProfile: null,
+            };
+        case 'SET_CHANNEL_DETAILS':
+            return {
+                ...state,
+                channelDetails: action.payload,
+                isLoading: false,
+            };
+        case 'SET_VIDEOS_BY_CHANNEL':
+            return {
+                ...state,
+                channelVideos: action.payload,
             };
         default:
             throw new Error('No action type found');
@@ -225,6 +239,34 @@ const AppProvider = ({ children }) => {
         }
     };
 
+    const addCommentToVideo = async (id, comment) => {
+        try {
+            const obj = {
+                snippet: {
+                    videoId: id,
+                    topLevelComment: {
+                        snippet: {
+                            textOriginal: comment,
+                        },
+                    },
+                },
+            };
+            console.log(state.accessToken);
+            await request.post('/commentThreads', obj, {
+                params: {
+                    part: 'snippet',
+                },
+                headers: {
+                    Authorization: `Bearer ${state.accessToken}`,
+                },
+            });
+
+            setTimeout(fetchCommentsOfVideoById(id), 3000);
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    };
+
     const fetchRelatedVideos = async (id, categoryId) => {
         console.log('fetching related videos...');
         try {
@@ -253,20 +295,52 @@ const AppProvider = ({ children }) => {
 
     const fetchChannelDetails = async (channelId) => {
         console.log('fetching channel details...');
-        // try {
-        //     const { data } = await request('/channels', {
-        //         params: {
-        //             part: 'snippet,statistics,contentDetails',
-        //             id: channelId,
-        //         },
-        //     });
-        //     dispatch({
-        //         type: 'SET_CHANNEL_DETAILS',
-        //         payload: data.items[0],
-        //     });
-        // } catch (error) {
-        //     console.log(error.response.data);
-        // }
+        try {
+            const { data } = await request('/channels', {
+                params: {
+                    part: 'snippet,statistics,contentDetails',
+                    id: channelId,
+                },
+            });
+            dispatch({
+                type: 'SET_CHANNEL_DETAILS',
+                payload: data.items[0],
+            });
+        } catch (error) {
+            console.log(error.response.data);
+        }
+    };
+
+    const fetchVideosByChannel = async (channelId) => {
+        try {
+            // 1. get upload playlist id
+            const {
+                data: { items },
+            } = await request('/channels', {
+                params: {
+                    part: 'contentDetails',
+                    id: channelId,
+                },
+            });
+            const uploadPlaylistId =
+                items[0].contentDetails.relatedPlaylists.uploads;
+
+            // 2. get the videos using the id
+            const { data } = await request('/playlistItems', {
+                params: {
+                    part: 'snippet,contentDetails',
+                    playlistId: uploadPlaylistId,
+                    maxResults: 20,
+                },
+            });
+
+            dispatch({
+                type: 'SET_VIDEOS_BY_CHANNEL',
+                payload: data.items,
+            });
+        } catch (error) {
+            console.log(error.response.data.message);
+        }
     };
 
     const signInWithGoogle = async () => {
@@ -297,7 +371,8 @@ const AppProvider = ({ children }) => {
     const signOut = async () => {
         try {
             auth.signOut();
-            sessionStorage.clear();
+            sessionStorage.removeItem('accessToken');
+            sessionStorage.removeItem('userProfile');
             dispatch({ type: 'SIGNOUT_WITH_GOOGLE' });
         } catch (error) {
             console.log(error);
@@ -318,6 +393,8 @@ const AppProvider = ({ children }) => {
                 fetchChannelDetails,
                 signInWithGoogle,
                 signOut,
+                addCommentToVideo,
+                fetchVideosByChannel,
             }}
         >
             {children}

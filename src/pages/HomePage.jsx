@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../components/Context';
+import { AppContext } from '../components/context';
 import styles from './HomePage.module.css';
 import HomeVideo from '../components/HomeVideo';
 import CategoriesBar from '../components/CategoriesBar';

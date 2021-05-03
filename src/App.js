@@ -7,7 +7,7 @@ import WatchPage from './pages/WatchPage';
 import ChannelPage from './pages/ChannelPage';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { AppContext } from './components/Context';
+import { AppContext } from './components/context';
 
 function App() {
     const { isMenuOpen } = useContext(AppContext);

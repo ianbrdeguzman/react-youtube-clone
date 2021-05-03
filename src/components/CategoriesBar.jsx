@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styles from './CategoriesBar.module.css';
-import { AppContext } from './Context';
+import { AppContext } from './context';
 
 const categories = [
     'All',

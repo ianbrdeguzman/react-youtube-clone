@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../components/Context';
+import { AppContext } from '../components/context';
 import styles from './WatchPage.module.css';
 import WatchVideo from '../components/WatchVideo';
 import RelatedVideos from '../components/RelatedVideos';

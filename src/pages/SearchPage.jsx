@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../components/Context';
+import { AppContext } from '../components/context';
 import styles from './SearchPage.module.css';
 import SearchVideo from '../components/SearchVideo';
 import SearchSkeletonVideo from '../components/skeletons/SearchSkeletonVideo';

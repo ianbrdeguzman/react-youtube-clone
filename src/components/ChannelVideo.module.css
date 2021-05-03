@@ -1,0 +1,28 @@
+.channel__videos__item {
+    width: 100%;
+    justify-self: center;
+}
+.channel__videos__item div {
+    position: relative;
+}
+.channel__videos__item div img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.channel__videos__item div span {
+    color: #ffffff;
+    font-size: 12px;
+    padding: 0.2rem;
+    background-color: #000000;
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+}
+.channel__videos__item h4 {
+    margin: 0.5rem 0;
+}
+.channel__videos__item p {
+    font-size: 14px;
+    color: #aaaaaa;
+}
