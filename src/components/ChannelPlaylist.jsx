@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styles from './ChannelPlaylist.module.css';
 import { useParams } from 'react-router-dom';
 import { MdPlaylistPlay } from 'react-icons/md';
-import { v4 as uuidv4 } from 'uuid';
 import request from './axios';
 
 const ChannelPlaylist = () => {

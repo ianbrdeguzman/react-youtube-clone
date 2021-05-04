@@ -1,0 +1,59 @@
+.subscription__channel {
+    cursor: pointer;
+    margin: 2rem 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.subscription__channel img {
+    width: 136px;
+    height: 136px;
+    border-radius: 50%;
+}
+.subscription__channel div {
+    margin: 1rem 0;
+}
+.subscription__channel div h4 {
+    font-size: 18px;
+    margin: 0.5rem 0;
+}
+.subscription__channel div p {
+    font-size: 12px;
+    color: #aaaaaa;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.subscription__channel button {
+    align-self: center;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    color: #aaaaaa;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    border: none;
+    outline: none;
+    background-color: #303030;
+    border-radius: 3px;
+}
+@media (min-width: 960px) {
+    .subscription__channel {
+        flex-direction: row;
+        text-align: left;
+    }
+    .subscription__channel img {
+        margin-right: 4rem;
+    }
+    .subscription__channel div {
+        margin: 0 1rem 0 0;
+    }
+}
+@media (min-width: 1260px) {
+    .subscription__channel img {
+        margin-right: 8rem;
+    }
+}

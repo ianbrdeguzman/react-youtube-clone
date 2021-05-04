@@ -131,7 +131,6 @@ const AppProvider = ({ children }) => {
 
     const fetchPopularVideos = async () => {
         if (!state.nextPageToken) dispatch({ type: 'SET_ISLOADING' });
-        console.log('fetching popular videos...');
         try {
             const { data } = await request('/videos', {
                 params: {
@@ -156,7 +155,6 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchVideosByCategory = async (keyword) => {
-        console.log('fetching videos by category...');
         try {
             const { data } = await request('/search', {
                 params: {
@@ -181,7 +179,6 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchVideosBySearch = async (keyword) => {
-        console.log('fetching videos by search...');
         dispatch({ type: 'SET_ISLOADING' });
         try {
             const { data } = await request('/search', {
@@ -202,7 +199,6 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchVideoById = async (id) => {
-        console.log('fetching videos by id...');
         dispatch({ type: 'SET_ISLOADING' });
         try {
             const { data } = await request('/videos', {
@@ -225,7 +221,6 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchCommentsOfVideoById = async (id) => {
-        console.log('fetching comments by id...');
         try {
             const { data } = await request('/commentThreads', {
                 params: {
@@ -274,7 +269,6 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchRelatedVideos = async (id, categoryId) => {
-        console.log('fetching related videos...');
         try {
             const { data } = await request('/search', {
                 params: {
@@ -300,7 +294,6 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchChannelDetails = async (channelId) => {
-        console.log('fetching channel details...');
         try {
             const { data } = await request('/channels', {
                 params: {
@@ -335,6 +328,25 @@ const AppProvider = ({ children }) => {
             });
         } catch (error) {
             console.log(error.response.data);
+        }
+    };
+
+    const fetchSubscribedChannels = async () => {
+        console.log(state.accessToken);
+        try {
+            const { data } = await request('/subscriptions', {
+                params: {
+                    part: 'snippet,contentDetails',
+                    mine: true,
+                },
+                headers: {
+                    Authorization: `Bearer ${state.accessToken}`,
+                },
+            });
+
+            console.log(data);
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -450,6 +462,7 @@ const AppProvider = ({ children }) => {
                 fetchVideosByChannel,
                 fetchChannelSubscriptionStatus,
                 subscribeToChannel,
+                fetchSubscribedChannels,
             }}
         >
             {children}

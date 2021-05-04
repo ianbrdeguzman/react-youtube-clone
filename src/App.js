@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import WatchPage from './pages/WatchPage';
 import ChannelPage from './pages/ChannelPage';
+import SubscriptionsPage from './pages/SubscriptionsPage';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { AppContext } from './components/context';
@@ -26,6 +27,11 @@ function App() {
                             path='/channel/:channelId'
                             component={ChannelPage}
                         />
+                        <Route
+                            path='/feed/subscriptions'
+                            component={SubscriptionsPage}
+                        />
+                        <Route path='/*' component={HomePage} />
                     </Switch>
                 </div>
             </Router>

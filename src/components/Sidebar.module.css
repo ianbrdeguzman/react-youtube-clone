@@ -8,7 +8,7 @@
 .nav ul {
     list-style: none;
 }
-.nav ul li a {
+.nav ul li {
     cursor: pointer;
     height: 40px;
     color: #ffffff;
@@ -20,13 +20,13 @@
 .nav ul li:hover {
     background-color: #383838;
 }
-.nav ul li a svg {
+.nav ul li svg {
     display: flex;
     align-items: center;
     color: #909090;
     font-size: 1.2rem;
 }
-.nav ul li a p {
+.nav ul li p {
     margin-left: 2rem;
     font-size: 0.9rem;
 }

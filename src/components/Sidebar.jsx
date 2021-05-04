@@ -1,36 +1,46 @@
 import React, { useContext } from 'react';
 import { AppContext } from './context';
-import { AiFillHome } from 'react-icons/ai';
-import {
-    MdExplore,
-    MdSubscriptions,
-    MdVideoLibrary,
-    MdHistory,
-    MdOndemandVideo,
-    MdWatchLater,
-    MdThumbUp,
-} from 'react-icons/md';
+import { AiFillHome, AiFillGithub } from 'react-icons/ai';
+import { MdSubscriptions, MdThumbUp } from 'react-icons/md';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import styles from './Sidebar.module.css';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const list = [
-    { title: 'Home', icon: <AiFillHome />, path: '/' },
-    { title: 'Explore', icon: <MdExplore />, path: `'/'` },
-    { title: 'Subscriptions', icon: <MdSubscriptions />, path: '/' },
-    { title: 'Library', icon: <MdVideoLibrary />, path: '/' },
-    { title: 'History', icon: <MdHistory />, path: '/' },
-    { title: 'Your videos', icon: <MdOndemandVideo />, path: '/' },
-    { title: 'Watch later', icon: <MdWatchLater />, path: '/' },
-    { title: 'Liked videos', icon: <MdThumbUp />, path: '/' },
-    { title: 'Sign out', icon: <RiLogoutBoxRLine />, path: '/' },
+    { title: 'Home', icon: <AiFillHome /> },
+    { title: 'Subscriptions', icon: <MdSubscriptions /> },
+    { title: 'Liked videos', icon: <MdThumbUp /> },
+    { title: 'Github', icon: <AiFillGithub /> },
+    { title: 'Sign out', icon: <RiLogoutBoxRLine /> },
 ];
 
 const Sidebar = () => {
-    const { isMenuOpen, signOut } = useContext(AppContext);
+    const { isMenuOpen, signOut, accessToken, signInWithGoogle } = useContext(
+        AppContext
+    );
+
+    const history = useHistory();
 
     const handleOnClick = (title) => {
-        if (title === 'Sign out') signOut();
+        switch (title) {
+            case 'Home':
+                history.push('/');
+                break;
+            case 'Subscriptions':
+                accessToken
+                    ? history.push('/feed/subscriptions')
+                    : signInWithGoogle();
+                break;
+            case 'Github':
+                window.location.href = 'https://github.com/ianbrdeguzman';
+                break;
+            case 'Sign out':
+                signOut();
+                history.push('/');
+                break;
+            default:
+                break;
+        }
     };
 
     return (
@@ -40,16 +50,11 @@ const Sidebar = () => {
             }
         >
             <ul>
-                {list.map(({ title, icon, path }) => {
+                {list.map(({ title, icon }) => {
                     return (
-                        <li key={title}>
-                            <Link
-                                to={path}
-                                onClick={() => handleOnClick(title)}
-                            >
-                                {icon}
-                                <p>{title}</p>
-                            </Link>
+                        <li key={title} onClick={() => handleOnClick(title)}>
+                            {icon}
+                            <p>{title}</p>
                         </li>
                     );
                 })}
