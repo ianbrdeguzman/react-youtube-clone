@@ -90,6 +90,10 @@
     background-color: #cc0000;
     border-radius: 3px;
 }
+.search__channel button.disabled {
+    color: #aaaaaa;
+    background-color: #303030;
+}
 .search__channel__header {
     margin: 1rem;
     width: 100vw;

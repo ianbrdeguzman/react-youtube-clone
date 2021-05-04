@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import numeral from 'numeral';
 import request from './axios';
-import { AppContext } from './context';
+import SearchVideoButton from './SearchVideoButton';
 
 const SearchVideo = ({ video }) => {
     const [channelIcon, setChannelIcon] = useState('');
@@ -75,18 +75,15 @@ const SearchVideo = ({ video }) => {
         fetchChannelDetails(channelId);
     }, [channelId]);
 
-    const handleOnClick = (clickedItem) => {
-        !isVideo && clickedItem !== 'SUBSCRIBE'
+    const handleOnClick = () => {
+        !isVideo
             ? history.push(`/channel/${channelId}`)
-            : clickedItem === 'SUBSCRIBE'
-            ? console.log('go to subscribe page...')
             : history.push(`/watch/${videoId}`);
     };
 
     return (
         <article
             className={isVideo ? styles.search__video : styles.search__channel}
-            onClick={(e) => handleOnClick(e.target.innerHTML)}
         >
             <div
                 className={
@@ -94,6 +91,7 @@ const SearchVideo = ({ video }) => {
                         ? styles.search__video__header
                         : styles.search__channel__header
                 }
+                onClick={handleOnClick}
             >
                 <img src={url} alt={title} />
                 {isVideo && <span>{formatDuration}</span>}
@@ -104,6 +102,7 @@ const SearchVideo = ({ video }) => {
                         ? styles.search__video__info
                         : styles.search__channel__info
                 }
+                onClick={handleOnClick}
             >
                 <h4>{title}</h4>
                 {isVideo ? (
@@ -129,6 +128,7 @@ const SearchVideo = ({ video }) => {
                 )}
                 <p>{description}</p>
             </div>
+            {!isVideo && <SearchVideoButton channelId={channelId} />}
         </article>
     );
 };

@@ -19,6 +19,9 @@ const ChannelPage = () => {
         fetchVideosByChannel,
         fetchChannelSubscriptionStatus,
         channelSubscriptionStatus,
+        subscribeToChannel,
+        accessToken,
+        signInWithGoogle,
     } = useContext(AppContext);
 
     const nav = ['VIDEOS', 'PLAYLIST', 'ABOUT'];
@@ -28,7 +31,7 @@ const ChannelPage = () => {
     };
 
     const handleSubscribe = () => {
-        console.log('subscribe...');
+        accessToken ? subscribeToChannel(channelId) : signInWithGoogle();
     };
 
     useEffect(() => {

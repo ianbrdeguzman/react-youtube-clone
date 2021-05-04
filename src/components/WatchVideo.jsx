@@ -13,6 +13,9 @@ const WatchVideo = ({ video, id }) => {
     const {
         fetchChannelSubscriptionStatus,
         channelSubscriptionStatus,
+        subscribeToChannel,
+        accessToken,
+        signInWithGoogle,
     } = useContext(AppContext);
 
     const {
@@ -54,8 +57,7 @@ const WatchVideo = ({ video, id }) => {
     };
 
     const handleSubcribeOnClick = () => {
-        alert('Not yet implemented...');
-        console.log('subscribe to channel...');
+        accessToken ? subscribeToChannel(channelId) : signInWithGoogle();
     };
 
     return (

@@ -39,7 +39,7 @@ const SearchPage = () => {
                             : searchedVideos?.map((video) => {
                                   return (
                                       <SearchVideo
-                                          key={video.id.videoId}
+                                          key={uuidv4()}
                                           video={video}
                                       />
                                   );

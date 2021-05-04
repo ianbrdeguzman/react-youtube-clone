@@ -151,7 +151,7 @@ const AppProvider = ({ children }) => {
                 },
             });
         } catch (error) {
-            console.log(error.message);
+            console.log(error);
         }
     };
 
@@ -258,7 +258,6 @@ const AppProvider = ({ children }) => {
                     },
                 },
             };
-            console.log(state.accessToken);
             await request.post('/commentThreads', obj, {
                 params: {
                     part: 'snippet',
@@ -369,6 +368,34 @@ const AppProvider = ({ children }) => {
         }
     };
 
+    const subscribeToChannel = async (channelId) => {
+        try {
+            const obj = {
+                snippet: {
+                    resourceId: {
+                        kind: 'youtube#channel',
+                        channelId: channelId,
+                    },
+                },
+            };
+
+            await request.post('/subscriptions', obj, {
+                params: {
+                    part: 'snippet',
+                },
+                headers: {
+                    Authorization: `Bearer ${state.accessToken}`,
+                },
+            });
+
+            setTimeout(() => {
+                fetchChannelSubscriptionStatus(channelId);
+            }, 3000);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const signInWithGoogle = async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope('https://www.googleapis.com/auth/youtube.force-ssl');
@@ -422,6 +449,7 @@ const AppProvider = ({ children }) => {
                 addCommentToVideo,
                 fetchVideosByChannel,
                 fetchChannelSubscriptionStatus,
+                subscribeToChannel,
             }}
         >
             {children}
