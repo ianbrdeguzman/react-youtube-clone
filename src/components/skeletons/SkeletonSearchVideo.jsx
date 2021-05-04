@@ -1,8 +1,8 @@
 import React from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import styles from './SearchSkeletonVideo.module.css';
+import styles from './SkeletonSearchVideo.module.css';
 
-const SearchSkeletonVideo = () => {
+const SkeletonSearchVideo = () => {
     return (
         <div className={styles.skeleton}>
             <SkeletonTheme color='#343a40' highlightColor='#3c4147'>
@@ -41,4 +41,4 @@ const SearchSkeletonVideo = () => {
     );
 };
 
-export default SearchSkeletonVideo;
+export default SkeletonSearchVideo;

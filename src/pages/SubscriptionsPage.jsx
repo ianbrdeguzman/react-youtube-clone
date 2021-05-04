@@ -2,20 +2,25 @@ import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../components/context';
 import styles from './SubscriptionsPage.module.css';
 import SubscriptionsVideo from '../components/SubscriptionsVideo';
+import SkeletonSubscriptions from '../components/skeletons/SkeletonSubscriptions';
 
 const SubscriptionsPage = () => {
-    const { fetchSubscribedChannels } = useContext(AppContext);
+    const { fetchSubscribedChannels, isLoading } = useContext(AppContext);
 
-    // useEffect(() => {
-    //     fetchSubscribedChannels();
-    // }, []);
+    useEffect(() => {
+        fetchSubscribedChannels();
+    }, []);
 
     return (
         <div className={styles.subscription__container}>
             <div className={styles.subcription__content}>
-                {[...new Array(20)].map((item, index) => {
-                    return <SubscriptionsVideo key={index} />;
-                })}
+                {isLoading ? (
+                    [...new Array(20)].map((item, index) => {
+                        return <SubscriptionsVideo key={index} />;
+                    })
+                ) : (
+                    <SkeletonSubscriptions />
+                )}
             </div>
         </div>
     );

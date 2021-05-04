@@ -29,6 +29,7 @@ const defaultState = {
     channelDetails: '',
     channelVideos: [],
     channelSubscriptionStatus: false,
+    subscribedChannels: [],
 };
 
 const reducer = (state, action) => {
@@ -116,6 +117,12 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 channelSubscriptionStatus: action.payload,
+            };
+        case 'SET_SUBSCRIBED_CHANNELS':
+            return {
+                ...state,
+                subscribedChannels: action.payload,
+                isLoading: false,
             };
         default:
             throw new Error('No action type found');
@@ -332,7 +339,6 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchSubscribedChannels = async () => {
-        console.log(state.accessToken);
         try {
             const { data } = await request('/subscriptions', {
                 params: {
@@ -343,8 +349,8 @@ const AppProvider = ({ children }) => {
                     Authorization: `Bearer ${state.accessToken}`,
                 },
             });
-
             console.log(data);
+            // dispatch({ type: 'SET_SUBSCRIBED_CHANNELS', payload: data });
         } catch (error) {
             console.log(error);
         }

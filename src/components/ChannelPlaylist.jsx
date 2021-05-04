@@ -30,7 +30,6 @@ const ChannelPlaylist = () => {
 
     const handleOnClick = () => {
         alert('Not yet implemented...');
-        console.log('go to watch page...');
     };
     return (
         <div className={styles.channel__playlist}>

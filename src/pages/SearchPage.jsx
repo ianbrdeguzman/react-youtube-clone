@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../components/context';
 import styles from './SearchPage.module.css';
 import SearchVideo from '../components/SearchVideo';
-import SearchSkeletonVideo from '../components/skeletons/SearchSkeletonVideo';
+import SkeletonSearchVideo from '../components/skeletons/SkeletonSearchVideo';
 import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
@@ -34,7 +34,7 @@ const SearchPage = () => {
                     <div>
                         {isLoading
                             ? [...new Array(20)].map(() => {
-                                  return <SearchSkeletonVideo key={uuidv4()} />;
+                                  return <SkeletonSearchVideo key={uuidv4()} />;
                               })
                             : searchedVideos?.map((video) => {
                                   return (
