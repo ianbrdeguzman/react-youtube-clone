@@ -22,6 +22,7 @@ const ChannelPage = () => {
         subscribeToChannel,
         accessToken,
         signInWithGoogle,
+        clearSubscribedStatus,
     } = useContext(AppContext);
 
     const nav = ['VIDEOS', 'PLAYLIST', 'ABOUT'];
@@ -38,6 +39,9 @@ const ChannelPage = () => {
         fetchChannelDetails(channelId);
         fetchVideosByChannel(channelId);
         fetchChannelSubscriptionStatus(channelId);
+        return () => {
+            clearSubscribedStatus();
+        };
     }, []);
 
     return (

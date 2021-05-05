@@ -29,7 +29,6 @@ const WatchVideo = ({ video, id }) => {
     const history = useHistory();
 
     useEffect(() => {
-        console.log('fetching channel details...');
         const fetchChannelDetails = async (id) => {
             try {
                 const {
@@ -58,6 +57,10 @@ const WatchVideo = ({ video, id }) => {
 
     const handleSubcribeOnClick = () => {
         accessToken ? subscribeToChannel(channelId) : signInWithGoogle();
+    };
+
+    const handleUnsubscribeOnClick = () => {
+        alert('Not yet implemented...');
     };
 
     return (
@@ -101,7 +104,10 @@ const WatchVideo = ({ video, id }) => {
                         </p>
                     </div>
                     {channelSubscriptionStatus ? (
-                        <button disabled className={styles.disabled}>
+                        <button
+                            className={styles.disabled}
+                            onClick={handleUnsubscribeOnClick}
+                        >
                             SUBSCRIBED
                         </button>
                     ) : (

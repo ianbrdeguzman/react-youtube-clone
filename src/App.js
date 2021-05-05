@@ -6,6 +6,7 @@ import SearchPage from './pages/SearchPage';
 import WatchPage from './pages/WatchPage';
 import ChannelPage from './pages/ChannelPage';
 import SubscriptionsPage from './pages/SubscriptionsPage';
+import LikedPage from './pages/LikedPage';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { AppContext } from './components/context';
@@ -31,6 +32,7 @@ function App() {
                             path='/feed/subscriptions'
                             component={SubscriptionsPage}
                         />
+                        <Route path='/feed/liked' component={LikedPage} />
                         <Route path='/*' component={HomePage} />
                     </Switch>
                 </div>

@@ -22,7 +22,6 @@ const SubscriptionsVideo = ({ channel }) => {
     const history = useHistory();
 
     const handleOnChannelClick = () => {
-        console.log('go to channel page');
         history.push(`/channel/${channelId}`);
     };
 

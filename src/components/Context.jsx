@@ -138,6 +138,11 @@ const reducer = (state, action) => {
                 subscribedChannels: [],
                 subscribedChannelsNextPageToken: '',
             };
+        case 'CLEAR_SUBSCRIBED_STATUS':
+            return {
+                ...state,
+                channelSubscriptionStatus: false,
+            };
         default:
             throw new Error('No action type found');
     }
@@ -383,6 +388,10 @@ const AppProvider = ({ children }) => {
         dispatch({ type: 'CLEAR_SUBSCRIBED_CHANNELS' });
     };
 
+    const clearSubscribedStatus = () => {
+        dispatch({ type: 'CLEAR_SUBSCRIBED_STATUS' });
+    };
+
     const fetchVideosByChannel = async (channelId) => {
         try {
             const {
@@ -497,6 +506,7 @@ const AppProvider = ({ children }) => {
                 subscribeToChannel,
                 fetchSubscribedChannels,
                 clearSubscribedChannels,
+                clearSubscribedStatus,
             }}
         >
             {children}

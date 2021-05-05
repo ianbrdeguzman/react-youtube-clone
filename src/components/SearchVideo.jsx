@@ -37,7 +37,6 @@ const SearchVideo = ({ video }) => {
     const history = useHistory();
 
     useEffect(() => {
-        console.log('fetching video details...');
         const fetchVideoDetails = async () => {
             const {
                 data: { items },
