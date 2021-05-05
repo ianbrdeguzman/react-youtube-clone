@@ -1,0 +1,12 @@
+.likedpage__container {
+    width: 100%;
+    padding: 1rem;
+    min-height: calc(100vh - 56px);
+    color: #ffffff;
+    background-color: #0f0f0f;
+}
+.likedpage__content {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+}

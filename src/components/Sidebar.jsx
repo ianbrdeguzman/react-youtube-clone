@@ -31,6 +31,9 @@ const Sidebar = () => {
                     ? history.push('/feed/subscriptions')
                     : signInWithGoogle();
                 break;
+            case 'Liked videos':
+                accessToken ? history.push('/feed/liked') : signInWithGoogle();
+                break;
             case 'Github':
                 window.location.href = 'https://github.com/ianbrdeguzman';
                 break;

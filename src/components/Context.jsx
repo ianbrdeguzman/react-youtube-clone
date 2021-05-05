@@ -31,6 +31,8 @@ const defaultState = {
     channelSubscriptionStatus: false,
     subscribedChannels: [],
     subscribedChannelsNextPageToken: '',
+    likedVideos: [],
+    likedVideosNextPageToken: '',
 };
 
 const reducer = (state, action) => {
@@ -142,6 +144,21 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 channelSubscriptionStatus: false,
+            };
+        case 'SET_LIKED_VIDEOS':
+            return {
+                ...state,
+                likedVideos:
+                    state.accessToken === action.payload.accessToken
+                        ? [...state.likedVideos, ...action.payload.likedVideos]
+                        : action.payload.likedVideos,
+                likedVideosNextPageToken: action.payload.nextPageToken,
+                isLoading: false,
+            };
+        case 'CLEAR_LIKED_VIDEOS':
+            return {
+                ...state,
+                likedVideos: [],
             };
         default:
             throw new Error('No action type found');
@@ -358,6 +375,7 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchSubscribedChannels = async () => {
+        dispatch({ type: 'SET_ISLOADING' });
         try {
             const { data } = await request('/subscriptions', {
                 params: {
@@ -390,6 +408,38 @@ const AppProvider = ({ children }) => {
 
     const clearSubscribedStatus = () => {
         dispatch({ type: 'CLEAR_SUBSCRIBED_STATUS' });
+    };
+
+    const clearLikedVideos = () => {
+        dispatch({ type: 'CLEAR_LIKED_VIDEOS' });
+    };
+
+    const fetchLikedVideos = async () => {
+        dispatch({ type: 'SET_ISLOADING' });
+        try {
+            const { data } = await request('/videos?', {
+                params: {
+                    part: 'snippet,contentDetails,statistics',
+                    maxResults: 20,
+                    myRating: 'like',
+                    pageToken: state.likedVideosNextPageToken,
+                },
+                headers: {
+                    Authorization: `Bearer ${state.accessToken}`,
+                },
+            });
+
+            dispatch({
+                type: 'SET_LIKED_VIDEOS',
+                payload: {
+                    likedVideos: data.items,
+                    nextPageToken: data.nextPageToken,
+                    accessToken: state.accessToken,
+                },
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const fetchVideosByChannel = async (channelId) => {
@@ -456,6 +506,7 @@ const AppProvider = ({ children }) => {
 
         try {
             const response = await auth.signInWithPopup(provider);
+            console.log(response);
             const accessToken = response.credential.accessToken;
             const userProfile = {
                 name: response.additionalUserInfo.profile.name,
@@ -507,6 +558,8 @@ const AppProvider = ({ children }) => {
                 fetchSubscribedChannels,
                 clearSubscribedChannels,
                 clearSubscribedStatus,
+                fetchLikedVideos,
+                clearLikedVideos,
             }}
         >
             {children}
