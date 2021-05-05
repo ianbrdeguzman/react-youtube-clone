@@ -1,35 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './SubscriptionsVideo.module.css';
+import { useHistory } from 'react-router-dom';
+import request from './axios';
+import numeral from 'numeral';
 
-const SubscriptionsVideo = () => {
+const SubscriptionsVideo = ({ channel }) => {
+    const [subscriberCount, setSubscriberCount] = useState('');
+    const [videoCount, setVideoCount] = useState('');
+
+    const {
+        snippet: {
+            resourceId: { channelId },
+            description,
+            thumbnails: {
+                medium: { url },
+            },
+            title,
+        },
+    } = channel;
+
+    const history = useHistory();
+
     const handleOnChannelClick = () => {
         console.log('go to channel page');
+        history.push(`/channel/${channelId}`);
     };
 
-    const handleOnSubscribeClick = () => {
-        console.log('subscribe...');
+    const handleUnsubscribeClick = () => {
+        alert('Not yet implemented');
     };
+
+    useEffect(() => {
+        const fetchChannelDetails = async (id) => {
+            try {
+                const {
+                    data: { items },
+                } = await request('/channels', {
+                    params: {
+                        part: 'snippet,statistics',
+                        id: id,
+                    },
+                });
+                setSubscriberCount(items[0].statistics.subscriberCount);
+                setVideoCount(items[0].statistics.videoCount);
+            } catch (error) {
+                console.error(error.message);
+            }
+        };
+        fetchChannelDetails(channelId);
+    }, [channelId]);
+
     return (
         <div className={styles.subscription__channel}>
-            <img
-                src='https://yt3.ggpht.com/ytc/AAUvwnhuAGr98acrEv0S1Q3Ikz0giWPmHmM1J3h6pANWCg=s176-c-k-c0x00ffffff-no-rj-mo'
-                alt=''
-                onClick={handleOnChannelClick}
-            />
+            <img src={url} alt={title} onClick={handleOnChannelClick} />
             <div onClick={handleOnChannelClick}>
-                <h4>Channel Title</h4>
-                <p>665K subscribers • 613 videos</p>
+                <h4>{title}</h4>
                 <p>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Earum iste iusto accusamus sint quidem tenetur, magni
-                    dolores! Ipsa laboriosam dolorum reiciendis esse laudantium
-                    incidunt, officiis architecto voluptatum! Non labore neque
-                    reiciendis nesciunt debitis asperiores dicta eos natus ex
-                    sint molestiae possimus unde ducimus, similique enim quaerat
-                    corrupti, officiis rerum amet.
+                    {numeral(subscriberCount).format('0.0a')}
+                    {' subscribers • '}
+                    {numeral(videoCount).format('0,0')} videos
                 </p>
+                <p>{description}</p>
             </div>
-            <button onClick={handleOnSubscribeClick}>SUBSCRIBED</button>
+            <button onClick={handleUnsubscribeClick}>SUBSCRIBED</button>
         </div>
     );
 };

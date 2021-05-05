@@ -54,7 +54,6 @@ const SearchVideo = ({ video }) => {
     }, [videoId]);
 
     useEffect(() => {
-        console.log('fetching channel details...');
         const fetchChannelDetails = async (id) => {
             try {
                 const {

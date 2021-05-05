@@ -26,7 +26,6 @@ const ChannelVideo = ({ video }) => {
     const formatDuration = moment.utc(seconds * 1000).format('mm:ss');
 
     useEffect(() => {
-        console.log('fetching video details...');
         const fetchVideoDetails = async (id) => {
             const {
                 data: { items },

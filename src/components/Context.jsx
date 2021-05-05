@@ -30,6 +30,7 @@ const defaultState = {
     channelVideos: [],
     channelSubscriptionStatus: false,
     subscribedChannels: [],
+    subscribedChannelsNextPageToken: '',
 };
 
 const reducer = (state, action) => {
@@ -121,8 +122,21 @@ const reducer = (state, action) => {
         case 'SET_SUBSCRIBED_CHANNELS':
             return {
                 ...state,
-                subscribedChannels: action.payload,
+                subscribedChannels:
+                    state.accessToken === action.payload.accessToken
+                        ? [
+                              ...state.subscribedChannels,
+                              ...action.payload.channels,
+                          ]
+                        : action.payload.channels,
+                subscribedChannelsNextPageToken: action.payload.nextPageToken,
                 isLoading: false,
+            };
+        case 'CLEAR_SUBSCRIBED_CHANNELS':
+            return {
+                ...state,
+                subscribedChannels: [],
+                subscribedChannelsNextPageToken: '',
             };
         default:
             throw new Error('No action type found');
@@ -343,17 +357,30 @@ const AppProvider = ({ children }) => {
             const { data } = await request('/subscriptions', {
                 params: {
                     part: 'snippet,contentDetails',
+                    maxResults: 6,
                     mine: true,
+                    pageToken: state.subscribedChannelsNextPageToken,
                 },
                 headers: {
                     Authorization: `Bearer ${state.accessToken}`,
                 },
             });
-            console.log(data);
-            // dispatch({ type: 'SET_SUBSCRIBED_CHANNELS', payload: data });
+
+            dispatch({
+                type: 'SET_SUBSCRIBED_CHANNELS',
+                payload: {
+                    channels: data.items,
+                    nextPageToken: data.nextPageToken,
+                    accessToken: state.accessToken,
+                },
+            });
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const clearSubscribedChannels = () => {
+        dispatch({ type: 'CLEAR_SUBSCRIBED_CHANNELS' });
     };
 
     const fetchVideosByChannel = async (channelId) => {
@@ -469,6 +496,7 @@ const AppProvider = ({ children }) => {
                 fetchChannelSubscriptionStatus,
                 subscribeToChannel,
                 fetchSubscribedChannels,
+                clearSubscribedChannels,
             }}
         >
             {children}
