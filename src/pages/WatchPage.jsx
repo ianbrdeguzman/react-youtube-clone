@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../components/context';
-import styles from './WatchPage.module.css';
+import styles from './styles/WatchPage.module.css';
 import WatchVideo from '../components/WatchVideo';
 import RelatedVideos from '../components/RelatedVideos';
 import { useParams } from 'react-router-dom';

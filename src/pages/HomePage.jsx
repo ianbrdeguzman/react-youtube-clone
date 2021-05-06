@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../components/context';
-import styles from './HomePage.module.css';
+import styles from './styles/HomePage.module.css';
 import HomeVideo from '../components/HomeVideo';
 import CategoriesBar from '../components/CategoriesBar';
 import InfiniteScroll from 'react-infinite-scroll-component';

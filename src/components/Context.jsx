@@ -310,6 +310,42 @@ const AppProvider = ({ children }) => {
         }
     };
 
+    const likeAVideo = async (videoId) => {
+        try {
+            const response = await request.post('/rate', {
+                params: {
+                    id: videoId,
+                    rating: 'like',
+                },
+                headers: {
+                    Authorization: `Bearer ${state.accessToken}`,
+                },
+            });
+
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const dislikeAVideo = async (videoId) => {
+        try {
+            const response = await request.post('/rate', {
+                params: {
+                    id: videoId,
+                    rating: 'dislike',
+                },
+                headers: {
+                    Authorization: `Bearer ${state.accessToken}`,
+                },
+            });
+
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const fetchRelatedVideos = async (id, categoryId) => {
         try {
             const { data } = await request('/search', {
@@ -570,6 +606,8 @@ const AppProvider = ({ children }) => {
                 clearCommentList,
                 clearRelatedVideos,
                 clearHomeVideos,
+                likeAVideo,
+                dislikeAVideo,
             }}
         >
             {children}

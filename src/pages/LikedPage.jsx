@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import styles from './LikedPage.module.css';
+import styles from './styles/LikedPage.module.css';
 import LikedVideo from '../components/LikedVideo';
 import { AppContext } from '../components/context';
 import SkeletonLikedVideo from '../components/skeletons/SkeletonLikedVideo';

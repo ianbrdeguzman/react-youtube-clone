@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styles from './ChannelPage.module.css';
+import styles from './styles/ChannelPage.module.css';
 import { useParams } from 'react-router-dom';
 import { AppContext } from '../components/context';
 import ChannelVideos from '../components/ChannelVideos';
@@ -38,7 +38,7 @@ const ChannelPage = () => {
     useEffect(() => {
         fetchChannelDetails(channelId);
         fetchVideosByChannel(channelId);
-        fetchChannelSubscriptionStatus(channelId);
+        if (accessToken) fetchChannelSubscriptionStatus(channelId);
         return () => {
             clearSubscribedStatus();
         };

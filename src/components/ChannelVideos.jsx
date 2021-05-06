@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './ChannelVideos.module.css';
+import styles from './styles/ChannelVideos.module.css';
 import ChannelVideo from './ChannelVideo';
 
 const ChannelVideos = ({ channelVideos }) => {

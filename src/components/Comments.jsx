@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from './Comments.module.css';
+import styles from './styles/Comments.module.css';
 import numeral from 'numeral';
 import { FaUserCircle } from 'react-icons/fa';
 import { AppContext } from './context';
@@ -10,7 +10,6 @@ const Comments = ({ commentCount, id }) => {
     const {
         fetchCommentsOfVideoById,
         commentList,
-        commentListNextPageToken,
         signInWithGoogle,
         addCommentToVideo,
         accessToken,

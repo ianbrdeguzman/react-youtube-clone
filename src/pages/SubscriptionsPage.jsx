@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../components/context';
-import styles from './SubscriptionsPage.module.css';
+import styles from './styles/SubscriptionsPage.module.css';
 import SubscriptionsVideo from '../components/SubscriptionsVideo';
 import SkeletonSubscriptions from '../components/skeletons/SkeletonSubscriptions';
 import InfiniteScroll from 'react-infinite-scroll-component';

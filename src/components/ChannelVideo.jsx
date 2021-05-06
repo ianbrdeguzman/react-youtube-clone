@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './ChannelVideo.module.css';
+import styles from './styles/ChannelVideo.module.css';
 import moment from 'moment';
 import numeral from 'numeral';
 import request from './axios';

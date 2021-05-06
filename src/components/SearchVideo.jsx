@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './SearchVideo.module.css';
+import styles from './styles/SearchVideo.module.css';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import numeral from 'numeral';

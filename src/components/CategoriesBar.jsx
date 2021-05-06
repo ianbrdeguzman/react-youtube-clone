@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import styles from './CategoriesBar.module.css';
+import styles from './styles/CategoriesBar.module.css';
 import { AppContext } from './context';
 
 const categories = [

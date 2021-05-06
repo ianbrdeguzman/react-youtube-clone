@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './SubscriptionsVideo.module.css';
+import styles from './styles/SubscriptionsVideo.module.css';
 import { useHistory } from 'react-router-dom';
 import request from './axios';
 import numeral from 'numeral';

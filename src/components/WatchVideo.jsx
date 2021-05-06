@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import styles from './WatchVideo.module.css';
+import styles from './styles/WatchVideo.module.css';
 import Comments from './Comments';
 import ShowMore from 'react-show-more';
 import { MdThumbUp, MdThumbDown } from 'react-icons/md';
@@ -16,6 +16,8 @@ const WatchVideo = ({ video, id }) => {
         subscribeToChannel,
         accessToken,
         signInWithGoogle,
+        likeAVideo,
+        dislikeAVideo,
     } = useContext(AppContext);
 
     const {
@@ -63,6 +65,14 @@ const WatchVideo = ({ video, id }) => {
         alert('Not yet implemented...');
     };
 
+    const handleLikeOnClick = () => {
+        accessToken ? likeAVideo(id) : signInWithGoogle();
+    };
+
+    const handleDislikeOnClick = () => {
+        accessToken ? dislikeAVideo(id) : signInWithGoogle();
+    };
+
     return (
         <>
             <div className={styles.watch__video__container}>
@@ -85,11 +95,11 @@ const WatchVideo = ({ video, id }) => {
                     </p>
                     <div>
                         <h4>
-                            <MdThumbUp />{' '}
+                            <MdThumbUp onClick={handleLikeOnClick} />{' '}
                             <span>{numeral(likeCount).format('0a')}</span>
                         </h4>
                         <h4>
-                            <MdThumbDown />{' '}
+                            <MdThumbDown onClick={handleDislikeOnClick} />{' '}
                             <span>{numeral(dislikeCount).format('0a')}</span>
                         </h4>
                     </div>

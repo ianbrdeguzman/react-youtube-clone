@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from './context';
-import styles from './RelatedVideos.module.css';
+import styles from './styles/RelatedVideos.module.css';
 import RelatedVideo from './RelatedVideo';
 import InfiniteScroll from 'react-infinite-scroll-component';
 

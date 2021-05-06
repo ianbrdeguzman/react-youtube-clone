@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './RelatedVideo.module.css';
+import styles from './styles/RelatedVideo.module.css';
 import moment from 'moment';
 import numeral from 'numeral';
 import request from './axios';

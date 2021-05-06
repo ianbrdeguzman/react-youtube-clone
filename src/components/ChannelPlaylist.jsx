@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from './ChannelPlaylist.module.css';
+import styles from './styles/ChannelPlaylist.module.css';
 import { useParams } from 'react-router-dom';
 import { MdPlaylistPlay } from 'react-icons/md';
 import request from './axios';

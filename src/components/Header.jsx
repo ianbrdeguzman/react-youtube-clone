@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { AppContext } from './context';
-import styles from './Header.module.css';
+import styles from './styles/Header.module.css';
 import { FaUserCircle } from 'react-icons/fa';
 import {
     MdMenu,

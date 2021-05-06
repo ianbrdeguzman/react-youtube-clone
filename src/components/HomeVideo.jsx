@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from './HomeVideo.module.css';
+import styles from './styles/HomeVideo.module.css';
 import numeral from 'numeral';
 import moment from 'moment';
 import request from './axios';
