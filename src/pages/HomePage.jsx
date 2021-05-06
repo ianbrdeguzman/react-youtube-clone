@@ -14,6 +14,7 @@ const HomePage = () => {
         activeCategory,
         fetchPopularVideos,
         fetchVideosByCategory,
+        clearHomeVideos,
     } = useContext(AppContext);
 
     const fetchMore = () => {
@@ -27,6 +28,9 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchPopularVideos();
+        return () => {
+            clearHomeVideos();
+        };
     }, []);
 
     return (

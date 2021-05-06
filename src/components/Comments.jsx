@@ -14,6 +14,7 @@ const Comments = ({ commentCount, id }) => {
         signInWithGoogle,
         addCommentToVideo,
         accessToken,
+        clearCommentList,
     } = useContext(AppContext);
 
     const [comment, setComment] = useState('');
@@ -30,8 +31,19 @@ const Comments = ({ commentCount, id }) => {
         // if (commentListNextPageToken) fetchCommentsOfVideoById(id);
     };
 
+    const filteredCommentList = Array.from(
+        new Set(commentList?.map((comment) => comment.id))
+    ).map((id) => {
+        return {
+            comment: commentList.find((comment) => comment.id === id),
+        };
+    });
+
     useEffect(() => {
         fetchCommentsOfVideoById(id);
+        return () => {
+            clearCommentList();
+        };
     }, [id]);
 
     return (
@@ -58,7 +70,7 @@ const Comments = ({ commentCount, id }) => {
                     next={fetchMoreComments}
                     hasMore={true}
                 >
-                    {commentList?.map((comment) => {
+                    {filteredCommentList?.map(({ comment }) => {
                         return <Comment comment={comment} key={comment.id} />;
                     })}
                 </InfiniteScroll>

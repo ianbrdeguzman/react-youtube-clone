@@ -21,10 +21,11 @@ const Header = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (input.length === 0) return;
         history.push(`/search/${input}`);
     };
 
-    const handleOnClick = () => {
+    const handleSignInOnClick = () => {
         signInWithGoogle();
     };
 
@@ -51,14 +52,10 @@ const Header = () => {
                 </button>
             </form>
             <div className={styles.header__icons}>
-                <MdVideoCall />
-                <MdApps />
-                <MdNotifications />
-
                 {userProfile ? (
                     <img src={userProfile?.photoURL} alt='avatar' />
                 ) : (
-                    <FaUserCircle onClick={handleOnClick} />
+                    <FaUserCircle onClick={handleSignInOnClick} />
                 )}
             </div>
         </header>

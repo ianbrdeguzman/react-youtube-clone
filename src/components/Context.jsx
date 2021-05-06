@@ -2,7 +2,6 @@ import React, { createContext, useReducer } from 'react';
 import request from './axios';
 import firebase from 'firebase/app';
 import auth from '../firebase';
-import axios from 'axios';
 
 const AppContext = createContext();
 
@@ -17,9 +16,7 @@ const defaultState = {
     watchVideoId: '',
     categoryId: '',
     commentList: [],
-    commentListNextPageToken: '',
     relatedVideos: [],
-    relatedVideosNextPageToken: '',
     accessToken: sessionStorage.getItem('accessToken')
         ? sessionStorage.getItem('accessToken')
         : null,
@@ -73,24 +70,12 @@ const reducer = (state, action) => {
         case 'SET_COMMENT_LIST':
             return {
                 ...state,
-                commentList:
-                    state.watchVideoId === action.payload.videoId
-                        ? [...state.commentList, ...action.payload.commentList]
-                        : action.payload.commentList,
-                commentListNextPageToken: action.payload.nextPageToken,
+                commentList: action.payload,
             };
         case 'SET_RELATED_VIDEOS':
             return {
                 ...state,
-                relatedVideos:
-                    state.watchVideoId === action.payload.relatedVideoId
-                        ? [
-                              ...state.relatedVideos,
-                              ...action.payload.relatedVideos,
-                          ]
-                        : action.payload.relatedVideos,
-                relatedVideosNextPageToken:
-                    action.payload.relatedVideosNextPageToken,
+                relatedVideos: action.payload,
             };
         case 'SIGNIN_WITH_GOOGLE':
             return {
@@ -165,6 +150,18 @@ const reducer = (state, action) => {
                 ...state,
                 commentList: [],
                 commentListNextPageToken: '',
+            };
+        case 'CLEAR_RELATED_VIDEOS':
+            return {
+                ...state,
+                relatedVideos: [],
+                relatedVideosNextPageToken: '',
+            };
+        case 'CLEAR_HOME_VIDEOS':
+            return {
+                ...state,
+                popularVideos: [],
+                nextPageToken: '',
             };
         default:
             throw new Error('No action type found');
@@ -275,16 +272,11 @@ const AppProvider = ({ children }) => {
                 params: {
                     part: 'snippet',
                     videoId: id,
-                    pageToken: state.commentListNextPageToken,
                 },
             });
             dispatch({
                 type: 'SET_COMMENT_LIST',
-                payload: {
-                    commentList: data.items,
-                    nextPageToken: data.nextPageToken,
-                    videoId: data.items[0].snippet.videoId,
-                },
+                payload: data.items,
             });
         } catch (error) {
             console.log(error);
@@ -324,7 +316,7 @@ const AppProvider = ({ children }) => {
                 params: {
                     part: 'snippet',
                     relatedToVideoId: id,
-                    maxResults: 10,
+                    maxResults: 20,
                     type: 'video',
                     videoCategoryId: categoryId || state.categoryId,
                     pageToken: state.relatedVideosNextPageToken,
@@ -332,11 +324,7 @@ const AppProvider = ({ children }) => {
             });
             dispatch({
                 type: 'SET_RELATED_VIDEOS',
-                payload: {
-                    relatedVideos: data.items,
-                    relatedVideosNextPageToken: data.nextPageToken,
-                    relatedVideoId: id,
-                },
+                payload: data.items,
             });
         } catch (error) {
             console.log(error);
@@ -423,6 +411,14 @@ const AppProvider = ({ children }) => {
 
     const clearCommentList = () => {
         dispatch({ type: 'CLEAR_COMMENTS_LIST' });
+    };
+
+    const clearRelatedVideos = () => {
+        dispatch({ type: 'CLEAR_RELATED_VIDEOS' });
+    };
+
+    const clearHomeVideos = () => {
+        dispatch({ type: 'CLEAR_HOME_VIDEOS' });
     };
 
     const fetchLikedVideos = async () => {
@@ -572,6 +568,8 @@ const AppProvider = ({ children }) => {
                 fetchLikedVideos,
                 clearLikedVideos,
                 clearCommentList,
+                clearRelatedVideos,
+                clearHomeVideos,
             }}
         >
             {children}

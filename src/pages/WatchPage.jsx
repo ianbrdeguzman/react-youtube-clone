@@ -15,14 +15,12 @@ const WatchPage = () => {
         isLoading,
         categoryId,
         clearSubscribedStatus,
-        clearCommentsList,
     } = useContext(AppContext);
 
     useEffect(() => {
         fetchVideoById(id);
         return () => {
             clearSubscribedStatus();
-            clearCommentsList();
         };
     }, [id]);
 
