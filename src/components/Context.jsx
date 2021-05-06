@@ -17,7 +17,7 @@ const defaultState = {
     watchVideoId: '',
     categoryId: '',
     commentList: [],
-    commentNextPageToken: '',
+    commentListNextPageToken: '',
     relatedVideos: [],
     relatedVideosNextPageToken: '',
     accessToken: sessionStorage.getItem('accessToken')
@@ -74,10 +74,10 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 commentList:
-                    state.watchVideoId === action.payload.watchVideoId
+                    state.watchVideoId === action.payload.videoId
                         ? [...state.commentList, ...action.payload.commentList]
                         : action.payload.commentList,
-                commentNextPageToken: action.payload.commentNextPageToken,
+                commentListNextPageToken: action.payload.nextPageToken,
             };
         case 'SET_RELATED_VIDEOS':
             return {
@@ -159,6 +159,12 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 likedVideos: [],
+            };
+        case 'CLEAR_COMMENTS_LIST':
+            return {
+                ...state,
+                commentList: [],
+                commentListNextPageToken: '',
             };
         default:
             throw new Error('No action type found');
@@ -269,18 +275,19 @@ const AppProvider = ({ children }) => {
                 params: {
                     part: 'snippet',
                     videoId: id,
-                    pageToken: state.commentNextPageToken,
+                    pageToken: state.commentListNextPageToken,
                 },
             });
             dispatch({
                 type: 'SET_COMMENT_LIST',
                 payload: {
                     commentList: data.items,
-                    commentNextPageToken: data.nextPageToken,
+                    nextPageToken: data.nextPageToken,
+                    videoId: data.items[0].snippet.videoId,
                 },
             });
         } catch (error) {
-            console.log(error.response.data.error.message);
+            console.log(error);
         }
     };
 
@@ -412,6 +419,10 @@ const AppProvider = ({ children }) => {
 
     const clearLikedVideos = () => {
         dispatch({ type: 'CLEAR_LIKED_VIDEOS' });
+    };
+
+    const clearCommentList = () => {
+        dispatch({ type: 'CLEAR_COMMENTS_LIST' });
     };
 
     const fetchLikedVideos = async () => {
@@ -560,6 +571,7 @@ const AppProvider = ({ children }) => {
                 clearSubscribedStatus,
                 fetchLikedVideos,
                 clearLikedVideos,
+                clearCommentList,
             }}
         >
             {children}

@@ -47,7 +47,7 @@ const WatchVideo = ({ video, id }) => {
         };
         if (channelId) {
             fetchChannelDetails(channelId);
-            fetchChannelSubscriptionStatus(channelId);
+            if (accessToken) fetchChannelSubscriptionStatus(channelId);
         }
     }, [channelId]);
 

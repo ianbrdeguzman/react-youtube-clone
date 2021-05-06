@@ -10,6 +10,7 @@ const Comments = ({ commentCount, id }) => {
     const {
         fetchCommentsOfVideoById,
         commentList,
+        commentListNextPageToken,
         signInWithGoogle,
         addCommentToVideo,
         accessToken,
@@ -26,7 +27,7 @@ const Comments = ({ commentCount, id }) => {
 
     const fetchMoreComments = () => {
         console.log('uncomment to fetch more comments...');
-        // fetchCommentsOfVideoById(id);
+        // if (commentListNextPageToken) fetchCommentsOfVideoById(id);
     };
 
     useEffect(() => {
@@ -57,7 +58,7 @@ const Comments = ({ commentCount, id }) => {
                     next={fetchMoreComments}
                     hasMore={true}
                 >
-                    {commentList.map((comment) => {
+                    {commentList?.map((comment) => {
                         return <Comment comment={comment} key={comment.id} />;
                     })}
                 </InfiniteScroll>
