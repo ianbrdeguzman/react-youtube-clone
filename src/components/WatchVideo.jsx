@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styles from './styles/WatchVideo.module.css';
-import Comments from './Comments';
+import CommentList from './CommentList';
 import ShowMore from 'react-show-more';
 import { MdThumbUp, MdThumbDown } from 'react-icons/md';
 import numeral from 'numeral';
 import moment from 'moment';
-import request from './axios';
+import request from './shared/axios';
 import { useHistory } from 'react-router-dom';
-import { AppContext } from './context';
+import { AppContext } from './shared/context';
 
 const WatchVideo = ({ video, id }) => {
     const {
@@ -136,7 +136,7 @@ const WatchVideo = ({ video, id }) => {
                     <p>{description}</p>
                 </ShowMore>
             </div>
-            <Comments id={id} commentCount={commentCount} />
+            <CommentList id={id} commentCount={commentCount} />
         </>
     );
 };

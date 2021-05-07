@@ -3,7 +3,7 @@ import styles from './styles/SearchVideo.module.css';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import numeral from 'numeral';
-import request from './axios';
+import request from './shared/axios';
 import SearchVideoButton from './SearchVideoButton';
 
 const SearchVideo = ({ video }) => {

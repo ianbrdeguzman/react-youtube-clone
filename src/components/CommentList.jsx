@@ -2,11 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import styles from './styles/Comments.module.css';
 import numeral from 'numeral';
 import { FaUserCircle } from 'react-icons/fa';
-import { AppContext } from './context';
+import { AppContext } from './shared/context';
 import Comment from './Comment';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
-const Comments = ({ commentCount, id }) => {
+const CommentList = ({ commentCount, id }) => {
     const {
         fetchCommentsOfVideoById,
         commentList,
@@ -23,11 +22,6 @@ const Comments = ({ commentCount, id }) => {
         if (comment.length === 0) return;
         accessToken ? addCommentToVideo(id, comment) : signInWithGoogle();
         setComment('');
-    };
-
-    const fetchMoreComments = () => {
-        console.log('uncomment to fetch more comments...');
-        // if (commentListNextPageToken) fetchCommentsOfVideoById(id);
     };
 
     const filteredCommentList = Array.from(
@@ -64,18 +58,12 @@ const Comments = ({ commentCount, id }) => {
                 </form>
             </div>
             <div>
-                <InfiniteScroll
-                    dataLength={commentList?.length}
-                    next={fetchMoreComments}
-                    hasMore={true}
-                >
-                    {filteredCommentList?.map(({ comment }) => {
-                        return <Comment comment={comment} key={comment.id} />;
-                    })}
-                </InfiniteScroll>
+                {filteredCommentList?.map(({ comment }) => {
+                    return <Comment comment={comment} key={comment.id} />;
+                })}
             </div>
         </div>
     );
 };
 
-export default Comments;
+export default CommentList;

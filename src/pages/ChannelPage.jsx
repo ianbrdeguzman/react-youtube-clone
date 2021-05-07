@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './styles/ChannelPage.module.css';
 import { useParams } from 'react-router-dom';
-import { AppContext } from '../components/context';
-import ChannelVideos from '../components/ChannelVideos';
+import { AppContext } from '../components/shared/context';
+import ChannelVideoList from '../components/ChannelVideoList';
 import ChannelPlaylist from '../components/ChannelPlaylist';
 import ChannelAbout from '../components/ChannelAbout';
 import numeral from 'numeral';
@@ -91,7 +91,7 @@ const ChannelPage = () => {
                         })}
                     </ul>
                     {selected === 'VIDEOS' ? (
-                        <ChannelVideos channelVideos={channelVideos} />
+                        <ChannelVideoList channelVideos={channelVideos} />
                     ) : selected === 'PLAYLIST' ? (
                         <ChannelPlaylist channelId={channelId} />
                     ) : (

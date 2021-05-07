@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from './context';
+import { AppContext } from './shared/context';
 import { AiFillHome, AiFillGithub } from 'react-icons/ai';
 import { MdSubscriptions, MdThumbUp } from 'react-icons/md';
 import { RiLogoutBoxRLine } from 'react-icons/ri';

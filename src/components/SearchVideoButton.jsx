@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppContext } from './context';
+import { AppContext } from './shared/context';
 import styles from './styles/SearchVideoButton.module.css';
 
 const SearchVideoButton = ({ channelId }) => {

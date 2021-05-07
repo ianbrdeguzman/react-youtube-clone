@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../components/context';
+import { AppContext } from '../components/shared/context';
 import styles from './styles/SubscriptionsPage.module.css';
 import SubscriptionsVideo from '../components/SubscriptionsVideo';
 import SkeletonSubscriptions from '../components/skeletons/SkeletonSubscriptions';

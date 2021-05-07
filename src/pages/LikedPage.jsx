@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styles from './styles/LikedPage.module.css';
 import LikedVideo from '../components/LikedVideo';
-import { AppContext } from '../components/context';
+import { AppContext } from '../components/shared/context';
 import SkeletonLikedVideo from '../components/skeletons/SkeletonLikedVideo';
 import InfiniteScroll from 'react-infinite-scroll-component';
 

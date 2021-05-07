@@ -9,7 +9,7 @@ import SubscriptionsPage from './pages/SubscriptionsPage';
 import LikedPage from './pages/LikedPage';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { AppContext } from './components/context';
+import { AppContext } from './components/shared/context';
 
 function App() {
     const { isMenuOpen } = useContext(AppContext);

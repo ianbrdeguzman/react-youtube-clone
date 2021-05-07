@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles/RelatedVideo.module.css';
 import moment from 'moment';
 import numeral from 'numeral';
-import request from './axios';
+import request from './shared/axios';
 import { useHistory } from 'react-router-dom';
 
 const RelatedVideo = ({ video }) => {

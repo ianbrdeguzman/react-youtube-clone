@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../components/context';
+import { AppContext } from '../components/shared/context';
 import styles from './styles/WatchPage.module.css';
 import WatchVideo from '../components/WatchVideo';
-import RelatedVideos from '../components/RelatedVideos';
+import RelatedVideoList from '../components/RelatedVideoList';
 import { useParams } from 'react-router-dom';
 import SkeletonWatchVideo from '../components/skeletons/SkeletonWatchVideo';
 import SkeletonRelatedVideos from '../components/skeletons/SkeletonRelatedVideos';
@@ -41,7 +41,7 @@ const WatchPage = () => {
             </div>
             <div className={styles.watch__related__container}>
                 {!isLoading ? (
-                    <RelatedVideos id={id} categoryId={categoryId} />
+                    <RelatedVideoList id={id} categoryId={categoryId} />
                 ) : (
                     <SkeletonRelatedVideos />
                 )}
