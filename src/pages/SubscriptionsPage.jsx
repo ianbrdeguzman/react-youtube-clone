@@ -4,7 +4,7 @@ import styles from './styles/SubscriptionsPage.module.css';
 import SubscriptionsVideo from '../components/SubscriptionsVideo';
 import SkeletonSubscriptions from '../components/skeletons/SkeletonSubscriptions';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const SubscriptionsPage = () => {
     const {

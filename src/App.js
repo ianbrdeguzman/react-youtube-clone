@@ -10,12 +10,13 @@ import LikedPage from './pages/LikedPage';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { AppContext } from './components/shared/context';
+import { HelmetProvider } from 'react-helmet-async';
 
 function App() {
     const { isMenuOpen } = useContext(AppContext);
 
     return (
-        <>
+        <HelmetProvider>
             <Router>
                 <Header />
                 <div className={styles.container}>
@@ -37,7 +38,7 @@ function App() {
                     </Switch>
                 </div>
             </Router>
-        </>
+        </HelmetProvider>
     );
 }
 

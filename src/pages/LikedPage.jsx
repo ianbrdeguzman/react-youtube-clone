@@ -4,7 +4,7 @@ import LikedVideo from '../components/LikedVideo';
 import { AppContext } from '../components/shared/context';
 import SkeletonLikedVideo from '../components/skeletons/SkeletonLikedVideo';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const LikedPage = () => {
     const {

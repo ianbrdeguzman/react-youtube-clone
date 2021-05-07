@@ -6,7 +6,7 @@ import CategoriesBar from '../components/CategoriesBar';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SkeletonVideo from '../components/skeletons/SkeletonVideo';
 import { v4 as uuidv4 } from 'uuid';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const HomePage = () => {
     const {

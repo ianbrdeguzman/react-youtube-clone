@@ -8,7 +8,7 @@ import moment from 'moment';
 import request from './shared/axios';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from './shared/context';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const WatchVideo = ({ video, id }) => {
     const {

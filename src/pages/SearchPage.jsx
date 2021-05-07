@@ -6,7 +6,7 @@ import SkeletonSearchVideo from '../components/skeletons/SkeletonSearchVideo';
 import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const SearchPage = () => {
     const { keyword } = useParams();

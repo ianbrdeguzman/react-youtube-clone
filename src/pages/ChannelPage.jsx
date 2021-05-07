@@ -7,7 +7,7 @@ import ChannelPlaylist from '../components/ChannelPlaylist';
 import ChannelAbout from '../components/ChannelAbout';
 import numeral from 'numeral';
 import SkeletonChannel from '../components/skeletons/SkeletonChannel';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const ChannelPage = () => {
     const [selected, setSelected] = useState('VIDEOS');
@@ -48,7 +48,7 @@ const ChannelPage = () => {
     return (
         <>
             <Helmet>
-                <title>{channelDetails?.snippet?.title} | Youtube Clone</title>
+                <title>{`${channelDetails?.snippet?.title}  | Youtube Clone`}</title>
             </Helmet>
             <div className={styles.container}>
                 {!isLoading ? (
