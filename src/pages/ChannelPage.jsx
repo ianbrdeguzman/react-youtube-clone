@@ -7,6 +7,7 @@ import ChannelPlaylist from '../components/ChannelPlaylist';
 import ChannelAbout from '../components/ChannelAbout';
 import numeral from 'numeral';
 import SkeletonChannel from '../components/skeletons/SkeletonChannel';
+import { Helmet } from 'react-helmet';
 
 const ChannelPage = () => {
     const [selected, setSelected] = useState('VIDEOS');
@@ -45,67 +46,81 @@ const ChannelPage = () => {
     }, []);
 
     return (
-        <div className={styles.container}>
-            {!isLoading ? (
-                <>
-                    <div className={styles.channel__header}>
-                        <img
-                            src={
-                                channelDetails?.snippet?.thumbnails?.default
-                                    ?.url
-                            }
-                            alt={channelDetails?.snippet?.title}
-                        />
-                        <div>
-                            <h2>{channelDetails?.snippet?.title}</h2>
-                            <p>
-                                {numeral(
-                                    channelDetails?.statistics?.subscriberCount
-                                ).format('0.0a')}{' '}
-                                subsribers
-                            </p>
+        <>
+            <Helmet>
+                <title>{channelDetails?.snippet?.title} | Youtube Clone</title>
+            </Helmet>
+            <div className={styles.container}>
+                {!isLoading ? (
+                    <>
+                        <div className={styles.channel__header}>
+                            <img
+                                src={
+                                    channelDetails?.snippet?.thumbnails?.default
+                                        ?.url
+                                }
+                                alt={channelDetails?.snippet?.title}
+                            />
+                            <div>
+                                <h2>{channelDetails?.snippet?.title}</h2>
+                                <p>
+                                    {numeral(
+                                        channelDetails?.statistics
+                                            ?.subscriberCount
+                                    ).format('0.0a')}{' '}
+                                    subsribers
+                                </p>
+                            </div>
+                            {channelSubscriptionStatus ? (
+                                <button disabled className={styles.disabled}>
+                                    SUBSCRIBED
+                                </button>
+                            ) : (
+                                <button onClick={handleSubscribe}>
+                                    SUBSCRIBE
+                                </button>
+                            )}
                         </div>
-                        {channelSubscriptionStatus ? (
-                            <button disabled className={styles.disabled}>
-                                SUBSCRIBED
-                            </button>
+                        <ul className={styles.channel__nav}>
+                            {nav.map((list, index) => {
+                                return (
+                                    <li
+                                        key={index}
+                                        onClick={() => handleOnClick(list)}
+                                        className={
+                                            selected === list
+                                                ? styles.selected
+                                                : undefined
+                                        }
+                                    >
+                                        {list}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        {selected === 'VIDEOS' ? (
+                            <ChannelVideoList channelVideos={channelVideos} />
+                        ) : selected === 'PLAYLIST' ? (
+                            <ChannelPlaylist channelId={channelId} />
                         ) : (
-                            <button onClick={handleSubscribe}>SUBSCRIBE</button>
+                            <ChannelAbout
+                                description={
+                                    channelDetails?.snippet?.description
+                                }
+                                publishedAt={
+                                    channelDetails?.snippet?.publishedAt
+                                }
+                                viewCount={
+                                    channelDetails?.statistics?.viewCount
+                                }
+                            />
                         )}
-                    </div>
-                    <ul className={styles.channel__nav}>
-                        {nav.map((list, index) => {
-                            return (
-                                <li
-                                    key={index}
-                                    onClick={() => handleOnClick(list)}
-                                    className={
-                                        selected === list
-                                            ? styles.selected
-                                            : undefined
-                                    }
-                                >
-                                    {list}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                    {selected === 'VIDEOS' ? (
-                        <ChannelVideoList channelVideos={channelVideos} />
-                    ) : selected === 'PLAYLIST' ? (
-                        <ChannelPlaylist channelId={channelId} />
-                    ) : (
-                        <ChannelAbout
-                            description={channelDetails?.snippet?.description}
-                            publishedAt={channelDetails?.snippet?.publishedAt}
-                            viewCount={channelDetails?.statistics?.viewCount}
-                        />
-                    )}
-                </>
-            ) : (
-                <SkeletonChannel />
-            )}
-        </div>
+                    </>
+                ) : (
+                    <SkeletonChannel />
+                )}
+            </div>
+        </>
     );
 };
 

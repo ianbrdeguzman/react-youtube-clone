@@ -6,6 +6,7 @@ import CategoriesBar from '../components/CategoriesBar';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SkeletonVideo from '../components/skeletons/SkeletonVideo';
 import { v4 as uuidv4 } from 'uuid';
+import { Helmet } from 'react-helmet';
 
 const HomePage = () => {
     const {
@@ -34,24 +35,31 @@ const HomePage = () => {
     }, []);
 
     return (
-        <section className={styles.home}>
-            <CategoriesBar />
-            <InfiniteScroll
-                dataLength={popularVideos?.length}
-                next={fetchMore}
-                hasMore={true}
-            >
-                <div className={styles.home__videos}>
-                    {isLoading
-                        ? [...new Array(20)].map(() => {
-                              return <SkeletonVideo key={uuidv4()} />;
-                          })
-                        : popularVideos?.map((video) => {
-                              return <HomeVideo key={video.id} video={video} />;
-                          })}
-                </div>
-            </InfiniteScroll>
-        </section>
+        <>
+            <Helmet>
+                <title>React | Youtube Clone</title>
+            </Helmet>
+            <section className={styles.home}>
+                <CategoriesBar />
+                <InfiniteScroll
+                    dataLength={popularVideos?.length}
+                    next={fetchMore}
+                    hasMore={true}
+                >
+                    <div className={styles.home__videos}>
+                        {isLoading
+                            ? [...new Array(20)].map(() => {
+                                  return <SkeletonVideo key={uuidv4()} />;
+                              })
+                            : popularVideos?.map((video) => {
+                                  return (
+                                      <HomeVideo key={video.id} video={video} />
+                                  );
+                              })}
+                    </div>
+                </InfiniteScroll>
+            </section>
+        </>
     );
 };
 

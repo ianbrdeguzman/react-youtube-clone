@@ -6,6 +6,7 @@ import SkeletonSearchVideo from '../components/skeletons/SkeletonSearchVideo';
 import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
+import { Helmet } from 'react-helmet';
 
 const SearchPage = () => {
     const { keyword } = useParams();
@@ -23,31 +24,38 @@ const SearchPage = () => {
     }, [keyword]);
 
     return (
-        <div className={styles.search}>
-            <div className={styles.search__content}>
-                <div className={styles.search__filter}>FILTER</div>
-                <InfiniteScroll
-                    dataLength={searchedVideos?.length}
-                    next={fetchMoreSearchVideos}
-                    hasMore={true}
-                >
-                    <div>
-                        {isLoading
-                            ? [...new Array(20)].map(() => {
-                                  return <SkeletonSearchVideo key={uuidv4()} />;
-                              })
-                            : searchedVideos?.map((video) => {
-                                  return (
-                                      <SearchVideo
-                                          key={uuidv4()}
-                                          video={video}
-                                      />
-                                  );
-                              })}
-                    </div>
-                </InfiniteScroll>
+        <>
+            <Helmet>
+                <title>{keyword} | Youtube Clone</title>
+            </Helmet>
+            <div className={styles.search}>
+                <div className={styles.search__content}>
+                    <div className={styles.search__filter}>FILTER</div>
+                    <InfiniteScroll
+                        dataLength={searchedVideos?.length}
+                        next={fetchMoreSearchVideos}
+                        hasMore={true}
+                    >
+                        <div>
+                            {isLoading
+                                ? [...new Array(20)].map(() => {
+                                      return (
+                                          <SkeletonSearchVideo key={uuidv4()} />
+                                      );
+                                  })
+                                : searchedVideos?.map((video) => {
+                                      return (
+                                          <SearchVideo
+                                              key={uuidv4()}
+                                              video={video}
+                                          />
+                                      );
+                                  })}
+                        </div>
+                    </InfiniteScroll>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

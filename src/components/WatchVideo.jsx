@@ -8,6 +8,7 @@ import moment from 'moment';
 import request from './shared/axios';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from './shared/context';
+import { Helmet } from 'react-helmet';
 
 const WatchVideo = ({ video, id }) => {
     const {
@@ -75,6 +76,9 @@ const WatchVideo = ({ video, id }) => {
 
     return (
         <>
+            <Helmet>
+                <title>{title} | Youtube Clone</title>
+            </Helmet>
             <div className={styles.watch__video__container}>
                 <div className={styles.watch__video__player}>
                     <iframe

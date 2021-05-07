@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import request from './axios';
 import firebase from 'firebase/app';
 import auth from '../../firebase';
+import reducer from './reducer';
 
 const AppContext = createContext();
 
@@ -32,142 +33,6 @@ const defaultState = {
     likedVideosNextPageToken: '',
 };
 
-const reducer = (state, action) => {
-    switch (action.type) {
-        case 'SET_MENU_TOGGLE':
-            return { ...state, isMenuOpen: !action.payload };
-        case 'SET_ISLOADING':
-            return { ...state, isLoading: true };
-        case 'SET_HOME_VIDEOS':
-            return {
-                ...state,
-                popularVideos:
-                    state.activeCategory === action.payload.category
-                        ? [...state.popularVideos, ...action.payload.videos]
-                        : action.payload.videos,
-                nextPageToken: action.payload.token,
-                activeCategory: action.payload.category,
-                watchVideoId: '',
-                categoryId: '',
-                watchVideoId: '',
-                relatedVideos: [],
-                isLoading: false,
-            };
-        case 'SET_SEARCHED_VIDEOS':
-            return {
-                ...state,
-                searchedVideos: action.payload,
-                isLoading: false,
-            };
-        case 'SET_WATCH_VIDEO':
-            return {
-                ...state,
-                watchVideo: action.payload.watchVideo,
-                watchVideoId: action.payload.watchVideoId,
-                categoryId: action.payload.categoryId,
-                isLoading: false,
-            };
-        case 'SET_COMMENT_LIST':
-            return {
-                ...state,
-                commentList: action.payload,
-            };
-        case 'SET_RELATED_VIDEOS':
-            return {
-                ...state,
-                relatedVideos: action.payload,
-            };
-        case 'SIGNIN_WITH_GOOGLE':
-            return {
-                ...state,
-                accessToken: action.payload.accessToken,
-                userProfile: action.payload.userProfile,
-            };
-        case 'SIGNOUT_WITH_GOOGLE':
-            return {
-                ...state,
-                accessToken: null,
-                userProfile: null,
-            };
-        case 'SET_CHANNEL_DETAILS':
-            return {
-                ...state,
-                channelDetails: action.payload,
-                isLoading: false,
-            };
-        case 'SET_VIDEOS_BY_CHANNEL':
-            return {
-                ...state,
-                channelVideos: action.payload,
-            };
-
-        case 'SET_CHANNEL_SUBSCRIPTION_STATUS':
-            return {
-                ...state,
-                channelSubscriptionStatus: action.payload,
-            };
-        case 'SET_SUBSCRIBED_CHANNELS':
-            return {
-                ...state,
-                subscribedChannels:
-                    state.accessToken === action.payload.accessToken
-                        ? [
-                              ...state.subscribedChannels,
-                              ...action.payload.channels,
-                          ]
-                        : action.payload.channels,
-                subscribedChannelsNextPageToken: action.payload.nextPageToken,
-                isLoading: false,
-            };
-        case 'CLEAR_SUBSCRIBED_CHANNELS':
-            return {
-                ...state,
-                subscribedChannels: [],
-                subscribedChannelsNextPageToken: '',
-            };
-        case 'CLEAR_SUBSCRIBED_STATUS':
-            return {
-                ...state,
-                channelSubscriptionStatus: false,
-            };
-        case 'SET_LIKED_VIDEOS':
-            return {
-                ...state,
-                likedVideos:
-                    state.accessToken === action.payload.accessToken
-                        ? [...state.likedVideos, ...action.payload.likedVideos]
-                        : action.payload.likedVideos,
-                likedVideosNextPageToken: action.payload.nextPageToken,
-                isLoading: false,
-            };
-        case 'CLEAR_LIKED_VIDEOS':
-            return {
-                ...state,
-                likedVideos: [],
-            };
-        case 'CLEAR_COMMENTS_LIST':
-            return {
-                ...state,
-                commentList: [],
-                commentListNextPageToken: '',
-            };
-        case 'CLEAR_RELATED_VIDEOS':
-            return {
-                ...state,
-                relatedVideos: [],
-                relatedVideosNextPageToken: '',
-            };
-        case 'CLEAR_HOME_VIDEOS':
-            return {
-                ...state,
-                popularVideos: [],
-                nextPageToken: '',
-            };
-        default:
-            throw new Error('No action type found');
-    }
-};
-
 const AppProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, defaultState);
 
@@ -193,6 +58,56 @@ const AppProvider = ({ children }) => {
                     videos: data.items,
                     token: data.nextPageToken,
                     category: 'All',
+                },
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchVideoById = async (id) => {
+        dispatch({ type: 'SET_ISLOADING' });
+        try {
+            const { data } = await request('/videos', {
+                params: {
+                    part: 'snippet,statistics',
+                    id: id,
+                },
+            });
+            dispatch({
+                type: 'SET_WATCH_VIDEO',
+                payload: {
+                    watchVideo: data.items,
+                    watchVideoId: id,
+                    categoryId: data.items[0].snippet.categoryId,
+                },
+            });
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+    const fetchLikedVideos = async () => {
+        dispatch({ type: 'SET_ISLOADING' });
+        try {
+            const { data } = await request('/videos', {
+                params: {
+                    part: 'snippet,contentDetails,statistics',
+                    maxResults: 20,
+                    myRating: 'like',
+                    pageToken: state.likedVideosNextPageToken,
+                },
+                headers: {
+                    Authorization: `Bearer ${state.accessToken}`,
+                },
+            });
+
+            dispatch({
+                type: 'SET_LIKED_VIDEOS',
+                payload: {
+                    likedVideos: data.items,
+                    nextPageToken: data.nextPageToken,
+                    accessToken: state.accessToken,
                 },
             });
         } catch (error) {
@@ -244,25 +159,24 @@ const AppProvider = ({ children }) => {
         }
     };
 
-    const fetchVideoById = async (id) => {
-        dispatch({ type: 'SET_ISLOADING' });
+    const fetchRelatedVideos = async (id, categoryId) => {
         try {
-            const { data } = await request('/videos', {
+            const { data } = await request('/search', {
                 params: {
-                    part: 'snippet,statistics',
-                    id: id,
+                    part: 'snippet',
+                    relatedToVideoId: id,
+                    maxResults: 20,
+                    type: 'video',
+                    videoCategoryId: categoryId || state.categoryId,
+                    pageToken: state.relatedVideosNextPageToken,
                 },
             });
             dispatch({
-                type: 'SET_WATCH_VIDEO',
-                payload: {
-                    watchVideo: data.items,
-                    watchVideoId: id,
-                    categoryId: data.items[0].snippet.categoryId,
-                },
+                type: 'SET_RELATED_VIDEOS',
+                payload: data.items,
             });
         } catch (error) {
-            console.log(error.message);
+            console.log(error);
         }
     };
 
@@ -346,27 +260,6 @@ const AppProvider = ({ children }) => {
         }
     };
 
-    const fetchRelatedVideos = async (id, categoryId) => {
-        try {
-            const { data } = await request('/search', {
-                params: {
-                    part: 'snippet',
-                    relatedToVideoId: id,
-                    maxResults: 20,
-                    type: 'video',
-                    videoCategoryId: categoryId || state.categoryId,
-                    pageToken: state.relatedVideosNextPageToken,
-                },
-            });
-            dispatch({
-                type: 'SET_RELATED_VIDEOS',
-                payload: data.items,
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const fetchChannelDetails = async (channelId) => {
         try {
             const { data } = await request('/channels', {
@@ -381,6 +274,36 @@ const AppProvider = ({ children }) => {
             });
         } catch (error) {
             console.log(error.response.data);
+        }
+    };
+
+    const fetchVideosByChannel = async (channelId) => {
+        try {
+            const {
+                data: { items },
+            } = await request('/channels', {
+                params: {
+                    part: 'contentDetails',
+                    id: channelId,
+                },
+            });
+            const uploadPlaylistId =
+                items[0].contentDetails.relatedPlaylists.uploads;
+
+            const { data } = await request('/playlistItems', {
+                params: {
+                    part: 'snippet,contentDetails',
+                    playlistId: uploadPlaylistId,
+                    maxResults: 20,
+                },
+            });
+
+            dispatch({
+                type: 'SET_VIDEOS_BY_CHANNEL',
+                payload: data.items,
+            });
+        } catch (error) {
+            console.log(error.response.data.message);
         }
     };
 
@@ -433,88 +356,6 @@ const AppProvider = ({ children }) => {
         }
     };
 
-    const clearSubscribedChannels = () => {
-        dispatch({ type: 'CLEAR_SUBSCRIBED_CHANNELS' });
-    };
-
-    const clearSubscribedStatus = () => {
-        dispatch({ type: 'CLEAR_SUBSCRIBED_STATUS' });
-    };
-
-    const clearLikedVideos = () => {
-        dispatch({ type: 'CLEAR_LIKED_VIDEOS' });
-    };
-
-    const clearCommentList = () => {
-        dispatch({ type: 'CLEAR_COMMENTS_LIST' });
-    };
-
-    const clearRelatedVideos = () => {
-        dispatch({ type: 'CLEAR_RELATED_VIDEOS' });
-    };
-
-    const clearHomeVideos = () => {
-        dispatch({ type: 'CLEAR_HOME_VIDEOS' });
-    };
-
-    const fetchLikedVideos = async () => {
-        dispatch({ type: 'SET_ISLOADING' });
-        try {
-            const { data } = await request('/videos?', {
-                params: {
-                    part: 'snippet,contentDetails,statistics',
-                    maxResults: 20,
-                    myRating: 'like',
-                    pageToken: state.likedVideosNextPageToken,
-                },
-                headers: {
-                    Authorization: `Bearer ${state.accessToken}`,
-                },
-            });
-
-            dispatch({
-                type: 'SET_LIKED_VIDEOS',
-                payload: {
-                    likedVideos: data.items,
-                    nextPageToken: data.nextPageToken,
-                    accessToken: state.accessToken,
-                },
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const fetchVideosByChannel = async (channelId) => {
-        try {
-            const {
-                data: { items },
-            } = await request('/channels', {
-                params: {
-                    part: 'contentDetails',
-                    id: channelId,
-                },
-            });
-            const uploadPlaylistId =
-                items[0].contentDetails.relatedPlaylists.uploads;
-
-            const { data } = await request('/playlistItems', {
-                params: {
-                    part: 'snippet,contentDetails',
-                    playlistId: uploadPlaylistId,
-                    maxResults: 20,
-                },
-            });
-
-            dispatch({
-                type: 'SET_VIDEOS_BY_CHANNEL',
-                payload: data.items,
-            });
-        } catch (error) {
-            console.log(error.response.data.message);
-        }
-    };
-
     const subscribeToChannel = async (channelId) => {
         try {
             const obj = {
@@ -541,6 +382,30 @@ const AppProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const clearSubscribedChannels = () => {
+        dispatch({ type: 'CLEAR_SUBSCRIBED_CHANNELS' });
+    };
+
+    const clearSubscribedStatus = () => {
+        dispatch({ type: 'CLEAR_SUBSCRIBED_STATUS' });
+    };
+
+    const clearLikedVideos = () => {
+        dispatch({ type: 'CLEAR_LIKED_VIDEOS' });
+    };
+
+    const clearCommentList = () => {
+        dispatch({ type: 'CLEAR_COMMENTS_LIST' });
+    };
+
+    const clearRelatedVideos = () => {
+        dispatch({ type: 'CLEAR_RELATED_VIDEOS' });
+    };
+
+    const clearHomeVideos = () => {
+        dispatch({ type: 'CLEAR_HOME_VIDEOS' });
     };
 
     const signInWithGoogle = async () => {
