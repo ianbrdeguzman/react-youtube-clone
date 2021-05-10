@@ -18,12 +18,11 @@ const HomePage = () => {
     } = useContext(AppContext);
 
     const fetchMoreHomeVideos = () => {
-        console.log('uncomment to fetch more homepage videos...');
-        // if (activeCategory === 'All') {
-        //     fetchPopularVideos();
-        // } else {
-        //     fetchVideosByCategory(activeCategory);
-        // }
+        if (activeCategory === 'All') {
+            fetchHomeVideos();
+        } else {
+            fetchVideosByCategory(activeCategory);
+        }
     };
 
     useEffect(() => {
@@ -49,7 +48,7 @@ const HomePage = () => {
                               })
                             : homeVideos?.map((video) => {
                                   return (
-                                      <HomeVideo key={video.id} video={video} />
+                                      <HomeVideo key={uuidv4()} video={video} />
                                   );
                               })}
                     </div>

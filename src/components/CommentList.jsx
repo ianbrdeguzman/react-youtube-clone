@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from './styles/Comments.module.css';
+import styles from './styles/CommentList.module.css';
 import numeral from 'numeral';
 import { FaUserCircle } from 'react-icons/fa';
 import { AppContext } from './shared/context';

@@ -398,7 +398,6 @@ const AppProvider = ({ children }) => {
 
         try {
             const response = await auth.signInWithPopup(provider);
-            console.log(response);
             const accessToken = response.credential.accessToken;
             const userProfile = {
                 name: response.additionalUserInfo.profile.name,

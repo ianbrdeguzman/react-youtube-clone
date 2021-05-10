@@ -28,7 +28,6 @@ const reducer = (state, action) => {
                 isLoading: false,
             };
         case 'SET_SEARCHED_VIDEOS':
-            console.log(action.payload.token);
             return {
                 ...state,
                 searchedVideos:
