@@ -15,6 +15,9 @@ const reducer = (state, action) => {
                 activeCategory: action.payload.category,
                 watchVideoId: '',
                 categoryId: '',
+                searchedVideos: [],
+                searchedVideosNextPageToken: '',
+                searchedKeyword: '',
                 likedVideos: [],
                 likedVideosNextPageToken: '',
                 subscribedChannels: [],
@@ -25,9 +28,15 @@ const reducer = (state, action) => {
                 isLoading: false,
             };
         case 'SET_SEARCHED_VIDEOS':
+            console.log(action.payload.token);
             return {
                 ...state,
-                searchedVideos: action.payload,
+                searchedVideos:
+                    state.searchedKeyword === action.payload.input
+                        ? [...state.searchedVideos, ...action.payload.videos]
+                        : action.payload.videos,
+                searchedVideosNextPageToken: action.payload.token,
+                searchedKeyword: action.payload.input,
                 homeVideos: [],
                 homeVideosNextPageToken: '',
                 likedVideos: [],
@@ -47,6 +56,9 @@ const reducer = (state, action) => {
                 categoryId: action.payload.categoryId,
                 homeVideos: [],
                 homeVideosNextPageToken: '',
+                searchedVideos: [],
+                searchedVideosNextPageToken: '',
+                searchedKeyword: '',
                 likedVideos: [],
                 likedVideosNextPageToken: '',
                 subscribedChannels: [],
@@ -84,6 +96,9 @@ const reducer = (state, action) => {
                 channelDetails: action.payload,
                 homeVideo: [],
                 homeVideosNextPageToken: '',
+                searchedVideos: [],
+                searchedVideosNextPageToken: '',
+                searchedKeyword: '',
                 likedVideos: [],
                 likedVideosNextPageToken: '',
                 subscribedChannels: [],
@@ -117,6 +132,9 @@ const reducer = (state, action) => {
                 subscribedChannelsNextPageToken: action.payload.nextPageToken,
                 homeVideos: [],
                 homeVideosNextPageToken: '',
+                searchedVideos: [],
+                searchedVideosNextPageToken: '',
+                searchedKeyword: '',
                 likedVideos: [],
                 likedVideosNextPageToken: '',
                 channelSubscriptionStatus: false,
@@ -134,6 +152,9 @@ const reducer = (state, action) => {
                 likedVideosNextPageToken: action.payload.nextPageToken,
                 homeVideos: [],
                 homeVideosNextPageToken: '',
+                searchedVideos: [],
+                searchedVideosNextPageToken: '',
+                searchedKeyword: '',
                 subscribedChannels: [],
                 subscribedChannelsNextPageToken: '',
                 channelSubscriptionStatus: false,

@@ -13,6 +13,8 @@ const defaultState = {
     activeCategory: 'All',
     isLoading: true,
     searchedVideos: [],
+    searchedVideosNextPageToken: '',
+    searchedKeyword: '',
     watchVideo: [],
     watchVideoId: '',
     categoryId: '',
@@ -140,7 +142,8 @@ const AppProvider = ({ children }) => {
     };
 
     const fetchVideosBySearch = async (keyword) => {
-        dispatch({ type: 'SET_ISLOADING' });
+        if (!state.searchedVideosNextPageToken)
+            dispatch({ type: 'SET_ISLOADING' });
         try {
             const { data } = await request('/search', {
                 params: {
@@ -148,11 +151,16 @@ const AppProvider = ({ children }) => {
                     maxResults: 10,
                     q: keyword,
                     type: 'video,channel',
+                    pageToken: state.searchedVideosNextPageToken,
                 },
             });
             dispatch({
                 type: 'SET_SEARCHED_VIDEOS',
-                payload: data.items,
+                payload: {
+                    videos: data.items,
+                    token: data.nextPageToken,
+                    input: keyword,
+                },
             });
         } catch (error) {
             console.log(error.message);

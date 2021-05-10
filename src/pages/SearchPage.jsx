@@ -14,9 +14,16 @@ const SearchPage = () => {
         AppContext
     );
 
+    const filteredSearchedVideos = Array.from(
+        new Set(searchedVideos?.map((video) => video.id.videoId))
+    ).map((id) => {
+        return {
+            video: searchedVideos.find((video) => video.id.videoId === id),
+        };
+    });
+
     const fetchMoreSearchVideos = () => {
-        console.log('uncomment to fetch more searched videos...');
-        // fetchVideosBySearch(keyword);
+        fetchVideosBySearch(keyword);
     };
 
     useEffect(() => {
@@ -32,7 +39,7 @@ const SearchPage = () => {
                 <div className={styles.search__content}>
                     <div className={styles.search__filter}>FILTER</div>
                     <InfiniteScroll
-                        dataLength={searchedVideos?.length}
+                        dataLength={filteredSearchedVideos?.length}
                         next={fetchMoreSearchVideos}
                         hasMore={true}
                     >
@@ -43,10 +50,10 @@ const SearchPage = () => {
                                           <SkeletonSearchVideo key={uuidv4()} />
                                       );
                                   })
-                                : searchedVideos?.map((video) => {
+                                : filteredSearchedVideos?.map(({ video }) => {
                                       return (
                                           <SearchVideo
-                                              key={uuidv4()}
+                                              key={video.id.videoId}
                                               video={video}
                                           />
                                       );
