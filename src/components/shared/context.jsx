@@ -8,8 +8,8 @@ const AppContext = createContext();
 
 const defaultState = {
     isMenuOpen: true,
-    popularVideos: [],
-    nextPageToken: '',
+    homeVideos: [],
+    homeVideosNextPageToken: '',
     activeCategory: 'All',
     isLoading: true,
     searchedVideos: [],
@@ -40,8 +40,8 @@ const AppProvider = ({ children }) => {
         dispatch({ type: 'SET_MENU_TOGGLE', payload: state.isMenuOpen });
     };
 
-    const fetchPopularVideos = async () => {
-        if (!state.nextPageToken) dispatch({ type: 'SET_ISLOADING' });
+    const fetchHomeVideos = async () => {
+        if (!state.homeVideosNextPageToken) dispatch({ type: 'SET_ISLOADING' });
         try {
             const { data } = await request('/videos', {
                 params: {
@@ -49,7 +49,7 @@ const AppProvider = ({ children }) => {
                     chart: 'mostPopular',
                     regionCode: 'US',
                     maxResults: 20,
-                    pageToken: state.nextPageToken,
+                    pageToken: state.homeVideosNextPageToken,
                 },
             });
             dispatch({
@@ -121,7 +121,7 @@ const AppProvider = ({ children }) => {
                 params: {
                     part: 'snippet',
                     maxResults: 20,
-                    pageToken: state.nextPageToken,
+                    pageToken: state.homeVideosNextPageToken,
                     q: keyword,
                     type: 'video',
                 },
@@ -165,7 +165,7 @@ const AppProvider = ({ children }) => {
                 params: {
                     part: 'snippet',
                     relatedToVideoId: id,
-                    maxResults: 20,
+                    maxResults: 10,
                     type: 'video',
                     videoCategoryId: categoryId || state.categoryId,
                     pageToken: state.relatedVideosNextPageToken,
@@ -384,30 +384,6 @@ const AppProvider = ({ children }) => {
         }
     };
 
-    const clearSubscribedChannels = () => {
-        dispatch({ type: 'CLEAR_SUBSCRIBED_CHANNELS' });
-    };
-
-    const clearSubscribedStatus = () => {
-        dispatch({ type: 'CLEAR_SUBSCRIBED_STATUS' });
-    };
-
-    const clearLikedVideos = () => {
-        dispatch({ type: 'CLEAR_LIKED_VIDEOS' });
-    };
-
-    const clearCommentList = () => {
-        dispatch({ type: 'CLEAR_COMMENTS_LIST' });
-    };
-
-    const clearRelatedVideos = () => {
-        dispatch({ type: 'CLEAR_RELATED_VIDEOS' });
-    };
-
-    const clearHomeVideos = () => {
-        dispatch({ type: 'CLEAR_HOME_VIDEOS' });
-    };
-
     const signInWithGoogle = async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope('https://www.googleapis.com/auth/youtube.force-ssl');
@@ -450,7 +426,7 @@ const AppProvider = ({ children }) => {
             value={{
                 ...state,
                 onMenuClick,
-                fetchPopularVideos,
+                fetchHomeVideos,
                 fetchVideosByCategory,
                 fetchVideosBySearch,
                 fetchVideoById,
@@ -464,13 +440,7 @@ const AppProvider = ({ children }) => {
                 fetchChannelSubscriptionStatus,
                 subscribeToChannel,
                 fetchSubscribedChannels,
-                clearSubscribedChannels,
-                clearSubscribedStatus,
                 fetchLikedVideos,
-                clearLikedVideos,
-                clearCommentList,
-                clearRelatedVideos,
-                clearHomeVideos,
                 likeAVideo,
                 dislikeAVideo,
             }}

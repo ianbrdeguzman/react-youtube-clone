@@ -12,7 +12,6 @@ const LikedPage = () => {
         likedVideos,
         isLoading,
         likedVideosNextPageToken,
-        clearLikedVideos,
     } = useContext(AppContext);
 
     const fetchMoreLikedVideos = () => {
@@ -22,9 +21,6 @@ const LikedPage = () => {
 
     useEffect(() => {
         fetchLikedVideos();
-        return () => {
-            clearLikedVideos();
-        };
     }, []);
 
     return (

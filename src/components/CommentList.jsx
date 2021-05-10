@@ -12,7 +12,6 @@ const CommentList = ({ commentCount, id }) => {
         signInWithGoogle,
         addCommentToVideo,
         accessToken,
-        clearCommentList,
     } = useContext(AppContext);
 
     const [comment, setComment] = useState('');
@@ -34,9 +33,6 @@ const CommentList = ({ commentCount, id }) => {
 
     useEffect(() => {
         fetchCommentsOfVideoById(id);
-        return () => {
-            clearCommentList();
-        };
     }, [id]);
 
     return (

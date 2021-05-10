@@ -29,6 +29,10 @@ const Header = () => {
         signInWithGoogle();
     };
 
+    const handleIconsOnClick = () => {
+        alert('Not yet implemented...');
+    };
+
     return (
         <header className={styles.header}>
             <div className={styles.header__menu}>
@@ -52,6 +56,9 @@ const Header = () => {
                 </button>
             </form>
             <div className={styles.header__icons}>
+                <MdVideoCall onClick={handleIconsOnClick} />
+                <MdApps onClick={handleIconsOnClick} />
+                <MdNotifications onClick={handleIconsOnClick} />
                 {userProfile ? (
                     <img src={userProfile?.photoURL} alt='avatar' />
                 ) : (

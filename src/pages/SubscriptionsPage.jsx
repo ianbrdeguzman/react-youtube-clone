@@ -12,7 +12,6 @@ const SubscriptionsPage = () => {
         isLoading,
         subscribedChannels,
         subscribedChannelsNextPageToken,
-        clearSubscribedChannels,
     } = useContext(AppContext);
 
     const fetchMoreSubscribedChannels = () => {
@@ -21,9 +20,6 @@ const SubscriptionsPage = () => {
 
     useEffect(() => {
         fetchSubscribedChannels();
-        return () => {
-            clearSubscribedChannels();
-        };
     }, []);
 
     return (

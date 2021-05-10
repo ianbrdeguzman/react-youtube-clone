@@ -7,15 +7,20 @@ const reducer = (state, action) => {
         case 'SET_HOME_VIDEOS':
             return {
                 ...state,
-                popularVideos:
+                homeVideos:
                     state.activeCategory === action.payload.category
-                        ? [...state.popularVideos, ...action.payload.videos]
+                        ? [...state.homeVideos, ...action.payload.videos]
                         : action.payload.videos,
-                nextPageToken: action.payload.token,
+                homeVideosNextPageToken: action.payload.token,
                 activeCategory: action.payload.category,
                 watchVideoId: '',
                 categoryId: '',
-                watchVideoId: '',
+                likedVideos: [],
+                likedVideosNextPageToken: '',
+                subscribedChannels: [],
+                subscribedChannelsNextPageToken: '',
+                channelSubscriptionStatus: false,
+                commentList: [],
                 relatedVideos: [],
                 isLoading: false,
             };
@@ -23,6 +28,15 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 searchedVideos: action.payload,
+                homeVideos: [],
+                homeVideosNextPageToken: '',
+                likedVideos: [],
+                likedVideosNextPageToken: '',
+                subscribedChannels: [],
+                subscribedChannelsNextPageToken: '',
+                channelSubscriptionStatus: false,
+                commentList: [],
+                relatedVideos: [],
                 isLoading: false,
             };
         case 'SET_WATCH_VIDEO':
@@ -31,6 +45,15 @@ const reducer = (state, action) => {
                 watchVideo: action.payload.watchVideo,
                 watchVideoId: action.payload.watchVideoId,
                 categoryId: action.payload.categoryId,
+                homeVideos: [],
+                homeVideosNextPageToken: '',
+                likedVideos: [],
+                likedVideosNextPageToken: '',
+                subscribedChannels: [],
+                subscribedChannelsNextPageToken: '',
+                channelSubscriptionStatus: false,
+                commentList: [],
+                relatedVideos: [],
                 isLoading: false,
             };
         case 'SET_COMMENT_LIST':
@@ -59,6 +82,15 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 channelDetails: action.payload,
+                homeVideo: [],
+                homeVideosNextPageToken: '',
+                likedVideos: [],
+                likedVideosNextPageToken: '',
+                subscribedChannels: [],
+                subscribedChannelsNextPageToken: '',
+                channelSubscriptionStatus: false,
+                commentList: [],
+                relatedVideos: [],
                 isLoading: false,
             };
         case 'SET_VIDEOS_BY_CHANNEL':
@@ -83,18 +115,14 @@ const reducer = (state, action) => {
                           ]
                         : action.payload.channels,
                 subscribedChannelsNextPageToken: action.payload.nextPageToken,
-                isLoading: false,
-            };
-        case 'CLEAR_SUBSCRIBED_CHANNELS':
-            return {
-                ...state,
-                subscribedChannels: [],
-                subscribedChannelsNextPageToken: '',
-            };
-        case 'CLEAR_SUBSCRIBED_STATUS':
-            return {
-                ...state,
+                homeVideos: [],
+                homeVideosNextPageToken: '',
+                likedVideos: [],
+                likedVideosNextPageToken: '',
                 channelSubscriptionStatus: false,
+                commentList: [],
+                relatedVideos: [],
+                isLoading: false,
             };
         case 'SET_LIKED_VIDEOS':
             return {
@@ -104,30 +132,14 @@ const reducer = (state, action) => {
                         ? [...state.likedVideos, ...action.payload.likedVideos]
                         : action.payload.likedVideos,
                 likedVideosNextPageToken: action.payload.nextPageToken,
-                isLoading: false,
-            };
-        case 'CLEAR_LIKED_VIDEOS':
-            return {
-                ...state,
-                likedVideos: [],
-            };
-        case 'CLEAR_COMMENTS_LIST':
-            return {
-                ...state,
+                homeVideos: [],
+                homeVideosNextPageToken: '',
+                subscribedChannels: [],
+                subscribedChannelsNextPageToken: '',
+                channelSubscriptionStatus: false,
                 commentList: [],
-                commentListNextPageToken: '',
-            };
-        case 'CLEAR_RELATED_VIDEOS':
-            return {
-                ...state,
                 relatedVideos: [],
-                relatedVideosNextPageToken: '',
-            };
-        case 'CLEAR_HOME_VIDEOS':
-            return {
-                ...state,
-                popularVideos: [],
-                nextPageToken: '',
+                isLoading: false,
             };
         default:
             throw new Error('No action type found');

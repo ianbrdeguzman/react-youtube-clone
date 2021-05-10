@@ -50,7 +50,7 @@ const SearchVideo = ({ video }) => {
             setViewCount(items[0].statistics.viewCount);
         };
         if (isVideo) fetchVideoDetails();
-    }, [videoId]);
+    }, [videoId, isVideo]);
 
     useEffect(() => {
         const fetchChannelDetails = async (id) => {

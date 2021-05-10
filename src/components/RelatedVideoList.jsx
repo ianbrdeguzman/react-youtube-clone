@@ -4,11 +4,7 @@ import styles from './styles/RelatedVideoList.module.css';
 import RelatedVideo from './RelatedVideo';
 
 const RelatedVideoList = ({ id, categoryId }) => {
-    const {
-        relatedVideos,
-        fetchRelatedVideos,
-        clearRelatedVideos,
-    } = useContext(AppContext);
+    const { relatedVideos, fetchRelatedVideos } = useContext(AppContext);
 
     const filteredRelatedVideos = Array.from(
         new Set(relatedVideos?.map((video) => video.id.videoId))
@@ -20,9 +16,6 @@ const RelatedVideoList = ({ id, categoryId }) => {
 
     useEffect(() => {
         if (id && categoryId) fetchRelatedVideos(id, categoryId);
-        return () => {
-            clearRelatedVideos();
-        };
     }, [id, categoryId]);
 
     return (

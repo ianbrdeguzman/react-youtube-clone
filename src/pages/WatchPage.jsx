@@ -9,19 +9,12 @@ import SkeletonRelatedVideos from '../components/skeletons/SkeletonRelatedVideos
 
 const WatchPage = () => {
     const { id } = useParams();
-    const {
-        fetchVideoById,
-        watchVideo,
-        isLoading,
-        categoryId,
-        clearSubscribedStatus,
-    } = useContext(AppContext);
+    const { fetchVideoById, watchVideo, isLoading, categoryId } = useContext(
+        AppContext
+    );
 
     useEffect(() => {
         fetchVideoById(id);
-        return () => {
-            clearSubscribedStatus();
-        };
     }, [id]);
 
     return (

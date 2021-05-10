@@ -10,15 +10,14 @@ import { Helmet } from 'react-helmet-async';
 
 const HomePage = () => {
     const {
-        popularVideos,
+        homeVideos,
         isLoading,
         activeCategory,
-        fetchPopularVideos,
+        fetchHomeVideos,
         fetchVideosByCategory,
-        clearHomeVideos,
     } = useContext(AppContext);
 
-    const fetchMore = () => {
+    const fetchMoreHomeVideos = () => {
         console.log('uncomment to fetch more homepage videos...');
         // if (activeCategory === 'All') {
         //     fetchPopularVideos();
@@ -28,10 +27,7 @@ const HomePage = () => {
     };
 
     useEffect(() => {
-        fetchPopularVideos();
-        return () => {
-            clearHomeVideos();
-        };
+        fetchHomeVideos();
     }, []);
 
     return (
@@ -42,8 +38,8 @@ const HomePage = () => {
             <section className={styles.home}>
                 <CategoriesBar />
                 <InfiniteScroll
-                    dataLength={popularVideos?.length}
-                    next={fetchMore}
+                    dataLength={homeVideos?.length}
+                    next={fetchMoreHomeVideos}
                     hasMore={true}
                 >
                     <div className={styles.home__videos}>
@@ -51,7 +47,7 @@ const HomePage = () => {
                             ? [...new Array(20)].map(() => {
                                   return <SkeletonVideo key={uuidv4()} />;
                               })
-                            : popularVideos?.map((video) => {
+                            : homeVideos?.map((video) => {
                                   return (
                                       <HomeVideo key={video.id} video={video} />
                                   );
