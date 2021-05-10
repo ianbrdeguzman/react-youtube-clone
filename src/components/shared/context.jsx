@@ -217,7 +217,7 @@ const AppProvider = ({ children }) => {
                     },
                 },
             };
-            await request.post('/commentThreads', obj, {
+            const res = await request.post('/commentThreads', obj, {
                 params: {
                     part: 'snippet',
                 },
@@ -225,8 +225,11 @@ const AppProvider = ({ children }) => {
                     Authorization: `Bearer ${state.accessToken}`,
                 },
             });
-
-            setTimeout(() => fetchCommentsOfVideoById(id), 5000);
+            if (res.status === 200) {
+                setTimeout(() => {
+                    fetchCommentsOfVideoById(id);
+                }, 5000);
+            }
         } catch (error) {
             console.log(error.response.data);
         }
@@ -241,6 +244,7 @@ const AppProvider = ({ children }) => {
                 },
                 headers: {
                     Authorization: `Bearer ${state.accessToken}`,
+                    'Access-Control-Allow-Origin': '*',
                 },
             });
 

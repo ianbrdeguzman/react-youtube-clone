@@ -12,6 +12,7 @@ const CommentList = ({ commentCount, id }) => {
         signInWithGoogle,
         addCommentToVideo,
         accessToken,
+        userProfile,
     } = useContext(AppContext);
 
     const [comment, setComment] = useState('');
@@ -19,17 +20,13 @@ const CommentList = ({ commentCount, id }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (comment.length === 0) return;
-        accessToken ? addCommentToVideo(id, comment) : signInWithGoogle();
-        setComment('');
+        if (accessToken) {
+            addCommentToVideo(id, comment);
+            setComment('');
+        } else {
+            signInWithGoogle();
+        }
     };
-
-    const filteredCommentList = Array.from(
-        new Set(commentList?.map((comment) => comment.id))
-    ).map((id) => {
-        return {
-            comment: commentList.find((comment) => comment.id === id),
-        };
-    });
 
     useEffect(() => {
         fetchCommentsOfVideoById(id);
@@ -39,7 +36,11 @@ const CommentList = ({ commentCount, id }) => {
         <div className={styles.comments__container}>
             <h4>{numeral(commentCount).format('0,0')} Comments</h4>
             <div className={styles.comments__form}>
-                <FaUserCircle />
+                {userProfile ? (
+                    <img src={userProfile?.photoURL} alt='avatar' />
+                ) : (
+                    <FaUserCircle />
+                )}
                 <form onSubmit={handleSubmit}>
                     <input
                         type='text'
@@ -54,7 +55,7 @@ const CommentList = ({ commentCount, id }) => {
                 </form>
             </div>
             <div>
-                {filteredCommentList?.map(({ comment }) => {
+                {commentList?.map((comment) => {
                     return <Comment comment={comment} key={comment.id} />;
                 })}
             </div>

@@ -11,6 +11,12 @@
     align-items: center;
     position: relative;
 }
+.comments__form img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
 .comments__form svg {
     font-size: 40px;
     margin-right: 1rem;
