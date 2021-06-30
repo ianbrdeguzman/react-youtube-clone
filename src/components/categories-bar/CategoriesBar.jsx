@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import styles from './styles/CategoriesBar.module.css';
-import { AppContext } from './shared/context';
+import styles from './CategoriesBar.module.css';
+import { AppContext } from '../shared/context';
 
 const categories = [
     'All',
@@ -25,9 +25,8 @@ const categories = [
 ];
 
 const CategoriesBar = () => {
-    const { activeCategory, isMenuOpen, fetchVideosByCategory } = useContext(
-        AppContext
-    );
+    const { activeCategory, isMenuOpen, fetchVideosByCategory } =
+        useContext(AppContext);
 
     const handleOnClick = (keyword) => {
         fetchVideosByCategory(keyword);

@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './styles/ChannelVideoList.module.css';
-import ChannelVideo from './ChannelVideo';
+import styles from './ChannelVideoList.module.css';
+import ChannelVideo from '../channel-video/ChannelVideo';
 
 const ChannelVideoList = ({ channelVideos }) => {
     return (

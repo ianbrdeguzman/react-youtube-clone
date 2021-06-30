@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { AppContext } from '../../components/shared/context';
 import styles from './SearchPage.module.css';
-import SearchVideo from '../../components/SearchVideo';
+import SearchVideo from '../../components/search-video/SearchVideo';
 import SkeletonSearchVideo from './skeleton/SkeletonSearchVideo';
 import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';

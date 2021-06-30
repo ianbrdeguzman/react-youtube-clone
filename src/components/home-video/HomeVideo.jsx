@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import styles from './styles/HomeVideo.module.css';
+import styles from './HomeVideo.module.css';
 import numeral from 'numeral';
 import moment from 'moment';
-import request from './shared/axios';
+import request from './../shared/axios';
 import { useHistory } from 'react-router-dom';
 
 const HomeVideo = ({ video }) => {

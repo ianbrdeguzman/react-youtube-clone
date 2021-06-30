@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles/LikedVideo.module.css';
+import styles from './LikedVideo.module.css';
 import { MdDelete } from 'react-icons/md';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';

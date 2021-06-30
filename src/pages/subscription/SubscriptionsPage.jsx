@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../../components/shared/context';
 import styles from './SubscriptionsPage.module.css';
-import SubscriptionsVideo from '../../components/SearchVideo';
+import { AppContext } from '../../components/shared/context';
+import SubscriptionsVideo from '../../components/subscriptions-video/SubscriptionsVideo';
 import SkeletonSubscriptions from './skeleton/SkeletonSubscriptions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Helmet } from 'react-helmet-async';

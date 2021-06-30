@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles/ChannelAbout.module.css';
+import styles from './ChannelAbout.module.css';
 import moment from 'moment';
 import numeral from 'numeral';
 

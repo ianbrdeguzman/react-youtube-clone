@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-import Header from './components/Header';
-import Sidebar from './components/Sidebar';
+import styles from './App.module.css';
+import Header from './components/header/Header';
+import Sidebar from './components/sidebar/Sidebar';
 import HomePage from './pages/home/HomePage';
 import SearchPage from './pages/search/SearchPage';
 import WatchPage from './pages/watch/WatchPage';
 import ChannelPage from './pages/channel/ChannelPage';
 import SubscriptionsPage from './pages/subscription/SubscriptionsPage';
 import LikedPage from './pages/liked/LikedPage';
-import styles from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { AppContext } from './components/shared/context';
 import { HelmetProvider } from 'react-helmet-async';

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
+import styles from './Header.module.css';
 import { useHistory, Link } from 'react-router-dom';
-import { AppContext } from './shared/context';
-import styles from './styles/Header.module.css';
+import { AppContext } from './../shared/context';
 import { FaUserCircle } from 'react-icons/fa';
 import {
     MdMenu,
@@ -13,9 +13,8 @@ import {
 
 const Header = () => {
     const [input, setInput] = useState('');
-    const { onMenuClick, signInWithGoogle, userProfile } = useContext(
-        AppContext
-    );
+    const { onMenuClick, signInWithGoogle, userProfile } =
+        useContext(AppContext);
 
     const history = useHistory();
 

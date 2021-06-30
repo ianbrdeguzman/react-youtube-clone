@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import styles from './styles/WatchVideo.module.css';
-import CommentList from './CommentList';
+import styles from './WatchVideo.module.css';
+import CommentList from '../comment-list/CommentList';
 import ShowMore from 'react-show-more';
 import { MdThumbUp, MdThumbDown } from 'react-icons/md';
 import numeral from 'numeral';
 import moment from 'moment';
-import request from './shared/axios';
+import request from '../shared/axios';
 import { useHistory } from 'react-router-dom';
-import { AppContext } from './shared/context';
+import { AppContext } from '../shared/context';
 import { Helmet } from 'react-helmet-async';
 
 const WatchVideo = ({ video, id }) => {

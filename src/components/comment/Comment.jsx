@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './styles/Comment.module.css';
+import styles from './Comment.module.css';
 import { MdThumbUp, MdThumbDown } from 'react-icons/md';
 import ShowMore from 'react-show-more';
 import moment from 'moment';

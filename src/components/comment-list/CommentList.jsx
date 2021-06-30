@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from './styles/CommentList.module.css';
+import styles from './CommentList.module.css';
 import numeral from 'numeral';
 import { FaUserCircle } from 'react-icons/fa';
-import { AppContext } from './shared/context';
-import Comment from './Comment';
+import { AppContext } from '../shared/context';
+import Comment from '../comment/Comment';
 
 const CommentList = ({ commentCount, id }) => {
     const {

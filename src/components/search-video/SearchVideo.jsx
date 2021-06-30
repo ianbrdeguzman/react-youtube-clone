@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styles from './styles/SearchVideo.module.css';
+import styles from './SearchVideo.module.css';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import numeral from 'numeral';
-import request from './shared/axios';
-import SearchVideoButton from './SearchVideoButton';
+import request from './../shared/axios';
+import SearchVideoButton from '../search-video-button/SearchVideoButton';
 
 const SearchVideo = ({ video }) => {
     const [channelIcon, setChannelIcon] = useState('');

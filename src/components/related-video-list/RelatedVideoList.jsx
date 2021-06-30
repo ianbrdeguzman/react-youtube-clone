@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from './shared/context';
-import styles from './styles/RelatedVideoList.module.css';
-import RelatedVideo from './RelatedVideo';
+import styles from './RelatedVideoList.module.css';
+import { AppContext } from '../shared/context';
+import RelatedVideo from '../related-video/RelatedVideo';
 
 const RelatedVideoList = ({ id, categoryId }) => {
     const { relatedVideos, fetchRelatedVideos } = useContext(AppContext);

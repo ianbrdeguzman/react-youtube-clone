@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../../components/shared/context';
 import styles from './WatchPage.module.css';
-import WatchVideo from '../../components/WatchVideo';
-import RelatedVideoList from '../../components/RelatedVideoList';
+import { AppContext } from '../../components/shared/context';
+import WatchVideo from '../../components/watch-video/WatchVideo';
+import RelatedVideoList from '../../components/related-video-list/RelatedVideoList';
 import { useParams } from 'react-router-dom';
-import SkeletonWatchVideo from '../../components/skeletons/SkeletonWatchVideo';
-import SkeletonRelatedVideos from '../../components/skeletons/SkeletonRelatedVideos';
+import SkeletonWatchVideo from '../../components/watch-video/skeleton/SkeletonWatchVideo';
+import SkeletonRelatedVideos from './skeleton/SkeletonRelatedVideos';
 
 const WatchPage = () => {
     const { id } = useParams();

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { AppContext } from './shared/context';
+import styles from './Sidebar.module.css';
+import { AppContext } from './../shared/context';
 import { AiFillHome, AiFillGithub } from 'react-icons/ai';
 import { MdSubscriptions, MdThumbUp } from 'react-icons/md';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
-import styles from './styles/Sidebar.module.css';
 import { useHistory } from 'react-router-dom';
 
 const list = [
@@ -15,9 +15,8 @@ const list = [
 ];
 
 const Sidebar = () => {
-    const { isMenuOpen, signOut, accessToken, signInWithGoogle } = useContext(
-        AppContext
-    );
+    const { isMenuOpen, signOut, accessToken, signInWithGoogle } =
+        useContext(AppContext);
 
     const history = useHistory();
 
