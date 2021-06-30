@@ -21,12 +21,8 @@ const reducer = (state, action) => {
 const MenuProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const onMenuClick = () => {
-        dispatch({ type: 'MENU_TOGGLE', payload: !state.isMenuOpen });
-    };
-
     return (
-        <MenuContext.Provider value={{ ...state, onMenuClick }}>
+        <MenuContext.Provider value={{ ...state, dispatch }}>
             {children}
         </MenuContext.Provider>
     );

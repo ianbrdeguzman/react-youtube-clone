@@ -15,8 +15,8 @@ import { MenuContext } from '../../context/menuContext';
 const Header = () => {
     const [input, setInput] = useState('');
 
-    const { onMenuClick } = useContext(MenuContext);
-    const { signInWithGoogle, userProfile } = useContext(AuthContext);
+    const { isMenuOpen, dispatch } = useContext(MenuContext);
+    const { userProfile, signInWithGoogle } = useContext(AuthContext);
 
     const history = useHistory();
 
@@ -26,8 +26,8 @@ const Header = () => {
         history.push(`/search/${input}`);
     };
 
-    const handleSignInOnClick = () => {
-        signInWithGoogle();
+    const onMenuClick = () => {
+        dispatch({ type: 'MENU_TOGGLE', payload: !isMenuOpen });
     };
 
     const handleIconsOnClick = () => {
@@ -37,7 +37,7 @@ const Header = () => {
     return (
         <header className={styles.header}>
             <div className={styles.header__menu}>
-                <MdMenu onClick={() => onMenuClick()} />
+                <MdMenu onClick={onMenuClick} />
                 <Link to='/'>
                     <img
                         src='https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg'
@@ -63,7 +63,7 @@ const Header = () => {
                 {userProfile ? (
                     <img src={userProfile?.photoURL} alt='avatar' />
                 ) : (
-                    <FaUserCircle onClick={handleSignInOnClick} />
+                    <FaUserCircle onClick={signInWithGoogle} />
                 )}
             </div>
         </header>
