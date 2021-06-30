@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../components/shared/context';
-import styles from './styles/HomePage.module.css';
-import HomeVideo from '../components/HomeVideo';
-import CategoriesBar from '../components/CategoriesBar';
+import { AppContext } from '../../components/shared/context';
+import styles from './HomePage.module.css';
+import HomeVideo from '../../components/HomeVideo';
+import CategoriesBar from '../../components/CategoriesBar';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import SkeletonVideo from '../components/skeletons/SkeletonVideo';
+import SkeletonVideo from '../../components/skeletons/SkeletonVideo';
 import { v4 as uuidv4 } from 'uuid';
 import { Helmet } from 'react-helmet-async';
 

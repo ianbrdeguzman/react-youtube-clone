@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import styles from './styles/LikedPage.module.css';
-import LikedVideo from '../components/LikedVideo';
-import { AppContext } from '../components/shared/context';
-import SkeletonLikedVideo from '../components/skeletons/SkeletonLikedVideo';
+import styles from './LikedPage.module.css';
+import LikedVideo from '../../components/LikedVideo';
+import { AppContext } from '../../components/shared/context';
+import SkeletonLikedVideo from './skeleton/SkeletonLikedVideo';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Helmet } from 'react-helmet-async';
 

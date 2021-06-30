@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../components/shared/context';
-import styles from './styles/SearchPage.module.css';
-import SearchVideo from '../components/SearchVideo';
-import SkeletonSearchVideo from '../components/skeletons/SkeletonSearchVideo';
+import { AppContext } from '../../components/shared/context';
+import styles from './SearchPage.module.css';
+import SearchVideo from '../../components/SearchVideo';
+import SkeletonSearchVideo from './skeleton/SkeletonSearchVideo';
 import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,9 +10,8 @@ import { Helmet } from 'react-helmet-async';
 
 const SearchPage = () => {
     const { keyword } = useParams();
-    const { fetchVideosBySearch, searchedVideos, isLoading } = useContext(
-        AppContext
-    );
+    const { fetchVideosBySearch, searchedVideos, isLoading } =
+        useContext(AppContext);
 
     const filteredSearchedVideos = Array.from(
         new Set(searchedVideos?.map((video) => video.id.videoId))

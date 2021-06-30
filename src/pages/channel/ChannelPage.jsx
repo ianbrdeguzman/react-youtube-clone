@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import styles from './styles/ChannelPage.module.css';
+import styles from './ChannelPage.module.css';
 import { useParams } from 'react-router-dom';
-import { AppContext } from '../components/shared/context';
-import ChannelVideoList from '../components/ChannelVideoList';
-import ChannelPlaylist from '../components/ChannelPlaylist';
-import ChannelAbout from '../components/ChannelAbout';
+import { AppContext } from '../../components/shared/context';
+import ChannelVideoList from '../../components/ChannelVideoList';
+import ChannelPlaylist from '../../components/ChannelPlaylist';
+import ChannelAbout from '../../components/ChannelAbout';
 import numeral from 'numeral';
-import SkeletonChannel from '../components/skeletons/SkeletonChannel';
+import SkeletonChannel from './skeleton/SkeletonChannel';
 import { Helmet } from 'react-helmet-async';
 
 const ChannelPage = () => {

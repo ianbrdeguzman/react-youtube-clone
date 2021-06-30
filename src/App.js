@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import HomePage from './pages/HomePage';
-import SearchPage from './pages/SearchPage';
-import WatchPage from './pages/WatchPage';
-import ChannelPage from './pages/ChannelPage';
-import SubscriptionsPage from './pages/SubscriptionsPage';
-import LikedPage from './pages/LikedPage';
+import HomePage from './pages/home/HomePage';
+import SearchPage from './pages/search/SearchPage';
+import WatchPage from './pages/watch/WatchPage';
+import ChannelPage from './pages/channel/ChannelPage';
+import SubscriptionsPage from './pages/subscription/SubscriptionsPage';
+import LikedPage from './pages/liked/LikedPage';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { AppContext } from './components/shared/context';
