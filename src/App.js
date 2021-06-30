@@ -9,11 +9,11 @@ import ChannelPage from './pages/channel/ChannelPage';
 import SubscriptionsPage from './pages/subscription/SubscriptionsPage';
 import LikedPage from './pages/liked/LikedPage';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { AppContext } from './components/shared/context';
 import { HelmetProvider } from 'react-helmet-async';
+import { MenuContext } from './context/menuContext';
 
 function App() {
-    const { isMenuOpen } = useContext(AppContext);
+    const { isMenuOpen } = useContext(MenuContext);
 
     return (
         <HelmetProvider>

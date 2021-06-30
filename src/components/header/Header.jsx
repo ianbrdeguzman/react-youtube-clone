@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import styles from './Header.module.css';
 import { useHistory, Link } from 'react-router-dom';
-import { AppContext } from './../shared/context';
 import { FaUserCircle } from 'react-icons/fa';
 import {
     MdMenu,
@@ -10,11 +9,14 @@ import {
     MdApps,
     MdNotifications,
 } from 'react-icons/md';
+import { AuthContext } from '../../context/authContext';
+import { MenuContext } from '../../context/menuContext';
 
 const Header = () => {
     const [input, setInput] = useState('');
-    const { onMenuClick, signInWithGoogle, userProfile } =
-        useContext(AppContext);
+
+    const { onMenuClick } = useContext(MenuContext);
+    const { signInWithGoogle, userProfile } = useContext(AuthContext);
 
     const history = useHistory();
 
@@ -35,7 +37,7 @@ const Header = () => {
     return (
         <header className={styles.header}>
             <div className={styles.header__menu}>
-                <MdMenu onClick={onMenuClick} />
+                <MdMenu onClick={() => onMenuClick()} />
                 <Link to='/'>
                     <img
                         src='https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg'

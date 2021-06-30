@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import styles from './Sidebar.module.css';
-import { AppContext } from './../shared/context';
 import { AiFillHome, AiFillGithub } from 'react-icons/ai';
 import { MdSubscriptions, MdThumbUp } from 'react-icons/md';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../../context/authContext';
+import { MenuContext } from '../../context/menuContext';
 
 const list = [
     { title: 'Home', icon: <AiFillHome /> },
@@ -15,8 +16,8 @@ const list = [
 ];
 
 const Sidebar = () => {
-    const { isMenuOpen, signOut, accessToken, signInWithGoogle } =
-        useContext(AppContext);
+    const { signOut, accessToken, signInWithGoogle } = useContext(AuthContext);
+    const { isMenuOpen } = useContext(MenuContext);
 
     const history = useHistory();
 
