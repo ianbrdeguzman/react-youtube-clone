@@ -1,21 +1,14 @@
 import React, { useContext, useEffect } from 'react';
-import { AppContext } from '../../components/shared/context';
 import styles from './HomePage.module.css';
-import HomeVideo from '../../components/home-video/HomeVideo';
+import HomeVideoList from '../../components/home-video-list/HomeVideoList';
 import CategoriesBar from '../../components/categories-bar/CategoriesBar';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import SkeletonVideo from './skeleton/SkeletonVideo';
-import { v4 as uuidv4 } from 'uuid';
 import { Helmet } from 'react-helmet-async';
+import { HomeContext } from '../../context/homeContext';
 
 const HomePage = () => {
-    const {
-        homeVideos,
-        isLoading,
-        activeCategory,
-        fetchHomeVideos,
-        fetchVideosByCategory,
-    } = useContext(AppContext);
+    const { videos, activeCategory, fetchHomeVideos, fetchVideosByCategory } =
+        useContext(HomeContext);
 
     const fetchMoreHomeVideos = () => {
         if (activeCategory === 'All') {
@@ -37,21 +30,11 @@ const HomePage = () => {
             <section className={styles.home}>
                 <CategoriesBar />
                 <InfiniteScroll
-                    dataLength={homeVideos?.length}
+                    dataLength={videos?.length}
                     next={fetchMoreHomeVideos}
                     hasMore={true}
                 >
-                    <div className={styles.home__videos}>
-                        {isLoading
-                            ? [...new Array(20)].map(() => {
-                                  return <SkeletonVideo key={uuidv4()} />;
-                              })
-                            : homeVideos?.map((video) => {
-                                  return (
-                                      <HomeVideo key={uuidv4()} video={video} />
-                                  );
-                              })}
-                    </div>
+                    <HomeVideoList />
                 </InfiniteScroll>
             </section>
         </>

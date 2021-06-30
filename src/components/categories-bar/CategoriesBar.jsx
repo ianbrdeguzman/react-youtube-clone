@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import styles from './CategoriesBar.module.css';
-import { AppContext } from '../shared/context';
+import { HomeContext } from '../../context/homeContext';
+import { MenuContext } from '../../context/menuContext';
 
 const categories = [
     'All',
@@ -25,11 +26,11 @@ const categories = [
 ];
 
 const CategoriesBar = () => {
-    const { activeCategory, isMenuOpen, fetchVideosByCategory } =
-        useContext(AppContext);
+    const { activeCategory, fetchVideosByCategory } = useContext(HomeContext);
+    const { isMenuOpen } = useContext(MenuContext);
 
-    const handleOnClick = (keyword) => {
-        fetchVideosByCategory(keyword);
+    const handleOnClick = (category) => {
+        fetchVideosByCategory(category);
     };
 
     return (
@@ -40,13 +41,13 @@ const CategoriesBar = () => {
                     : `${styles.categories} ${styles.closed}`
             }
         >
-            {categories.map((keyword, index) => {
+            {categories.map((category, index) => {
                 return (
                     <span
-                        onClick={() => handleOnClick(keyword)}
+                        onClick={() => handleOnClick(category)}
                         key={index}
                         style={
-                            activeCategory === keyword
+                            activeCategory === category
                                 ? {
                                       backgroundColor: '#ffffff',
                                       color: '#000000',
@@ -54,7 +55,7 @@ const CategoriesBar = () => {
                                 : null
                         }
                     >
-                        {keyword}
+                        {category}
                     </span>
                 );
             })}

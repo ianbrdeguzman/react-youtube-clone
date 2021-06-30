@@ -5,14 +5,17 @@ import App from './App';
 import { AppProvider } from './components/shared/context';
 import { AuthProvider } from './context/authContext';
 import { MenuProvider } from './context/menuContext';
+import { HomeProvider } from './context/homeContext';
 
 ReactDOM.render(
     <React.StrictMode>
         <AuthProvider>
             <MenuProvider>
-                <AppProvider>
-                    <App />
-                </AppProvider>
+                <HomeProvider>
+                    <AppProvider>
+                        <App />
+                    </AppProvider>
+                </HomeProvider>
             </MenuProvider>
         </AuthProvider>
     </React.StrictMode>,
