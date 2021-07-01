@@ -8,6 +8,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
 import { Helmet } from 'react-helmet-async';
 import { SearchContext } from '../../context/searchContext';
+import { filterArr } from '../../helpers/helpers';
 
 const SearchPage = () => {
     const { keyword } = useParams();
@@ -23,6 +24,8 @@ const SearchPage = () => {
             video: videos.find((video) => video.id.videoId === id),
         };
     });
+
+    // const filteredVideos = filterArr(videos);
 
     const fetchMoreSearchVideos = () => {
         fetchVideosBySearch(keyword);
