@@ -1,22 +1,21 @@
 import React, { useContext, useEffect } from 'react';
 import styles from './SubscriptionsPage.module.css';
-import { AppContext } from '../../components/shared/context';
 import SubscriptionsVideo from '../../components/subscriptions-video/SubscriptionsVideo';
 import SkeletonSubscriptions from './skeleton/SkeletonSubscriptions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Helmet } from 'react-helmet-async';
+import { ChannelContext } from '../../context/channelContext';
+import { filterArr } from '../../helpers/filterArr';
 
 const SubscriptionsPage = () => {
-    const {
-        fetchSubscribedChannels,
-        isLoading,
-        subscribedChannels,
-        subscribedChannelsNextPageToken,
-    } = useContext(AppContext);
+    const { loading, fetchSubscribedChannels, channels, nextPageToken } =
+        useContext(ChannelContext);
 
     const fetchMoreSubscribedChannels = () => {
-        if (subscribedChannelsNextPageToken) fetchSubscribedChannels();
+        if (nextPageToken) fetchSubscribedChannels();
     };
+
+    const filteredChannels = filterArr(channels);
 
     useEffect(() => {
         fetchSubscribedChannels();
@@ -30,12 +29,12 @@ const SubscriptionsPage = () => {
             <div className={styles.subscription__container}>
                 <div className={styles.subcription__content}>
                     <InfiniteScroll
-                        dataLength={subscribedChannels?.length}
+                        dataLength={filteredChannels?.length}
                         next={fetchMoreSubscribedChannels}
                         hasMore={true}
                     >
-                        {!isLoading ? (
-                            subscribedChannels?.map((channel) => {
+                        {!loading ? (
+                            filteredChannels?.map((channel) => {
                                 return (
                                     <SubscriptionsVideo
                                         key={channel.id}

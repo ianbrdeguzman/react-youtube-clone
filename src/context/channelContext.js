@@ -1,15 +1,17 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
 import request from '../components/shared/axios';
 
 const ChannelContext = createContext();
 
 const initialState = {
     loading: false,
-    subLoading: false,
+    subsLoading: false,
     details: null,
     videos: [],
     subscriptionStatus: null,
     error: null,
+    channels: [],
+    nextPageToken: null,
 };
 
 const reducer = (state, action) => {
@@ -68,18 +70,39 @@ const reducer = (state, action) => {
         case 'CHANNEL_SUBSCRIBE_REQUEST':
             return {
                 ...state,
-                subsLoading: true,
+                subLoading: true,
             };
         case 'CHANNEL_SUBSCRIBE_SUCCESS':
             return {
                 ...state,
-                subsLoading: false,
+                subLoading: false,
                 subscriptionStatus: true,
             };
         case 'CHANNEL_SUBSCRIBE_FAIL':
             return {
                 ...state,
-                subsLoading: false,
+                subLoading: false,
+                error: action.payload,
+            };
+        case 'CHANNEL_SUBSCRIPTIONS_REQUEST':
+            return {
+                ...state,
+                loading: true,
+            };
+        case 'CHANNEL_SUBSCRIPTIONS_SUCCESS':
+            return {
+                ...state,
+                loading: false,
+                channels:
+                    sessionStorage.getItem('accessToken') ===
+                    action.payload.accessToken
+                        ? [...state.channels, ...action.payload.channels]
+                        : action.payload.channels,
+            };
+        case 'CHANNEL_SUBSCRIPTIONS_FAIL':
+            return {
+                ...state,
+                loading: false,
                 error: action.payload,
             };
         default:
@@ -196,6 +219,40 @@ const ChannelProvider = ({ children }) => {
         }
     };
 
+    const fetchSubscribedChannels = async () => {
+        if (!state.nextPageToken)
+            dispatch({ type: 'CHANNEL_SUBSCRIPTIONS_REQUEST' });
+        try {
+            const { data } = await request('/subscriptions', {
+                params: {
+                    part: 'snippet,contentDetails',
+                    maxResults: 6,
+                    mine: true,
+                    pageToken: state.subscribedChannelsNextPageToken,
+                },
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem(
+                        'accessToken'
+                    )}`,
+                },
+            });
+
+            dispatch({
+                type: 'CHANNEL_SUBSCRIPTIONS_SUCCESS',
+                payload: {
+                    channels: data.items,
+                    nextPageToken: data.nextPageToken,
+                    accessToken: sessionStorage.getItem('accessToken'),
+                },
+            });
+        } catch (error) {
+            dispatch({
+                type: 'CHANNEL_SUBSCRIPTIONS_FAIL',
+                payload: error.message,
+            });
+        }
+    };
+
     return (
         <ChannelContext.Provider
             value={{
@@ -204,6 +261,7 @@ const ChannelProvider = ({ children }) => {
                 fetchVideos,
                 fetchSubscriptionStatus,
                 subscribeToChannel,
+                fetchSubscribedChannels,
             }}
         >
             {children}

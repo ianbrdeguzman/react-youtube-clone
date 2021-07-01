@@ -20,6 +20,7 @@ const ChannelPage = () => {
     const {
         details,
         loading,
+        subLoading,
         videos,
         subscriptionStatus,
         fetchDetails,
@@ -32,6 +33,10 @@ const ChannelPage = () => {
 
     const handleSubscribe = () => {
         accessToken ? subscribeToChannel(channelId) : signInWithGoogle();
+    };
+
+    const handleUnsubscribe = () => {
+        alert('Not yet implemented.');
     };
 
     useEffect(() => {
@@ -62,8 +67,13 @@ const ChannelPage = () => {
                                     subsribers
                                 </p>
                             </div>
-                            {subscriptionStatus ? (
-                                <button disabled className={styles.disabled}>
+                            {subLoading ? (
+                                <button>Loading...</button>
+                            ) : subscriptionStatus ? (
+                                <button
+                                    onClick={handleUnsubscribe}
+                                    className={styles.disabled}
+                                >
                                     SUBSCRIBED
                                 </button>
                             ) : (
