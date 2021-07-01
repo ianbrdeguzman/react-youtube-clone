@@ -1,73 +1,68 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styles from './ChannelPage.module.css';
-import { useParams } from 'react-router-dom';
-import { AppContext } from '../../components/shared/context';
 import ChannelVideoList from '../../components/channel-video-list/ChannelVideoList';
 import ChannelPlaylist from '../../components/channel-playlist/ChannelPlaylist';
 import ChannelAbout from '../../components/channel-about/ChannelAbout';
-import numeral from 'numeral';
 import SkeletonChannel from './skeleton/SkeletonChannel';
+import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { ChannelContext } from '../../context/channelContext';
+import { AuthContext } from '../../context/authContext';
+import numeral from 'numeral';
 
 const ChannelPage = () => {
     const [selected, setSelected] = useState('VIDEOS');
+
     const { channelId } = useParams();
+
+    const { accessToken, signInWithGoogle } = useContext(AuthContext);
+
     const {
-        fetchChannelDetails,
-        channelDetails,
-        isLoading,
-        channelVideos,
-        fetchVideosByChannel,
-        fetchChannelSubscriptionStatus,
-        channelSubscriptionStatus,
+        details,
+        loading,
+        videos,
+        subscriptionStatus,
+        fetchDetails,
+        fetchVideos,
+        fetchSubscriptionStatus,
         subscribeToChannel,
-        accessToken,
-        signInWithGoogle,
-    } = useContext(AppContext);
+    } = useContext(ChannelContext);
 
     const nav = ['VIDEOS', 'PLAYLIST', 'ABOUT'];
-
-    const handleOnClick = (list) => {
-        setSelected(list);
-    };
 
     const handleSubscribe = () => {
         accessToken ? subscribeToChannel(channelId) : signInWithGoogle();
     };
 
     useEffect(() => {
-        fetchChannelDetails(channelId);
-        fetchVideosByChannel(channelId);
-        if (accessToken) fetchChannelSubscriptionStatus(channelId);
+        fetchDetails(channelId);
+        fetchVideos(channelId);
+        if (accessToken) fetchSubscriptionStatus(channelId);
     }, [channelId, accessToken]);
 
     return (
         <>
             <Helmet>
-                <title>{`${channelDetails?.snippet?.title}  | Youtube Clone`}</title>
+                <title>{`${details?.snippet?.title}  | Youtube Clone`}</title>
             </Helmet>
             <div className={styles.container}>
-                {!isLoading ? (
+                {!loading ? (
                     <>
                         <div className={styles.channel__header}>
                             <img
-                                src={
-                                    channelDetails?.snippet?.thumbnails?.default
-                                        ?.url
-                                }
-                                alt={channelDetails?.snippet?.title}
+                                src={details?.snippet?.thumbnails?.default?.url}
+                                alt={details?.snippet?.title}
                             />
                             <div>
-                                <h2>{channelDetails?.snippet?.title}</h2>
+                                <h2>{details?.snippet?.title}</h2>
                                 <p>
                                     {numeral(
-                                        channelDetails?.statistics
-                                            ?.subscriberCount
+                                        details?.statistics?.subscriberCount
                                     ).format('0.0a')}{' '}
                                     subsribers
                                 </p>
                             </div>
-                            {channelSubscriptionStatus ? (
+                            {subscriptionStatus ? (
                                 <button disabled className={styles.disabled}>
                                     SUBSCRIBED
                                 </button>
@@ -82,7 +77,7 @@ const ChannelPage = () => {
                                 return (
                                     <li
                                         key={index}
-                                        onClick={() => handleOnClick(list)}
+                                        onClick={() => setSelected(list)}
                                         className={
                                             selected === list
                                                 ? styles.selected
@@ -95,20 +90,14 @@ const ChannelPage = () => {
                             })}
                         </ul>
                         {selected === 'VIDEOS' ? (
-                            <ChannelVideoList channelVideos={channelVideos} />
+                            <ChannelVideoList videos={videos} />
                         ) : selected === 'PLAYLIST' ? (
                             <ChannelPlaylist channelId={channelId} />
                         ) : (
                             <ChannelAbout
-                                description={
-                                    channelDetails?.snippet?.description
-                                }
-                                publishedAt={
-                                    channelDetails?.snippet?.publishedAt
-                                }
-                                viewCount={
-                                    channelDetails?.statistics?.viewCount
-                                }
+                                description={details?.snippet?.description}
+                                publishedAt={details?.snippet?.publishedAt}
+                                viewCount={details?.statistics?.viewCount}
                             />
                         )}
                     </>

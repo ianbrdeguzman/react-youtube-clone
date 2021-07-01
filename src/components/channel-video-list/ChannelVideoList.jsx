@@ -2,10 +2,10 @@ import React from 'react';
 import styles from './ChannelVideoList.module.css';
 import ChannelVideo from '../channel-video/ChannelVideo';
 
-const ChannelVideoList = ({ channelVideos }) => {
+const ChannelVideoList = ({ videos }) => {
     return (
         <div className={styles.channel__videos}>
-            {channelVideos?.map((video) => {
+            {videos?.map((video) => {
                 const {
                     contentDetails: { videoId },
                 } = video;
