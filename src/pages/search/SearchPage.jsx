@@ -7,17 +7,20 @@ import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuidv4 } from 'uuid';
 import { Helmet } from 'react-helmet-async';
+import { SearchContext } from '../../context/searchContext';
 
 const SearchPage = () => {
     const { keyword } = useParams();
-    const { fetchVideosBySearch, searchedVideos, isLoading } =
-        useContext(AppContext);
+    // const { fetchVideosBySearch, searchedVideos, isLoading } =
+    //     useContext(AppContext);
+
+    const { fetchVideosBySearch, videos, loading } = useContext(SearchContext);
 
     const filteredSearchedVideos = Array.from(
-        new Set(searchedVideos?.map((video) => video.id.videoId))
+        new Set(videos?.map((video) => video.id.videoId))
     ).map((id) => {
         return {
-            video: searchedVideos.find((video) => video.id.videoId === id),
+            video: videos.find((video) => video.id.videoId === id),
         };
     });
 
@@ -43,7 +46,7 @@ const SearchPage = () => {
                         hasMore={true}
                     >
                         <div>
-                            {isLoading
+                            {loading
                                 ? [...new Array(20)].map(() => {
                                       return (
                                           <SkeletonSearchVideo key={uuidv4()} />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SubscriptionsVideo.module.css';
 import { useHistory } from 'react-router-dom';
-import request from './../shared/axios';
+import request from '../../helpers/axios';
 import numeral from 'numeral';
 
 const SubscriptionsVideo = ({ channel }) => {

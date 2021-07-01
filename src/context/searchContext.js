@@ -1,34 +1,35 @@
 import React, { createContext, useReducer } from 'react';
 import request from '../helpers/axios';
 
-const LikedContext = createContext();
+const SearchContext = createContext();
 
 const initialState = {
     loading: false,
     videos: [],
+    keyword: '',
     nextPageToken: null,
     error: null,
 };
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case 'LIKED_VIDEOS_REQUEST':
+        case 'SEARCH_VIDEOS_REQUEST':
             return {
                 ...state,
                 loading: true,
             };
-        case 'LIKED_VIDEOS_SUCCESS':
+        case 'SEARCH_VIDEOS_SUCCESS':
             return {
                 ...state,
                 loading: false,
                 videos:
-                    localStorage.getItem('accessToken') ===
-                    action.payload.accessToken
+                    state.keyword === action.payload.keyword
                         ? [...state.videos, ...action.payload.videos]
                         : action.payload.videos,
+                keyword: action.payload.keyword,
                 nextPageToken: action.payload.nextPageToken,
             };
-        case 'LIKED_VIDEOS_FAIL':
+        case 'SEARCH_VIDEOS_FAIL':
             return {
                 ...state,
                 loading: false,
@@ -41,43 +42,39 @@ const reducer = (state, action) => {
     }
 };
 
-const LikedProvider = ({ children }) => {
+const SearchProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const fetchLikedVideos = async () => {
-        dispatch({ type: 'LIKED_VIDEOS_REQUEST' });
+    const fetchVideosBySearch = async (keyword) => {
+        if (!state.nextPageToken) dispatch({ type: 'SEARCH_VIDEOS_REQUEST' });
         try {
-            const { data } = await request('/videos', {
+            const { data } = await request('/search', {
                 params: {
-                    part: 'snippet,contentDetails,statistics',
-                    maxResults: 20,
-                    myRating: 'like',
+                    part: 'snippet',
+                    maxResults: 10,
+                    q: keyword,
+                    type: 'video,channel',
                     pageToken: state.nextPageToken,
                 },
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem(
-                        'accessToken'
-                    )}`,
-                },
             });
-
             dispatch({
-                type: 'LIKED_VIDEOS_SUCCESS',
+                type: 'SEARCH_VIDEOS_SUCCESS',
                 payload: {
                     videos: data.items,
                     nextPageToken: data.nextPageToken,
+                    keyword: keyword,
                 },
             });
         } catch (error) {
-            dispatch({ type: 'LIKED_VIDEOS_FAIL', payload: error.message });
+            dispatch({ type: 'SEARCH_VIDEOS_FAIL', payload: error.message });
         }
     };
 
     return (
-        <LikedContext.Provider value={{ ...state, fetchLikedVideos }}>
+        <SearchContext.Provider value={{ ...state, fetchVideosBySearch }}>
             {children}
-        </LikedContext.Provider>
+        </SearchContext.Provider>
     );
 };
 
-export { LikedContext, LikedProvider };
+export { SearchContext, SearchProvider };

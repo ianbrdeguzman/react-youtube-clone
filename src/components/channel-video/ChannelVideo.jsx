@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './ChannelVideo.module.css';
 import moment from 'moment';
 import numeral from 'numeral';
-import request from '../shared/axios';
+import request from '../../helpers/axios';
 import { useHistory } from 'react-router-dom';
 
 const ChannelVideo = ({ video }) => {

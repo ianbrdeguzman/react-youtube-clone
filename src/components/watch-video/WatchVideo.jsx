@@ -5,7 +5,7 @@ import ShowMore from 'react-show-more';
 import { MdThumbUp, MdThumbDown } from 'react-icons/md';
 import numeral from 'numeral';
 import moment from 'moment';
-import request from '../shared/axios';
+import request from '../../helpers/axios';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../shared/context';
 import { Helmet } from 'react-helmet-async';

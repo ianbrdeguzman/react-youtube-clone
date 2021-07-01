@@ -33,7 +33,6 @@ const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const keepSignIn = async (user) => {
-        console.log(user);
         const userProfile = {
             name: user.displayName,
             photoURL: user.photoURL,

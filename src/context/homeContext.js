@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import request from '../components/shared/axios';
+import request from '../helpers/axios';
 
 const HomeContext = createContext();
 

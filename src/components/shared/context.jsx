@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import request from './axios';
+import request from '../../helpers/axios';
 import firebase from 'firebase/app';
 import auth from '../../helpers/firebase';
 import reducer from './reducer';

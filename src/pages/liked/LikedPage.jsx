@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import styles from './LikedPage.module.css';
 import LikedVideo from '../../components/liked-video/LikedVideo';
-import { AppContext } from '../../components/shared/context';
 import SkeletonLikedVideo from './skeleton/SkeletonLikedVideo';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Helmet } from 'react-helmet-async';
@@ -9,13 +8,6 @@ import { LikedContext } from '../../context/likedContext';
 import { filterArr } from '../../helpers/helpers';
 
 const LikedPage = () => {
-    // const {
-    //     fetchLikedVideos,
-    //     likedVideos,
-    //     isLoading,
-    //     likedVideosNextPageToken,
-    // } = useContext(AppContext);
-
     const { loading, videos, nextPageToken, fetchLikedVideos } =
         useContext(LikedContext);
 
