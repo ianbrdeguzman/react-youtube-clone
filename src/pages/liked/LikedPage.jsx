@@ -5,19 +5,25 @@ import { AppContext } from '../../components/shared/context';
 import SkeletonLikedVideo from './skeleton/SkeletonLikedVideo';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Helmet } from 'react-helmet-async';
+import { LikedContext } from '../../context/likedContext';
+import { filterArr } from '../../helpers/helpers';
 
 const LikedPage = () => {
-    const {
-        fetchLikedVideos,
-        likedVideos,
-        isLoading,
-        likedVideosNextPageToken,
-    } = useContext(AppContext);
+    // const {
+    //     fetchLikedVideos,
+    //     likedVideos,
+    //     isLoading,
+    //     likedVideosNextPageToken,
+    // } = useContext(AppContext);
+
+    const { loading, videos, nextPageToken, fetchLikedVideos } =
+        useContext(LikedContext);
 
     const fetchMoreLikedVideos = () => {
-        if (likedVideosNextPageToken)
-            console.log('fetching more liked videos...');
+        if (nextPageToken) fetchLikedVideos();
     };
+
+    const filteredVideos = filterArr(videos);
 
     useEffect(() => {
         fetchLikedVideos();
@@ -31,13 +37,13 @@ const LikedPage = () => {
             <div className={styles.likedpage__container}>
                 <div className={styles.likedpage__content}>
                     <InfiniteScroll
-                        dataLength={likedVideos?.length}
+                        dataLength={filteredVideos?.length}
                         next={fetchMoreLikedVideos}
                         hasMore={true}
                     >
-                        {!isLoading ? (
+                        {!loading ? (
                             <>
-                                {likedVideos?.map((video, index) => {
+                                {filteredVideos?.map((video, index) => {
                                     return (
                                         <LikedVideo
                                             video={video}

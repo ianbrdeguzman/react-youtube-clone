@@ -94,7 +94,7 @@ const reducer = (state, action) => {
                 ...state,
                 loading: false,
                 channels:
-                    sessionStorage.getItem('accessToken') ===
+                    localStorage.getItem('accessToken') ===
                     action.payload.accessToken
                         ? [...state.channels, ...action.payload.channels]
                         : action.payload.channels,
@@ -204,7 +204,7 @@ const ChannelProvider = ({ children }) => {
                     part: 'snippet',
                 },
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem(
+                    Authorization: `Bearer ${localStorage.getItem(
                         'accessToken'
                     )}`,
                 },
@@ -231,7 +231,7 @@ const ChannelProvider = ({ children }) => {
                     pageToken: state.subscribedChannelsNextPageToken,
                 },
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem(
+                    Authorization: `Bearer ${localStorage.getItem(
                         'accessToken'
                     )}`,
                 },
@@ -242,7 +242,6 @@ const ChannelProvider = ({ children }) => {
                 payload: {
                     channels: data.items,
                     nextPageToken: data.nextPageToken,
-                    accessToken: sessionStorage.getItem('accessToken'),
                 },
             });
         } catch (error) {

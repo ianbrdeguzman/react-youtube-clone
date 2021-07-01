@@ -7,6 +7,7 @@ import { AuthProvider } from './context/authContext';
 import { MenuProvider } from './context/menuContext';
 import { HomeProvider } from './context/homeContext';
 import { ChannelProvider } from './context/channelContext';
+import { LikedProvider } from './context/likedContext';
 
 ReactDOM.render(
     <React.StrictMode>
@@ -14,9 +15,11 @@ ReactDOM.render(
             <MenuProvider>
                 <HomeProvider>
                     <ChannelProvider>
-                        <AppProvider>
-                            <App />
-                        </AppProvider>
+                        <LikedProvider>
+                            <AppProvider>
+                                <App />
+                            </AppProvider>
+                        </LikedProvider>
                     </ChannelProvider>
                 </HomeProvider>
             </MenuProvider>

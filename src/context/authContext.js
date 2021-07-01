@@ -1,6 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import firebase from 'firebase/app';
-import auth from '../firebase';
+import firebase, { auth } from '../helpers/firebase';
 
 const AuthContext = createContext();
 
@@ -33,6 +32,23 @@ const reducer = (state, action) => {
 const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
+    const keepSignIn = async (user) => {
+        console.log(user);
+        const userProfile = {
+            name: user.displayName,
+            photoURL: user.photoURL,
+        };
+        localStorage.setItem('accessToken', user.refreshToken);
+        localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        dispatch({
+            type: 'SIGNIN_WITH_GOOGLE',
+            payload: {
+                accessToken: user.refreshToken,
+                userProfile,
+            },
+        });
+    };
+
     const signInWithGoogle = async () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope('https://www.googleapis.com/auth/youtube.force-ssl');
@@ -44,8 +60,8 @@ const AuthProvider = ({ children }) => {
                 name: response.additionalUserInfo.profile.name,
                 photoURL: response.additionalUserInfo.profile.picture,
             };
-            sessionStorage.setItem('accessToken', accessToken);
-            sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('userProfile', JSON.stringify(userProfile));
             dispatch({
                 type: 'SIGNIN_WITH_GOOGLE',
                 payload: {
@@ -61,8 +77,8 @@ const AuthProvider = ({ children }) => {
     const signOut = async () => {
         try {
             auth.signOut();
-            sessionStorage.removeItem('accessToken');
-            sessionStorage.removeItem('userProfile');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('userProfile');
             dispatch({ type: 'SIGNOUT_WITH_GOOGLE' });
         } catch (error) {
             console.log(error);
@@ -70,7 +86,9 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ ...state, signInWithGoogle, signOut }}>
+        <AuthContext.Provider
+            value={{ ...state, signInWithGoogle, signOut, keepSignIn }}
+        >
             {children}
         </AuthContext.Provider>
     );

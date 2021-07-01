@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import request from './axios';
 import firebase from 'firebase/app';
-import auth from '../../firebase';
+import auth from '../../helpers/firebase';
 import reducer from './reducer';
 
 const AppContext = createContext();
