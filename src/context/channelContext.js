@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 import request from '../components/shared/axios';
 
 const ChannelContext = createContext();
@@ -181,14 +181,13 @@ const ChannelProvider = ({ children }) => {
                     part: 'snippet',
                 },
                 headers: {
-                    Authorization: `Bearer ${state.accessToken}`,
+                    Authorization: `Bearer ${sessionStorage.getItem(
+                        'accessToken'
+                    )}`,
                 },
             });
 
             dispatch({ type: 'CHANNEL_SUBSCRIBE_SUCCESS' });
-            // setTimeout(() => {
-            //     fetchChannelSubscriptionStatus(channelId);
-            // }, 3000);
         } catch (error) {
             dispatch({
                 type: 'CHANNEL_SUBSCRIBE_FAIL',
