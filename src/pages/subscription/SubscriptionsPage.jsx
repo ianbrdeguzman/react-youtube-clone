@@ -5,7 +5,7 @@ import SkeletonSubscriptions from './skeleton/SkeletonSubscriptions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Helmet } from 'react-helmet-async';
 import { ChannelContext } from '../../context/channelContext';
-import { filterArr } from '../../helpers/filterArr';
+import { filterArr } from '../../helpers/helpers';
 
 const SubscriptionsPage = () => {
     const { loading, fetchSubscribedChannels, channels, nextPageToken } =

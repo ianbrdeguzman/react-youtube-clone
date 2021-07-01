@@ -5,6 +5,7 @@ import CategoriesBar from '../../components/categories-bar/CategoriesBar';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Helmet } from 'react-helmet-async';
 import { HomeContext } from '../../context/homeContext';
+import { filterArr } from '../../helpers/helpers';
 
 const HomePage = () => {
     const { videos, activeCategory, fetchHomeVideos, fetchVideosByCategory } =
@@ -18,6 +19,8 @@ const HomePage = () => {
         }
     };
 
+    const filteredVideos = filterArr(videos);
+
     useEffect(() => {
         fetchHomeVideos();
     }, []);
@@ -30,7 +33,7 @@ const HomePage = () => {
             <section className={styles.home}>
                 <CategoriesBar />
                 <InfiniteScroll
-                    dataLength={videos?.length}
+                    dataLength={filteredVideos?.length}
                     next={fetchMoreHomeVideos}
                     hasMore={true}
                 >
