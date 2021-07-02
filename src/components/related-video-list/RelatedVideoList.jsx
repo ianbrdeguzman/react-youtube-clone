@@ -1,18 +1,16 @@
 import React, { useContext, useEffect } from 'react';
 import styles from './RelatedVideoList.module.css';
-import { AppContext } from '../shared/context';
 import RelatedVideo from '../related-video/RelatedVideo';
+import { VideoContext } from '../../context/videoContext';
+import { filterArr } from '../../helpers/helpers';
+import SkeletonRelatedVideos from '../../pages/watch/skeleton/SkeletonRelatedVideos';
 
 const RelatedVideoList = ({ id, categoryId }) => {
-    const { relatedVideos, fetchRelatedVideos } = useContext(AppContext);
+    const { relLoading, relatedVideos, fetchRelatedVideos } =
+        useContext(VideoContext);
 
-    const filteredRelatedVideos = Array.from(
-        new Set(relatedVideos?.map((video) => video.id.videoId))
-    ).map((id) => {
-        return {
-            video: relatedVideos.find((video) => video.id.videoId === id),
-        };
-    });
+    const filteredVideos = filterArr(relatedVideos);
+    console.log(filteredVideos);
 
     useEffect(() => {
         if (id && categoryId) fetchRelatedVideos(id, categoryId);
@@ -20,17 +18,21 @@ const RelatedVideoList = ({ id, categoryId }) => {
 
     return (
         <div className={styles.relatedvideos__container}>
-            {filteredRelatedVideos
-                ?.filter(({ video }) => video.snippet)
-                .map(({ video }) => {
-                    return (
-                        <RelatedVideo
-                            video={video}
-                            key={video.id.videoId}
-                            categoryId={categoryId}
-                        />
-                    );
-                })}
+            {relLoading ? (
+                <SkeletonRelatedVideos />
+            ) : (
+                filteredVideos
+                    ?.filter((video) => video.snippet)
+                    .map((video) => {
+                        return (
+                            <RelatedVideo
+                                video={video}
+                                key={video.id.videoId}
+                                categoryId={categoryId}
+                            />
+                        );
+                    })
+            )}
         </div>
     );
 };

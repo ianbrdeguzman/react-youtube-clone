@@ -6,11 +6,15 @@ import RelatedVideoList from '../../components/related-video-list/RelatedVideoLi
 import { useParams } from 'react-router-dom';
 import SkeletonWatchVideo from '../../components/watch-video/skeleton/SkeletonWatchVideo';
 import SkeletonRelatedVideos from './skeleton/SkeletonRelatedVideos';
+import { VideoContext } from '../../context/videoContext';
 
 const WatchPage = () => {
     const { id } = useParams();
-    const { fetchVideoById, watchVideo, isLoading, categoryId } =
-        useContext(AppContext);
+    // const { fetchVideoById, watchVideo, isLoading, categoryId } =
+    //     useContext(AppContext);
+
+    const { fetchVideoById, video, loading, categoryId } =
+        useContext(VideoContext);
 
     useEffect(() => {
         fetchVideoById(id);
@@ -19,12 +23,10 @@ const WatchPage = () => {
     return (
         <div className={styles.watch__container}>
             <div className={styles.watch__video__container}>
-                {!isLoading ? (
+                {!loading ? (
                     <>
-                        {watchVideo?.map((video) => {
-                            return (
-                                <WatchVideo video={video} key={id} id={id} />
-                            );
+                        {video?.map((v) => {
+                            return <WatchVideo video={v} key={id} id={id} />;
                         })}
                     </>
                 ) : (
@@ -32,7 +34,7 @@ const WatchPage = () => {
                 )}
             </div>
             <div className={styles.watch__related__container}>
-                {!isLoading ? (
+                {!loading ? (
                     <RelatedVideoList id={id} categoryId={categoryId} />
                 ) : (
                     <SkeletonRelatedVideos />

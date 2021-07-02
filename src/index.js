@@ -9,6 +9,7 @@ import { HomeProvider } from './context/homeContext';
 import { ChannelProvider } from './context/channelContext';
 import { LikedProvider } from './context/likedContext';
 import { SearchProvider } from './context/searchContext';
+import { VideoProvider } from './context/videoContext';
 
 ReactDOM.render(
     <React.StrictMode>
@@ -18,9 +19,11 @@ ReactDOM.render(
                     <ChannelProvider>
                         <LikedProvider>
                             <SearchProvider>
-                                <AppProvider>
-                                    <App />
-                                </AppProvider>
+                                <VideoProvider>
+                                    <AppProvider>
+                                        <App />
+                                    </AppProvider>
+                                </VideoProvider>
                             </SearchProvider>
                         </LikedProvider>
                     </ChannelProvider>
