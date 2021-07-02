@@ -1,23 +1,29 @@
 import React, { useContext } from 'react';
 import styles from './SearchVideoButton.module.css';
-import { AppContext } from './../shared/context';
 import { AuthContext } from '../../context/authContext';
+import { ChannelContext } from '../../context/channelContext';
 
 const SearchVideoButton = ({ channelId }) => {
-    const { channelSubscriptionStatus, subscribeToChannel, signInWithGoogle } =
-        useContext(AppContext);
-
-    const { accessToken } = useContext(AuthContext);
+    const { accessToken, signInWithGoogle } = useContext(AuthContext);
+    const { subloading, subscriptionStatus, subscribeToChannel } =
+        useContext(ChannelContext);
 
     const handleSubscribeOnClick = () => {
+        console.log(channelId);
         accessToken ? subscribeToChannel(channelId) : signInWithGoogle();
+    };
+
+    const handleUnsubscribeOnClick = () => {
+        alert('Not yet implemented.');
     };
 
     return (
         <>
-            {channelSubscriptionStatus ? (
+            {subloading ? (
+                <button disabled>Loading...</button>
+            ) : subscriptionStatus ? (
                 <button
-                    disabled
+                    onClick={handleUnsubscribeOnClick}
                     className={`${styles.button} ${styles.disabled}`}
                 >
                     SUBSCIBED

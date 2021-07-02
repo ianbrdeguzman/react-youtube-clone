@@ -6,14 +6,14 @@ import { useParams } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Helmet } from 'react-helmet-async';
 import { SearchContext } from '../../context/searchContext';
-import { filterArr } from '../../helpers/helpers';
+import { filterVideos } from '../../helpers/helpers';
 
 const SearchPage = () => {
     const { keyword } = useParams();
 
     const { fetchVideosBySearch, videos, loading } = useContext(SearchContext);
 
-    const filteredVideos = filterArr(videos);
+    const filteredVideos = filterVideos(videos);
 
     const fetchMoreSearchVideos = () => {
         fetchVideosBySearch(keyword);
@@ -44,7 +44,7 @@ const SearchPage = () => {
                                 : filteredVideos?.map((video) => {
                                       return (
                                           <SearchVideo
-                                              key={video.id.videoId}
+                                              key={video.etag}
                                               video={video}
                                           />
                                       );

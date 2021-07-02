@@ -12,19 +12,19 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { MenuContext } from './context/menuContext';
 import { AuthContext } from './context/authContext';
-import firebase from './helpers/firebase';
+import { auth } from './helpers/firebase';
 
 function App() {
     const { isMenuOpen } = useContext(MenuContext);
     const { keepSignIn } = useContext(AuthContext);
 
-    const user = firebase.auth().currentUser;
-
     useEffect(() => {
-        if (user) {
-            keepSignIn(user);
-        }
-    }, [user]);
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                keepSignIn(user);
+            }
+        });
+    }, []);
 
     return (
         <HelmetProvider>
