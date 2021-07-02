@@ -15,5 +15,6 @@
 @media (min-width: 1440px) {
     .home__videos {
         grid-template-columns: repeat(4, 1fr);
+        padding: 0 5rem;
     }
 }
