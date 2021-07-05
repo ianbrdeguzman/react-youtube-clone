@@ -10,7 +10,6 @@ const RelatedVideoList = ({ id, categoryId }) => {
         useContext(VideoContext);
 
     const filteredVideos = filterArr(relatedVideos);
-    console.log(filteredVideos);
 
     useEffect(() => {
         if (id && categoryId) fetchRelatedVideos(id, categoryId);

@@ -10,6 +10,7 @@ import { ChannelProvider } from './context/channelContext';
 import { LikedProvider } from './context/likedContext';
 import { SearchProvider } from './context/searchContext';
 import { VideoProvider } from './context/videoContext';
+import { CommentProvider } from './context/commentContext';
 
 ReactDOM.render(
     <React.StrictMode>
@@ -20,9 +21,11 @@ ReactDOM.render(
                         <LikedProvider>
                             <SearchProvider>
                                 <VideoProvider>
-                                    <AppProvider>
-                                        <App />
-                                    </AppProvider>
+                                    <CommentProvider>
+                                        <AppProvider>
+                                            <App />
+                                        </AppProvider>
+                                    </CommentProvider>
                                 </VideoProvider>
                             </SearchProvider>
                         </LikedProvider>

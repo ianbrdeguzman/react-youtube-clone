@@ -1,19 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './CommentList.module.css';
-import numeral from 'numeral';
-import { FaUserCircle } from 'react-icons/fa';
-import { AppContext } from '../shared/context';
 import Comment from '../comment/Comment';
+import { FaUserCircle } from 'react-icons/fa';
+import { AuthContext } from '../../context/authContext';
+import { CommentContext } from '../../context/commentContext';
+import numeral from 'numeral';
 
 const CommentList = ({ commentCount, id }) => {
-    const {
-        fetchCommentsOfVideoById,
-        commentList,
-        signInWithGoogle,
-        addCommentToVideo,
-        accessToken,
-        userProfile,
-    } = useContext(AppContext);
+    const { fetchCommentsOfVideoById, addCommentToVideo, comments } =
+        useContext(CommentContext);
+
+    const { accessToken, userProfile, signInWithGoogle } =
+        useContext(AuthContext);
 
     const [comment, setComment] = useState('');
 
@@ -55,7 +53,7 @@ const CommentList = ({ commentCount, id }) => {
                 </form>
             </div>
             <div>
-                {commentList?.map((comment) => {
+                {comments?.map((comment) => {
                     return <Comment comment={comment} key={comment.id} />;
                 })}
             </div>
