@@ -7,14 +7,11 @@ import numeral from 'numeral';
 import moment from 'moment';
 import request from '../../helpers/axios';
 import { useHistory } from 'react-router-dom';
-import { AppContext } from '../shared/context';
 import { Helmet } from 'react-helmet-async';
 import { AuthContext } from '../../context/authContext';
 import { ChannelContext } from '../../context/channelContext';
 
 const WatchVideo = ({ video, id }) => {
-    const { likeAVideo, dislikeAVideo } = useContext(AppContext);
-
     const {
         subsLoading,
         fetchSubscriptionStatus,
@@ -70,11 +67,11 @@ const WatchVideo = ({ video, id }) => {
     };
 
     const handleLikeOnClick = () => {
-        accessToken ? likeAVideo(id) : signInWithGoogle();
+        alert('Not yet implemented.');
     };
 
     const handleDislikeOnClick = () => {
-        accessToken ? dislikeAVideo(id) : signInWithGoogle();
+        alert('Not yet implemented.');
     };
 
     return (
