@@ -9,17 +9,20 @@ import request from '../../helpers/axios';
 import { useHistory } from 'react-router-dom';
 import { AppContext } from '../shared/context';
 import { Helmet } from 'react-helmet-async';
+import { AuthContext } from '../../context/authContext';
+import { ChannelContext } from '../../context/channelContext';
 
 const WatchVideo = ({ video, id }) => {
+    const { likeAVideo, dislikeAVideo } = useContext(AppContext);
+
     const {
-        fetchChannelSubscriptionStatus,
-        channelSubscriptionStatus,
+        subsLoading,
+        fetchSubscriptionStatus,
+        subscriptionStatus,
         subscribeToChannel,
-        accessToken,
-        signInWithGoogle,
-        likeAVideo,
-        dislikeAVideo,
-    } = useContext(AppContext);
+    } = useContext(ChannelContext);
+
+    const { accessToken, signInWithGoogle } = useContext(AuthContext);
 
     const {
         snippet: { channelId, channelTitle, description, publishedAt, title },
@@ -50,7 +53,7 @@ const WatchVideo = ({ video, id }) => {
         };
         if (channelId) {
             fetchChannelDetails(channelId);
-            if (accessToken) fetchChannelSubscriptionStatus(channelId);
+            if (accessToken) fetchSubscriptionStatus(channelId);
         }
     }, [channelId]);
 
@@ -117,7 +120,9 @@ const WatchVideo = ({ video, id }) => {
                             subscribers
                         </p>
                     </div>
-                    {channelSubscriptionStatus ? (
+                    {subsLoading ? (
+                        <button disabled>Loading...</button>
+                    ) : subscriptionStatus ? (
                         <button
                             className={styles.disabled}
                             onClick={handleUnsubscribeOnClick}

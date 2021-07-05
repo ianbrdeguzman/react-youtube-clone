@@ -20,7 +20,7 @@ const ChannelPage = () => {
     const {
         details,
         loading,
-        subLoading,
+        subsLoading,
         videos,
         subscriptionStatus,
         fetchDetails,
@@ -67,7 +67,7 @@ const ChannelPage = () => {
                                     subsribers
                                 </p>
                             </div>
-                            {subLoading ? (
+                            {subsLoading ? (
                                 <button>Loading...</button>
                             ) : subscriptionStatus ? (
                                 <button

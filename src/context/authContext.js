@@ -37,12 +37,11 @@ const AuthProvider = ({ children }) => {
             name: user.displayName,
             photoURL: user.photoURL,
         };
-        localStorage.setItem('accessToken', user.refreshToken);
         localStorage.setItem('userProfile', JSON.stringify(userProfile));
         dispatch({
             type: 'SIGNIN_WITH_GOOGLE',
             payload: {
-                accessToken: user.refreshToken,
+                accessToken: localStorage.getItem('accessToken'),
                 userProfile,
             },
         });

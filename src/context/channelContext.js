@@ -59,7 +59,7 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 loading: false,
-                subscriptionStatus: action.payload,
+                subscriptionStatus: true,
             };
         case 'CHANNEL_SUBSCRIPTION_STATUS_FAIL':
             return {
@@ -70,18 +70,18 @@ const reducer = (state, action) => {
         case 'CHANNEL_SUBSCRIBE_REQUEST':
             return {
                 ...state,
-                subLoading: true,
+                subsLoading: true,
             };
         case 'CHANNEL_SUBSCRIBE_SUCCESS':
             return {
                 ...state,
-                subLoading: false,
+                subsLoading: false,
                 subscriptionStatus: true,
             };
         case 'CHANNEL_SUBSCRIBE_FAIL':
             return {
                 ...state,
-                subLoading: false,
+                subsLoading: false,
                 error: action.payload,
             };
         case 'CHANNEL_SUBSCRIPTIONS_REQUEST':
@@ -172,13 +172,14 @@ const ChannelProvider = ({ children }) => {
                     mine: true,
                 },
                 headers: {
-                    Authorization: `Bearer ${state.accessToken}`,
+                    Authorization: `Bearer ${localStorage.getItem(
+                        'accessToken'
+                    )}`,
                 },
             });
-            dispatch({
-                type: 'CHANNEL_SUBSCRIPTION_STATUS_SUCCESS',
-                payload: data.items.length !== 0,
-            });
+            if (data) {
+                dispatch({ type: 'CHANNEL_SUBSCRIPTION_STATUS_SUCCESS' });
+            }
         } catch (error) {
             dispatch({
                 type: 'CHANNEL_SUBSCRIPTION_STATUS_FAIL',
