@@ -105,6 +105,25 @@ const reducer = (state, action) => {
                 loading: false,
                 error: action.payload,
             };
+        case 'CHANNEL_UNSUBSCRIBE_REQUEST':
+            return {
+                ...state,
+                subsLoading: true,
+            };
+        case 'CHANNEL_UNSUBSCRIBE_SUCCESS':
+            return {
+                ...state,
+                subsLoading: false,
+                channels: state.channels.filter(
+                    (channel) => channel.id !== action.payload
+                ),
+            };
+        case 'CHANNEL_UNSUBSCRIBE_FAIL':
+            return {
+                ...state,
+                subsLoading: false,
+                error: action.payload,
+            };
         default:
             return { ...state };
     }
@@ -220,6 +239,32 @@ const ChannelProvider = ({ children }) => {
         }
     };
 
+    const unsubscribeToChannel = async (id) => {
+        dispatch({ type: 'CHANNEL_UNSUBSCRIBE_REQUEST' });
+        try {
+            await request.delete('/subscriptions', {
+                params: {
+                    id,
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(
+                        'accessToken'
+                    )}`,
+                },
+            });
+
+            dispatch({
+                type: 'CHANNEL_UNSUBSCRIBE_SUCCESS',
+                payload: id,
+            });
+        } catch (error) {
+            dispatch({
+                type: 'CHANNEL_UNSUBSCRIBE_FAIL',
+                payload: error.message,
+            });
+        }
+    };
+
     const fetchSubscribedChannels = async () => {
         if (!state.nextPageToken)
             dispatch({ type: 'CHANNEL_SUBSCRIPTIONS_REQUEST' });
@@ -262,6 +307,7 @@ const ChannelProvider = ({ children }) => {
                 fetchSubscriptionStatus,
                 subscribeToChannel,
                 fetchSubscribedChannels,
+                unsubscribeToChannel,
             }}
         >
             {children}

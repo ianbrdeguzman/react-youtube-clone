@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import styles from './SubscriptionsPage.module.css';
-import SubscriptionsVideo from '../../components/subscriptions-video/SubscriptionsVideo';
+import SubscribedChannel from '../../components/subscribed-channel/SubscribedChannel';
 import SkeletonSubscriptions from './skeleton/SkeletonSubscriptions';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Helmet } from 'react-helmet-async';
@@ -36,7 +36,7 @@ const SubscriptionsPage = () => {
                         {!loading ? (
                             filteredChannels?.map((channel) => {
                                 return (
-                                    <SubscriptionsVideo
+                                    <SubscribedChannel
                                         key={channel.id}
                                         channel={channel}
                                     />

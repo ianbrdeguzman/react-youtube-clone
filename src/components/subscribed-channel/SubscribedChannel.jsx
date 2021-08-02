@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import styles from './SubscriptionsVideo.module.css';
+import React, { useState, useEffect, useContext } from 'react';
+import styles from './SubscribedChannel.module.css';
 import { useHistory } from 'react-router-dom';
 import request from '../../helpers/axios';
 import numeral from 'numeral';
+import { ChannelContext } from '../../context/channelContext';
 
-const SubscriptionsVideo = ({ channel }) => {
+const SubscribedChannel = ({ channel }) => {
     const [subscriberCount, setSubscriberCount] = useState('');
     const [videoCount, setVideoCount] = useState('');
 
+    const { unsubscribeToChannel } = useContext(ChannelContext);
+
     const {
+        id,
         snippet: {
             resourceId: { channelId },
             description,
@@ -26,7 +30,7 @@ const SubscriptionsVideo = ({ channel }) => {
     };
 
     const handleUnsubscribeClick = () => {
-        alert('Not yet implemented');
+        unsubscribeToChannel(id);
     };
 
     useEffect(() => {
@@ -66,4 +70,4 @@ const SubscriptionsVideo = ({ channel }) => {
     );
 };
 
-export default SubscriptionsVideo;
+export default SubscribedChannel;
