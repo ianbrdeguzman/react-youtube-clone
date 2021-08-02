@@ -52,7 +52,11 @@ const Header = () => {
                     placeholder='Search'
                     onChange={(e) => setInput(e.target.value)}
                 />
-                <button type='submit' onClick={handleSubmit}>
+                <button
+                    type='submit'
+                    onClick={handleSubmit}
+                    aria-label='search'
+                >
                     <MdSearch />
                 </button>
             </form>
